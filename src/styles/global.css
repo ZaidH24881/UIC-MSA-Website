@@ -1197,6 +1197,9 @@ main:focus {
     max-height: 650px;
     aspect-ratio: 16/10;
   }
+  .gallery-stories > .aside-panel {
+    margin-top: 51px;
+  }
   .empty-events {
     grid-template-columns: auto 1fr;
   }
