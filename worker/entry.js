@@ -24,8 +24,19 @@ function popupMessageHtml(status, payload) {
 </html>`;
 }
 
-function cmsAuthResponse(env) {
-  if (!env.GITHUB_BOT_TOKEN) {
+// GITHUB_BOT_TOKEN is a Secrets Store binding, not a plain text variable — it
+// exposes an async get() rather than being the string itself.
+async function readBotToken(env) {
+  const binding = env.GITHUB_BOT_TOKEN;
+  if (!binding) return null;
+  if (typeof binding === 'string') return binding;
+  if (typeof binding.get === 'function') return binding.get();
+  return null;
+}
+
+async function cmsAuthResponse(env) {
+  const token = await readBotToken(env);
+  if (!token) {
     return new Response(
       popupMessageHtml('error', {
         message: 'Events Editor is not fully set up yet (missing bot token).',
@@ -33,10 +44,9 @@ function cmsAuthResponse(env) {
       { headers: { 'Content-Type': 'text/html' } },
     );
   }
-  return new Response(
-    popupMessageHtml('success', { token: env.GITHUB_BOT_TOKEN, provider: 'github' }),
-    { headers: { 'Content-Type': 'text/html' } },
-  );
+  return new Response(popupMessageHtml('success', { token, provider: 'github' }), {
+    headers: { 'Content-Type': 'text/html' },
+  });
 }
 
 export default {
@@ -45,12 +55,20 @@ export default {
     if (url.pathname === '/cms-auth') {
       return cmsAuthResponse(env);
     }
-    // TEMPORARY diagnostic route — lists binding *names* only, never values.
-    // Remove once GITHUB_BOT_TOKEN visibility is confirmed working.
+    // TEMPORARY diagnostic route — reports binding shape only, never the secret value.
+    // Remove once GITHUB_BOT_TOKEN is confirmed working.
     if (url.pathname === '/cms-debug') {
-      return new Response(JSON.stringify({ bindingNames: Object.keys(env) }), {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const binding = env.GITHUB_BOT_TOKEN;
+      const token = await readBotToken(env);
+      return new Response(
+        JSON.stringify({
+          bindingNames: Object.keys(env),
+          bindingType: typeof binding,
+          hasGetMethod: !!binding && typeof binding.get === 'function',
+          resolvedTokenLength: token ? token.length : 0,
+        }),
+        { headers: { 'Content-Type': 'application/json' } },
+      );
     }
     return env.ASSETS.fetch(request);
   },
