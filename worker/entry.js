@@ -1,16 +1,9 @@
-// Cloudflare Pages Function: hands the Events Editor (Decap CMS at /admin) a
-// working GitHub token for the site repo.
+// Cloudflare Worker entry point (unified Workers + static assets deploy).
 //
-// This route must be protected by the same Cloudflare Access policy as /admin
-// (Google login, restricted to msaatuic@gmail.com) — see
-// docs/board-editing-setup.md. Access verifies who's allowed in *before* any
-// request reaches this function; this function itself does no login checking.
-//
-// It does not do a real GitHub OAuth exchange. It hands back one pre-configured
-// token belonging to a single dedicated "bot" GitHub account with write access
-// to the repo, so board members never need a GitHub account of their own. Set
-// GITHUB_BOT_TOKEN as an encrypted environment variable on this Pages project —
-// never commit it.
+// Serves the built Astro site from ./dist for every request, except /cms-auth,
+// which is handled here directly — it's the GitHub-token relay for the Events
+// Editor at /admin. See docs/board-editing-setup.md for what protects that route
+// (Cloudflare Access) and how GITHUB_BOT_TOKEN gets set.
 
 function popupMessageHtml(status, payload) {
   const message = `authorization:github:${status}:${JSON.stringify(payload)}`;
@@ -31,7 +24,7 @@ function popupMessageHtml(status, payload) {
 </html>`;
 }
 
-export async function onRequestGet({ env }) {
+function cmsAuthResponse(env) {
   if (!env.GITHUB_BOT_TOKEN) {
     return new Response(
       popupMessageHtml('error', {
@@ -45,3 +38,13 @@ export async function onRequestGet({ env }) {
     { headers: { 'Content-Type': 'text/html' } },
   );
 }
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === '/cms-auth') {
+      return cmsAuthResponse(env);
+    }
+    return env.ASSETS.fetch(request);
+  },
+};

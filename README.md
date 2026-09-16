@@ -42,10 +42,10 @@ CI installs Chromium and runs the same suite. It checks 17 routes across eight w
 
 Membership stays in CampusGroups, recordings on YouTube, and giving with the user-supplied payment providers. No database or custom payment backend is required. Current event records, daily prayer-room details, and committee openings use explicit announcement/contact fallbacks until supplied.
 
-For Cloudflare Pages, connect this repository, choose Node 24/pnpm 11.19.0, set build command `pnpm build` and output directory `dist`, and configure `SITE_URL`. For a manual deployment after creating your Pages project:
+Deployed on Cloudflare via Workers (Git-connected import, not the older standalone Pages product), configured by the committed `wrangler.jsonc`: build command `pnpm build`, deploy command `npx wrangler deploy` (serves `./dist` as static assets and routes `/cms-auth` through `worker/entry.js`). Set `NODE_VERSION=24` and `SITE_URL` as environment variables on the project. For a manual deployment:
 
 ```sh
-pnpm dlx wrangler pages deploy dist --project-name msawebsite2026
+pnpm build && pnpm dlx wrangler deploy
 ```
 
 The workflow rebuilds daily. Set repository secret `DEPLOY_HOOK_URL` to your host's authorized rebuild hook so those builds also refresh the live site. Without that hook or equivalent host scheduling, uploaded build artifacts do not update a live deployment.

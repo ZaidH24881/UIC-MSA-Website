@@ -2,7 +2,7 @@
 
 Board members add, edit, and remove events through a form at `/admin` — no GitHub
 account, JSON, or git required. Under the hood it's still a plain commit to
-`src/data/events.json`, rebuilt and redeployed automatically by Cloudflare Pages, so
+`src/data/events.json`, rebuilt and redeployed automatically by Cloudflare, so
 nothing about the site's no-backend design changes.
 
 Access works in two layers:
@@ -10,24 +10,32 @@ Access works in two layers:
 1. **Cloudflare Access** gates `/admin` and `/cms-auth` at the edge, requiring sign-in
    with Google, restricted to `msaatuic@gmail.com` — the same shared Google login the
    board already uses for everything else. Nobody needs a GitHub account.
-2. Once Access lets someone through, a small Cloudflare Pages Function
-   (`functions/cms-auth.js`) hands the page a token from **one dedicated GitHub "bot"
-   account** with write access to the repo, so the actual commit can happen. Board
-   members never see this token.
+2. Once Access lets someone through, a small route inside the site's Cloudflare
+   Worker (`worker/entry.js`, the `/cms-auth` path) hands the page a token from **one
+   dedicated GitHub "bot" account** with write access to the repo, so the actual
+   commit can happen. Board members never see this token.
 
 This is a one-time setup. It needs admin access to the `ZaidH24881/UIC-MSA-Website`
 GitHub repo and the Cloudflare account the site deploys through — so it should be
 done by the repo owner or whoever on the board holds those credentials, not
 necessarily by whoever wrote this code.
 
-## 1. Get the site onto Cloudflare Pages, if it isn't already
+## 1. Get the site deployed on Cloudflare, if it isn't already
 
 Check whether `ZaidH24881/UIC-MSA-Website` is already connected to a live Cloudflare
-Pages project, and who has access to that Cloudflare account. If nothing is deployed
-yet: **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git**,
-pick this repo, set build command `pnpm build` and output directory `dist` (see
-[`README.md`](../README.md) for the full settings). This also gives you admin access
-to everything else in this guide.
+project, and who has access to that Cloudflare account. If nothing is deployed yet:
+**Cloudflare dashboard → Workers & Pages → Create → Import a repository**, pick this
+repo. Current Cloudflare accounts deploy Git-connected sites through Workers (not the
+older, separate "Pages" product), using the `wrangler.jsonc` already committed in
+this repo:
+
+- Build command: `pnpm build`
+- Deploy command: `npx wrangler deploy` (Cloudflare's default — leave it as-is;
+  `wrangler.jsonc` tells it to serve `./dist` and route `/cms-auth` through
+  `worker/entry.js`)
+
+Add an environment variable `NODE_VERSION` = `24` so the build uses the right Node
+version. This also gives you admin access to everything else in this guide.
 
 ## 2. Create the dedicated bot GitHub account
 
@@ -38,15 +46,16 @@ scoped to **only** `ZaidH24881/UIC-MSA-Website`, with repository permission
 access to the repo. Either way, note the resulting token — you won't see it again
 after creating it.
 
-## 3. Add the token to the Pages project
+## 3. Add the token to the Worker
 
-**Cloudflare Pages project → Settings → Environment variables → Add variable**:
+**Cloudflare dashboard → your Worker project → Settings → Variables and Secrets →
+Add**:
 
 - Name: `GITHUB_BOT_TOKEN`
 - Value: the token from step 2
-- Mark it **Encrypt** (secret), and add it to the **Production** environment
+- Type: **Secret** (encrypted)
 
-Redeploy the Pages project once so the new variable takes effect.
+Redeploy once so the new variable takes effect.
 
 ## 4. Set up Cloudflare Access
 
@@ -98,7 +107,7 @@ remove an event, then it's ready to hand to the board.
   *do* show who actually signed in with Google, even though the git commits
   themselves won't show individual names.
 - If the bot token is ever compromised or needs rotating, regenerate it (step 2) and
-  update the Pages environment variable (step 3) — no code changes needed.
+  update the Worker's secret (step 3) — no code changes needed.
 - The CMS edits `src/data/events.json` directly — the same file described in
   [`docs/maintenance.md`](maintenance.md). Its top-level shape is `{ "events": [...] }`.
 - Saving in the CMS commits straight to `main` (`publish_mode: simple` in
