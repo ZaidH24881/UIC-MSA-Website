@@ -55,21 +55,6 @@ export default {
     if (url.pathname === '/cms-auth') {
       return cmsAuthResponse(env);
     }
-    // TEMPORARY diagnostic route — reports binding shape only, never the secret value.
-    // Remove once GITHUB_BOT_TOKEN is confirmed working.
-    if (url.pathname === '/cms-debug') {
-      const binding = env.GITHUB_BOT_TOKEN;
-      const token = await readBotToken(env);
-      return new Response(
-        JSON.stringify({
-          bindingNames: Object.keys(env),
-          bindingType: typeof binding,
-          hasGetMethod: !!binding && typeof binding.get === 'function',
-          resolvedTokenLength: token ? token.length : 0,
-        }),
-        { headers: { 'Content-Type': 'application/json' } },
-      );
-    }
     return env.ASSETS.fetch(request);
   },
 };
