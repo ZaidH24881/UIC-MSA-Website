@@ -1,0 +1,89 @@
+backend:
+  name: github
+  repo: nauraiz0/msawebsite2026
+  branch: main
+  base_url: https://REPLACE-WITH-YOUR-SITE-DOMAIN
+  auth_endpoint: cms-auth
+
+publish_mode: simple
+media_folder: "public/assets/events"
+public_folder: "/assets/events"
+
+collections:
+  - name: "events"
+    label: "Events Calendar"
+    files:
+      - name: "events"
+        label: "Events"
+        file: "src/data/events.json"
+        format: "json"
+        fields:
+          - label: "Events"
+            name: "events"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.start}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - {
+                  label: "URL slug",
+                  name: "slug",
+                  widget: "string",
+                  hint: "Unique, lowercase, words separated by hyphens. Example: jumuah-first-2026-09-18",
+                }
+              - { label: "Description", name: "description", widget: "text" }
+              - {
+                  label: "Starts",
+                  name: "start",
+                  widget: "datetime",
+                  format: "YYYY-MM-DDTHH:mm:ssZ",
+                  hint: "Enter the Chicago clock time exactly as it should read (e.g. 1:05 PM). Don't adjust for your own timezone if you're traveling.",
+                }
+              - {
+                  label: "Ends",
+                  name: "end",
+                  widget: "datetime",
+                  format: "YYYY-MM-DDTHH:mm:ssZ",
+                  hint: "Same Chicago clock time rule as Starts.",
+                }
+              - { label: "Timezone", name: "timezone", widget: "hidden", default: "America/Chicago" }
+              - {
+                  label: "Location",
+                  name: "location",
+                  widget: "string",
+                  default: "TBD",
+                  hint: "Leave as TBD until a room is confirmed.",
+                }
+              - { label: "Audience", name: "audience", widget: "string", default: "All students" }
+              - {
+                  label: "RSVP link",
+                  name: "rsvpUrl",
+                  widget: "string",
+                  required: false,
+                  hint: "Leave blank if there's no RSVP link.",
+                }
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                default: "confirmed"
+                options:
+                  - { label: "Confirmed", value: "confirmed" }
+                  - { label: "Cancelled", value: "cancelled" }
+                  - { label: "Postponed", value: "postponed" }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "Ramadan", value: "ramadan" }
+                  - { label: "Community", value: "community" }
+                  - { label: "Learning", value: "learning" }
+                  - { label: "Service", value: "service" }
+              - { label: "Photo", name: "photo", widget: "image", required: false }
+              - { label: "Photo alt text", name: "photoAlt", widget: "string", required: false }
+              - { label: "Flyer image", name: "flyer", widget: "image", required: false }
+              - {
+                  label: "Recap (fill in after the event happens)",
+                  name: "recap",
+                  widget: "text",
+                  required: false,
+                }

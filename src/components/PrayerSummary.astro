@@ -1,0 +1,61 @@
+---
+import { prayer, site } from '../data/site';
+import Icon from './Icon.astro';
+const exception =
+  prayer.exception && new Date(prayer.exception.expiresAt) > new Date() ? prayer.exception : null;
+---
+
+<section class="prayer-band section">
+  <div class="container prayer-layout">
+    <div>
+      <p class="eyebrow">A moment to reconnect</p>
+      <h2>
+        Room for faith.
+        <br />
+        In your everyday.
+      </h2>
+      <a class="text-link" href="/prayer/">
+        Prayer details and directions <Icon />
+      </a>
+    </div>
+    <article class="prayer-panel">
+      <Icon name="sun" />
+      <h3>Daily prayer space</h3>
+      {prayer.daily.verified && prayer.daily.location ? (
+        <>
+          <p>
+            <strong>{prayer.daily.location}</strong>
+          </p>
+          <p>{prayer.daily.hours}</p>
+          <a href="/prayer/#daily-prayer">Room details and directions</a>
+        </>
+      ) : (
+        <>
+          <p>
+            Check the latest prayer information for the current room, hours, and access directions.
+          </p>
+          <a href={'mailto:' + site.email + '?subject=Daily%20prayer%20space'}>Ask the MSA team</a>
+        </>
+      )}
+    </article>
+    <article class="prayer-panel">
+      <p class="eyebrow">Every Friday</p>
+      <h3>Jumu’ah</h3>
+      {exception && <p class="status-label">{exception.message}</p>}
+      {prayer.sessions.length ? (
+        <div class="prayer-times">
+          {prayer.sessions.map((session) => (
+            <div>
+              <span>{session.label}</span>
+              <strong>{session.time}</strong>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>Check the latest prayer information.</p>
+      )}
+      <p class="location-note">{prayer.weeklyLocation || prayer.location}</p>
+      <a href={site.whatsappUrl}>Check community announcements</a>
+    </article>
+  </div>
+</section>

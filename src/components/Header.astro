@@ -1,0 +1,81 @@
+---
+import { navigation } from '../data/site';
+import Icon from './Icon.astro';
+const active = (url: string) => Astro.url.pathname.startsWith(url);
+const menu = [
+  { label: 'Join MSA', url: '/join/' },
+  ...navigation,
+  { label: 'Get involved', url: '/get-involved/' },
+  { label: 'Ramadan', url: '/ramadan/' },
+  { label: 'Donate', url: '/donate/' },
+  { label: 'Contact', url: '/contact/' },
+];
+---
+
+<a class="skip-link" href="#main">
+  Skip to content
+</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="MSA at UIC home">
+      <img src="/assets/msa-logo.webp" width="52" height="52" alt="" />
+      <span>
+        MSA <small>at UIC</small>
+      </span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {navigation.map((item) => (
+        <a href={item.url} aria-current={active(item.url) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <div class="header-actions">
+      <a class="donate-nav" href="/donate/" aria-current={active('/donate/') ? 'page' : undefined}>
+        Donate
+      </a>
+      <a class="button small" href="/join/">
+        Join MSA
+      </a>
+      <button
+        class="icon-button menu-open"
+        aria-label="Open navigation"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        hidden
+      >
+        <Icon name="menu" />
+      </button>
+    </div>
+  </div>
+</header>
+<nav class="mobile-utility" aria-label="Quick links">
+  <a href="/prayer/">Prayer &amp; Jumu’ah</a>
+  <a href="/events/">Upcoming events</a>
+</nav>
+<noscript>
+  <nav class="no-js-nav" aria-label="Site navigation">
+    {menu.map((item) => (
+      <a href={item.url}>{item.label}</a>
+    ))}
+  </nav>
+</noscript>
+<dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title">
+  <div class="menu-top">
+    <h2 id="menu-title">Explore MSA</h2>
+    <button class="icon-button menu-close" aria-label="Close navigation">
+      <Icon name="close" />
+    </button>
+  </div>
+  <nav aria-label="Mobile navigation">
+    {menu.map((item) => (
+      <a href={item.url} aria-current={active(item.url) ? 'page' : undefined}>
+        {item.label}
+        <Icon />
+      </a>
+    ))}
+  </nav>
+  <a class="menu-email" href="mailto:uicmsa@gmail.com">
+    uicmsa@gmail.com
+  </a>
+</dialog>

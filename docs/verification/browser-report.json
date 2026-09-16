@@ -1,0 +1,22 @@
+{
+  "testedAt": "2026-09-11T06:27:16.450Z",
+  "browser": "152.0.7977.83",
+  "routes": 17,
+  "widths": [
+    320,
+    390,
+    430,
+    768,
+    1024,
+    1099,
+    1100,
+    1440
+  ],
+  "heroPhotoTop390": 626.953125,
+  "failures": [],
+  "runtime": [],
+  "notes": [
+    "Chrome desktop engine only; no physical iPhone Safari or Android device.",
+    "Accessibility-tree and keyboard review; no installed screen-reader application was exercised."
+  ]
+}

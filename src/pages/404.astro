@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+---
+
+<Layout
+  title="Page not found"
+  description="That page could not be found. Find MSA events, prayer information, membership, and contact."
+  noindex
+>
+  <PageLead
+    title="A different path to your community."
+    eyebrow="Page not found"
+    intro="This page may have moved or the link may be incomplete. Let’s help you find what you came for."
+  />
+  <div class="container page-content">
+    <div class="actions">
+      <a class="button" href="/events/">
+        Events
+      </a>
+      <a class="button secondary" href="/prayer/">
+        Prayer
+      </a>
+      <a class="button secondary" href="/join/">
+        Join MSA
+      </a>
+      <a class="button secondary" href="/contact/">
+        Contact
+      </a>
+    </div>
+    <p style="margin-top:32px">
+      <a href="/">Return to the homepage</a>
+    </p>
+  </div>
+</Layout>

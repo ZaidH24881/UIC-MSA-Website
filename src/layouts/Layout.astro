@@ -1,0 +1,40 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import '@fontsource-variable/dm-sans';
+import '@fontsource/libre-baskerville/400.css';
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = false } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#21365a" />
+    <title>{title} | MSA at UIC</title>
+    <link rel="icon" type="image/webp" href="/assets/msa-logo.webp" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} | MSA at UIC`} />
+    <meta property="og:description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+  </head>
+  <body>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <div class="toast" role="status" aria-live="polite" id="copy-status"></div>
+    <script src="../scripts/interactions.ts"></script>
+  </body>
+</html>

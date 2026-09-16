@@ -1,0 +1,21 @@
+{
+  "/general": "/join/",
+  "/jummah": "/prayer/",
+  "/activities": "/events/",
+  "/weekly-events": "/events/",
+  "/programs": "/events/",
+  "/get-involved-1": "/get-involved/",
+  "/volunteer-index-impact": "/get-involved/",
+  "/new-page-3": "/ramadan/",
+  "/donate-index-impact": "/donate/",
+  "/Media": "/resources/lectures/",
+  "/lectures": "/resources/lectures/",
+  "/miscellene": "/resources/",
+  "/student-success": "/resources/student-success/",
+  "/public-transportation": "/resources/transportation/",
+  "/halal-food-spots": "/resources/halal-food/",
+  "/miscellaneous": "/resources/books/",
+  "/mission-index-impact": "/about/",
+  "/home": "/",
+  "/gallery": "/community/"
+}

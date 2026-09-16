@@ -1,0 +1,179 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import EventList from '../components/EventList.astro';
+import PrayerSummary from '../components/PrayerSummary.astro';
+import ResourceGrid from '../components/ResourceGrid.astro';
+import { site } from '../data/site';
+import notices from '../data/announcements.json';
+import { activeNotices } from '../lib/events';
+---
+
+<Layout
+  title="Find your community"
+  description="Find your community at UIC. Join the Muslim Students Association for prayer, friendship, learning, events, and campus resources."
+>
+  {activeNotices(notices).map((notice) => (
+    <aside class="notice">
+      <div class="container">
+        <a href={notice.url}>{notice.summary}</a>
+      </div>
+    </aside>
+  ))}
+  <section class="container hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Muslim Students Association · UIC</p>
+      <h1>
+        Find <span class="serif">your community</span> at UIC.
+      </h1>
+      <p class="hero-intro">
+        A space to connect, learn, and grow in faith together. Meet fellow students, join our
+        events, and make MSA part of your time on campus.
+      </p>
+      <div class="actions">
+        <a class="button" href="/join/">
+          Join MSA <Icon />
+        </a>
+        <a class="button secondary" href="/events/">
+          Explore events
+        </a>
+      </div>
+      <p class="welcome-note">
+        Your first semester or your final year.
+        <br />
+        There’s a place for you here.
+      </p>
+    </div>
+    <Photo
+      name="hero-community"
+      alt="MSA community members gathered together"
+      eager
+      class="hero-photo"
+      caption="Faith and friendship, here on campus."
+    />
+  </section>
+  <section class="section upcoming-section">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Make time for community</p>
+          <h2>What’s happening at MSA</h2>
+        </div>
+        <a class="text-link" href="/events/">
+          View all events <Icon />
+        </a>
+      </div>
+      <EventList limit={3} />
+    </div>
+  </section>
+  <PrayerSummary />
+  <section class="section container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Life, together</p>
+        <h2>The moments that make MSA.</h2>
+      </div>
+      <a class="text-link" href="/community/">
+        See our community <Icon />
+      </a>
+    </div>
+    <p class="section-intro">
+      Time to pause, people to meet, and a community to come back to. This is what belonging can
+      look like.
+    </p>
+    <div class="community-mosaic">
+      <Photo
+        name="campus-community"
+        alt="Students gathered for prayer on a lawn with the Chicago skyline behind them"
+        caption="Making space for faith on campus."
+      />
+      <div class="mosaic-stack">
+        <Photo
+          name="community-together"
+          alt="Members of the MSA community together at a gathering"
+          caption="A community built by showing up for each other."
+        />
+        <div class="community-note">
+          <p>
+            Connected on campus.
+            <br />
+            Connected beyond it.
+          </p>
+          <a href={site.socials[0].url}>
+            <strong>{site.instagramFollowers}</strong> followers on Instagram <Icon />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="first-step section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">New here? Assalamu alaikum.</p>
+        <h2>
+          Your first step
+          <br />
+          starts here.
+        </h2>
+        <p class="prose">
+          You don’t have to know anyone to belong. Come as you are, find your people, and make your
+          own place in MSA.
+        </p>
+        <a class="button" href="/join/">
+          How to join <Icon />
+        </a>
+      </div>
+      <ol class="steps">
+        <li>
+          <span>1</span>
+          <div>
+            <h3>Become a member.</h3>
+            <p>Register through UIC CampusGroups.</p>
+          </div>
+        </li>
+        <li>
+          <span>2</span>
+          <div>
+            <h3>Connect with the community.</h3>
+            <p>Complete the group-access form and follow our announcements.</p>
+          </div>
+        </li>
+        <li>
+          <span>3</span>
+          <div>
+            <h3>Come to an event.</h3>
+            <p>Find a gathering that interests you. Bring a friend, or meet one here.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+  <section class="section container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">A little help along the way</p>
+        <h2>Campus life, made easier.</h2>
+      </div>
+      <a class="text-link" href="/resources/">
+        All resources <Icon />
+      </a>
+    </div>
+    <ResourceGrid />
+  </section>
+  <section class="support-band">
+    <div class="container">
+      <div>
+        <h2>
+          Help make these
+          <br />
+          <span class="serif">moments possible.</span>
+        </h2>
+        <p>Your support helps bring our community together through MSA programs and gatherings.</p>
+      </div>
+      <a class="button light" href="/donate/">
+        Support MSA <Icon />
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageLead from '../../components/PageLead.astro';
+import PosterDialog from '../../components/PosterDialog.astro';
+import eventData from '../../data/events.json';
+import { dateLabel, timeLabel, type EventRecord } from '../../lib/events';
+export function getStaticPaths() {
+  return (eventData.events as EventRecord[]).map((event) => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+interface Props {
+  event: EventRecord;
+}
+const { event } = Astro.props;
+const past = new Date(event.end) <= new Date();
+const ongoing = !past && new Date(event.start) <= new Date();
+---
+
+<Layout title={event.title} description={event.description}>
+  <PageLead title={event.title} eyebrow={past ? 'Event recap' : 'MSA event'} />
+  <div class="container page-content">
+    <dl class="event-logistics">
+      <div>
+        <dt>Date</dt>
+        <dd>{dateLabel(event.start)}</dd>
+      </div>
+      <div>
+        <dt>Time</dt>
+        <dd>
+          {timeLabel(event.start)} – {timeLabel(event.end)}
+        </dd>
+      </div>
+      <div>
+        <dt>Location</dt>
+        <dd>{event.location || 'Location to be confirmed'}</dd>
+      </div>
+      <div>
+        <dt>Who it’s for</dt>
+        <dd>{event.audience}</dd>
+      </div>
+    </dl>
+    {event.status !== 'confirmed' && <p class="status-label">This event is {event.status}.</p>}
+    {ongoing && event.status === 'confirmed' && <p class="event-date">In progress</p>}
+    {!past && event.status === 'confirmed' && event.rsvpUrl && (
+      <a class="button" href={event.rsvpUrl}>
+        Register for {event.title}
+      </a>
+    )}
+    <div class="prose" style="margin-top:32px">
+      <p>{past ? event.recap || event.description : event.description}</p>
+    </div>
+    {event.photo && (
+      <img
+        class="event-photo"
+        src={event.photo}
+        alt={event.photoAlt || ''}
+        width="900"
+        height="600"
+        loading="lazy"
+      />
+    )}
+    {event.flyer && (
+      <a class="poster-link" href={event.flyer} data-poster={`${event.title} flyer`}>
+        <img
+          src={event.flyer}
+          alt={`${event.title} flyer; logistics are written above`}
+          loading="lazy"
+          width="600"
+          height="800"
+        />
+        Expand flyer
+      </a>
+    )}
+    <a class="text-link" style="margin-top:32px" href="/events/">
+      Back to all events
+    </a>
+  </div>
+  <PosterDialog />
+</Layout>

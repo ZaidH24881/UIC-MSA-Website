@@ -1,0 +1,32 @@
+{
+  "profile": "390px, DPR 2, 1.6 Mbps, 150ms latency, fresh context",
+  "elapsedMs": 2250,
+  "initialNetworkBytes": 252444,
+  "resources": [
+    {
+      "name": "/_astro/Layout.-fGTjas3.css",
+      "bytes": 21048
+    },
+    {
+      "name": "/assets/msa-logo.webp",
+      "bytes": 5880
+    },
+    {
+      "name": "/assets/hero-community-1200.webp",
+      "bytes": 140440
+    },
+    {
+      "name": "/_astro/dm-sans-latin-wght-normal.Xz1IZZA0.woff2",
+      "bytes": 37232
+    },
+    {
+      "name": "/_astro/libre-baskerville-latin-400-normal.C42RasBZ.woff2",
+      "bytes": 20408
+    },
+    {
+      "name": "/assets/msa-logo.webp",
+      "bytes": 5880
+    }
+  ],
+  "hero": "/assets/hero-community.jpg"
+}

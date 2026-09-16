@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import PosterDialog from '../components/PosterDialog.astro';
+import Icon from '../components/Icon.astro';
+import { prayer, site } from '../data/site';
+const exception =
+  prayer.exception && new Date(prayer.exception.expiresAt) > new Date() ? prayer.exception : null;
+const reviewDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(prayer.receivedAt + 'T12:00:00Z'));
+---
+
+<Layout
+  title="Prayer & Jumu’ah"
+  description="MSA at UIC Jumu’ah schedule, weekly location announcements, and the latest daily prayer information."
+>
+  <PageLead
+    title="Make time for prayer."
+    eyebrow="Prayer & Jumu’ah"
+    intro="Find the community’s Friday announcement and the latest information for praying on campus."
+  />
+  <div class="container page-content content-grid">
+    <div>
+      {exception && (
+        <aside class="notice announcement-box">
+          <h2>Prayer update</h2>
+          <p>{exception.message}</p>
+        </aside>
+      )}
+      <section class="announcement-box">
+        <p class="eyebrow">Salatul Jumu’ah</p>
+        <h2>{prayer.weeklyLocation || prayer.location}</h2>
+        {prayer.sessions.length ? (
+          <div class="prayer-times">
+            {prayer.sessions.map((s) => (
+              <div>
+                <span>{s.label}</span>
+                <strong>{s.time}</strong>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>Check the latest prayer information with the MSA team for the current schedule.</p>
+        )}
+        <p>
+          Times are local to Chicago. Check the MSA announcements for this week’s room and any
+          changes before you head over.
+        </p>
+        {prayer.weeklyDirections && <p>{prayer.weeklyDirections}</p>}
+        {prayer.locationUrl && (
+          <p>
+            <a href={prayer.locationUrl}>Directions to the announced Jumu’ah location</a>
+          </p>
+        )}
+        <a class="button" href={site.whatsappUrl}>
+          View community announcements <Icon />
+        </a>
+        <p class="fine-print" style="margin-top:20px">
+          Schedule supplied <time datetime={prayer.receivedAt}>{reviewDate}</time>.{' '}
+          {!prayer.weeklyLocation && 'This week’s location has not been posted here.'}
+        </p>
+      </section>
+      <article id="daily-prayer">
+        <h2>Daily prayer space</h2>
+        {prayer.daily.verified && prayer.daily.location ? (
+          <>
+            <h3>{prayer.daily.location}</h3>
+            <p>{prayer.daily.hours}</p>
+            <p>{prayer.daily.directions}</p>
+            {prayer.daily.accessibilityDirections && <p>{prayer.daily.accessibilityDirections}</p>}
+            {prayer.daily.locationUrl && (
+              <a href={prayer.daily.locationUrl}>Directions to the daily prayer space</a>
+            )}
+          </>
+        ) : (
+          <>
+            <p>
+              Check the latest prayer information with the MSA team for the current room, opening
+              hours, and indoor directions.
+            </p>
+            <p>
+              Current daily-space details are awaiting confirmation. Contact us before visiting,
+              including for accessible entrance and elevator directions.
+            </p>
+          </>
+        )}
+        <a
+          class="text-link"
+          href={'mailto:' + site.email + '?subject=Daily%20prayer%20space%20and%20directions'}
+        >
+          Ask about the daily prayer space <Icon />
+        </a>
+      </article>
+      <article>
+        <h2>Keep the khutbah with you.</h2>
+        <p>Find recorded Friday khutbahs and other MSA talks in our lecture collection.</p>
+        <a href="/resources/lectures/">Browse lectures and recordings</a>
+      </article>
+    </div>
+    <aside class="aside-panel">
+      <h2>The Friday announcement</h2>
+      <p>
+        The supplied MSA poster is available below. Prayer details are also written out on this
+        page.
+      </p>
+      <a
+        class="poster-link"
+        href="/assets/jumuah-announcement.png"
+        data-poster="MSA Jumu’ah: first prayer 1:05 PM, second prayer 3:05 PM, location announced weekly"
+      >
+        <img
+          src="/assets/jumuah-preview.webp"
+          alt="MSA Jumu’ah announcement: 1:05 PM and 3:05 PM; location announced weekly"
+          width="432"
+          height="541"
+          loading="lazy"
+        />
+      </a>
+      <a
+        class="text-link"
+        href="/assets/jumuah-announcement.png"
+        data-poster="MSA Jumu’ah announcement"
+      >
+        Expand announcement <Icon />
+      </a>
+      <p class="fine-print">
+        The mosque on the poster is artwork, not a campus prayer-room photograph.
+      </p>
+      <p>
+        Questions? <a href={'mailto:' + site.email}>{site.email}</a>
+      </p>
+    </aside>
+  </div>
+  <PosterDialog />
+</Layout>

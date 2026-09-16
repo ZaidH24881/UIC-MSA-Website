@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import { site } from '../data/site';
+import eventData from '../data/events.json';
+import EventList from '../components/EventList.astro';
+import { currentEvents, type EventRecord } from '../lib/events';
+const activeSeason = currentEvents(eventData.events as EventRecord[]).some(
+  (event) => event.category === 'ramadan',
+);
+---
+
+<Layout
+  title="Ramadan with MSA"
+  description="Learn about MSA at UIC’s Ramadan iftar community and where to find confirmed dates when seasonal programs are announced."
+>
+  <PageLead
+    title="A month of faith and connection."
+    eyebrow="Ramadan with MSA"
+    intro="Ramadan iftars are an opportunity for our campus community to break fast and spend time together."
+  />
+  <div class="container page-content content-grid">
+    <div>
+      {activeSeason ? (
+        <section>
+          <h2>Ramadan program updates.</h2>
+          <EventList category="ramadan" />
+        </section>
+      ) : (
+        <section>
+          <h2>Looking ahead to Ramadan.</h2>
+          <p>
+            Our next Ramadan program has not been announced here. Confirmed iftar dates, venues, and
+            registration details will appear on the events page when available.
+          </p>
+          <p>
+            Follow MSA announcements to hear about the next season. We look forward to coming
+            together again.
+          </p>
+          <a class="button" href={site.whatsappUrl}>
+            Follow community announcements
+          </a>
+        </section>
+      )}
+      <EventList past category="ramadan" />
+    </div>
+    <aside class="aside-panel">
+      <h2>Support a shared table.</h2>
+      <p>Contact the team about supporting future iftars or volunteering during Ramadan.</p>
+      <nav>
+        <a href="/donate/">Support MSA programming</a>
+        <a href={`mailto:${site.email}?subject=Ramadan%20program%20inquiry`}>Ask about Ramadan</a>
+        <a href="/events/">View confirmed events</a>
+      </nav>
+    </aside>
+  </div>
+</Layout>

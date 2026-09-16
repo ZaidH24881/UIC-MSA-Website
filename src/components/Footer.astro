@@ -1,0 +1,48 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-identity">
+      <a class="footer-brand" href="/">
+        MSA at UIC
+      </a>
+      <p>Faith. Friendship. A place to belong.</p>
+      <p>
+        Muslim Students Association
+        <br />
+        University of Illinois Chicago
+      </p>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+    <div>
+      <h2>Find your way</h2>
+      <nav aria-label="Footer student links">
+        <a href="/join/">Join MSA</a>
+        <a href="/prayer/">Prayer &amp; Jumu’ah</a>
+        <a href="/events/">Events</a>
+        <a href="/resources/">Student resources</a>
+        <a href="/community/">Our community</a>
+      </nav>
+    </div>
+    <div>
+      <h2>Stay connected</h2>
+      <nav class="footer-socials" aria-label="Social media">
+        {site.socials.map((link) => (
+          <a href={link.url}>{link.name}</a>
+        ))}
+      </nav>
+      <nav class="footer-involvement" aria-label="Footer involvement links">
+        <a href="/get-involved/">Volunteer</a>
+        <a href="/donate/">Donate</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {new Date().getFullYear()} MSA at UIC</p>
+    <p>Made for our campus community.</p>
+    <a href="/about/">About MSA</a>
+  </div>
+</footer>

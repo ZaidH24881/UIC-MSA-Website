@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+---
+
+<Layout
+  title="Our community"
+  description="Explore moments from the MSA at UIC community: shared meals, friendship, and prayer together."
+>
+  <PageLead
+    title="The moments that make MSA."
+    eyebrow="Our community"
+    intro="A shared meal. A conversation that becomes a friendship. A moment of prayer in the middle of a busy day."
+  />
+  <div class="container page-content">
+    <div class="gallery-stories">
+      <article>
+        <h2>A seat with the community.</h2>
+        <Photo
+          name="hero-community"
+          alt="People seated together with plates of food at an MSA gathering, with conversations throughout the room"
+          eager
+          caption="A shared meal from the MSA photo archive."
+        />
+      </article>
+      <article>
+        <h2>Friends along the way.</h2>
+        <Photo
+          name="community-together"
+          alt="Three people smiling together at a table during an MSA gathering"
+          caption="Together at an MSA gathering. Photo: Art of Khanan."
+        />
+      </article>
+      <article>
+        <h2>Faith, together.</h2>
+        <Photo
+          name="prayer-together"
+          alt="A row of people standing shoulder to shoulder in prayer indoors"
+          caption="Prayer together, from the MSA photo archive. Photo: Art of Khanan."
+        />
+      </article>
+      <article>
+        <h2>Part of campus life.</h2>
+        <Photo
+          name="campus-community"
+          alt="Students gathered on a lawn for prayer, with the Chicago skyline behind them"
+          caption="A moment of prayer on campus, from the MSA archive."
+        />
+      </article>
+      <article class="aside-panel">
+        <h2>The next moment could be yours.</h2>
+        <p>
+          Whether you’ve just arrived or you’ve been here for years, there’s room to connect with
+          MSA.
+        </p>
+        <a class="button" href="/join/">
+          Join MSA
+        </a>
+        <p style="margin-top:24px">
+          Connect with {site.instagramFollowers} followers across our campus and alumni community on{' '}
+          <a href={site.socials[0].url}>Instagram</a>.
+        </p>
+      </article>
+    </div>
+  </div>
+</Layout>

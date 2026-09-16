@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+---
+
+<Layout
+  title="About MSA"
+  description="MSA at UIC is a welcoming student community centered on Islamic principles, friendship, learning, and service."
+>
+  <PageLead
+    title="Faith brings us together."
+    eyebrow="About MSA"
+    intro="We’re the Muslim Students Association at the University of Illinois Chicago. A community shaped by the students who show up for each other."
+  />
+  <div class="container page-content">
+    <Photo
+      name="community-together"
+      alt="Three people smiling together at a table at an MSA gathering"
+      eager
+      class="intro-photo"
+      caption="A moment from the MSA archive. Photo: Art of Khanan."
+    />
+    <div class="content-grid">
+      <div>
+        <article>
+          <h2>A place to belong and grow.</h2>
+          <p>
+            Our mission is to build a welcoming community centered on Islamic principles, where
+            students feel included, supported, and able to participate.
+          </p>
+          <p>
+            MSA is a place to make friends, learn about faith, share experiences, and build
+            meaningful relationships within the Muslim community and across UIC.
+          </p>
+        </article>
+        <article>
+          <h2>Come as you are.</h2>
+          <p>
+            Prospective students, first-year students, transfers, and returning students all have a
+            place in our community. People of all faiths and levels of practice are welcome.
+          </p>
+          <p>
+            You can take part through gatherings, prayer, learning, or helping with an initiative.
+            Make MSA part of your campus experience in a way that matters to you.
+          </p>
+          <a class="button" href="/join/">
+            Find your first step
+          </a>
+        </article>
+      </div>
+      <aside class="aside-panel">
+        <h2>Campus and beyond.</h2>
+        <p>Stay connected to students and alumni through our community’s social channels.</p>
+        <p>
+          <strong>{site.instagramFollowers}</strong> followers on Instagram.
+        </p>
+        <nav>
+          <a href={site.socials[0].url}>Follow MSA on Instagram</a>
+          <a href={site.socials[5].url}>Connect on LinkedIn</a>
+          <a href="/get-involved/">Help make things happen</a>
+          <a href="/contact/">Contact the team</a>
+        </nav>
+      </aside>
+    </div>
+  </div>
+</Layout>

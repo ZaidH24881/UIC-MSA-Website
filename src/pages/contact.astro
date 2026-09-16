@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+
+<Layout
+  title="Contact"
+  description="Get in touch with MSA at UIC for membership, prayer information, collaboration, and sponsorship inquiries at uicmsa@gmail.com."
+>
+  <PageLead
+    title="Get in touch."
+    eyebrow="Contact MSA"
+    intro="A question about joining, an idea for the community, or a way to work together? We’d like to hear from you."
+  />
+  <div class="container page-content content-grid">
+    <div>
+      <h2>Say hello.</h2>
+      <p>Email the MSA team with your question.</p>
+      <div class="contact-actions">
+        <a class="button" href={`mailto:${site.email}`}>
+          {site.email} <Icon />
+        </a>
+        <a class="text-link" href={`mailto:${site.email}?subject=MSA%20sponsorship%20inquiry`}>
+          Send a sponsorship inquiry <Icon />
+        </a>
+      </div>
+      <h2 style="margin-top:48px">Follow along.</h2>
+      <div class="social-directory">
+        {site.socials.map((s) => (
+          <a href={s.url}>{s.name}</a>
+        ))}
+      </div>
+    </div>
+    <aside class="aside-panel">
+      <h2>Looking for something specific?</h2>
+      <nav>
+        <a href="/join/">Membership and group access</a>
+        <a href="/prayer/">Prayer &amp; Jumu’ah</a>
+        <a href="/events/">Event announcements</a>
+        <a href="/get-involved/">Volunteer opportunities</a>
+        <a href="/donate/">Donation details</a>
+      </nav>
+    </aside>
+  </div>
+</Layout>

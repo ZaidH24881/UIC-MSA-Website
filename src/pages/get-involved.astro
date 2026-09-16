@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import { involvement, site } from '../data/site';
+const statusMessage =
+  involvement.status === 'closed'
+    ? 'Committee applications are currently closed. Email the team to ask about future opportunities.'
+    : involvement.statusMessage;
+---
+
+<Layout
+  title="Get involved"
+  description="Help bring MSA at UIC programs to life. Ask about committee opportunities, volunteering, and ways to support your campus community."
+>
+  <PageLead title={involvement.title} eyebrow="Get involved" intro={involvement.description} />
+  <div class="container page-content content-grid">
+    <div>
+      <h2>Bring your ideas. Bring yourself.</h2>
+      <p>
+        From helping with gatherings to contributing to an initiative, being involved is a chance to
+        get to know people and serve your community.
+      </p>
+      <div class="announcement-box" style="margin-top:28px">
+        <h2>Committee opportunities</h2>
+        <p>{statusMessage}</p>
+        <a
+          class="button"
+          href={'mailto:' + site.email + '?subject=Getting%20involved%20with%20MSA'}
+        >
+          Ask about volunteering
+        </a>
+      </div>
+      {involvement.opportunities.map((item) => {
+        const closed =
+          involvement.status === 'closed' ||
+          item.status === 'closed' ||
+          (item.deadline && new Date(item.deadline) < new Date());
+        return (
+          <article>
+            <h2>{item.title}</h2>
+            <p>{item.description}</p>
+            <p>{closed ? 'Applications closed' : 'Applications open'}</p>
+            {item.deadline && (
+              <p>
+                Deadline:{' '}
+                {new Intl.DateTimeFormat('en-US', {
+                  dateStyle: 'long',
+                  timeZone: 'America/Chicago',
+                }).format(new Date(item.deadline))}
+              </p>
+            )}
+            {!closed && item.url ? (
+              <a class="button" href={item.url}>
+                Apply for {item.title}
+              </a>
+            ) : (
+              <a href={'mailto:' + site.email + '?subject=Committee%20inquiry'}>
+                Ask about future opportunities
+              </a>
+            )}
+          </article>
+        );
+      })}
+    </div>
+    <aside class="aside-panel">
+      <h2>Start by connecting.</h2>
+      <p>
+        Register as a member and follow MSA announcements to hear about opportunities as they open.
+      </p>
+      <nav>
+        <a href="/join/">Membership and group access</a>
+        <a href="/events/">Find a gathering</a>
+        <a href={site.whatsappUrl}>Community announcements</a>
+      </nav>
+    </aside>
+  </div>
+</Layout>

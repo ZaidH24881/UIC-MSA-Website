@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageLead from '../../components/PageLead.astro';
+import ResourceGrid from '../../components/ResourceGrid.astro';
+---
+
+<Layout
+  title="Student resources"
+  description="Practical resources for Muslim student life at UIC: prayer, academic support, transportation, halal food, books, and recorded lectures."
+>
+  <PageLead
+    title="A little support goes a long way."
+    eyebrow="Student resources"
+    intro="Find your way around campus, build your study routine, and make room for learning beyond the classroom."
+  />
+  <div class="container page-content">
+    <ResourceGrid />
+    <div class="aside-panel" style="margin-top:48px">
+      <h2>Something missing?</h2>
+      <p>Let us know about a useful resource or a link that needs updating.</p>
+      <a href="mailto:uicmsa@gmail.com?subject=Student%20resource%20suggestion">
+        Share a resource with MSA
+      </a>
+    </div>
+  </div>
+</Layout>

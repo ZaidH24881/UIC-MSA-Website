@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import PosterDialog from '../components/PosterDialog.astro';
+import Icon from '../components/Icon.astro';
+import { donations, site } from '../data/site';
+const givingActive = donations.enabled && donations.methods.length > 0;
+---
+
+<Layout
+  title="Support MSA"
+  description="Learn how to support MSA at UIC community programming and iftars, or contact the team about sponsorship."
+>
+  <PageLead
+    title="Help make it possible."
+    eyebrow="Support MSA"
+    intro="Shared meals. Meaningful gatherings. A place for students to connect. Your generosity helps our community show up for one another."
+  />
+  <div class="container page-content">
+    <p>{donations.purpose}</p>
+    {givingActive ? (
+      <div class="method-grid">
+        {donations.methods.map((method) => (
+          <article class="method">
+            <h2>{method.name}</h2>
+            <p>{method.instruction}</p>
+            <strong class="recipient">{method.recipient}</strong>
+            {method.url ? (
+              <a class="button" href={method.url}>
+                Give with PayPal <Icon />
+              </a>
+            ) : (
+              <button class="copy-button" data-copy={method.recipient} hidden>
+                <Icon name="copy" />
+                Copy {method.name === 'Zelle' ? 'email' : 'handle'}
+              </button>
+            )}
+            {method.alternative && (
+              <p class="alternative">
+                <span>Or find the recipient with</span>
+                <strong>{method.alternative}</strong>
+              </p>
+            )}
+          </article>
+        ))}
+      </div>
+    ) : (
+      <section class="aside-panel" style="margin-top:24px">
+        <h2>Contact us about supporting MSA.</h2>
+        <p>
+          Online giving details are not currently available here. Email the MSA team about a gift or
+          sponsorship.
+        </p>
+        <a class="button" href={`mailto:${site.email}?subject=MSA%20giving%20inquiry`}>
+          Contact the MSA team <Icon />
+        </a>
+      </section>
+    )}
+    <div class="content-grid" style="margin-top:48px">
+      <div>
+        <h2>Thank you for supporting MSA.</h2>
+        {givingActive && (
+          <p>
+            Before sending, check that the recipient matches the details above. Give through your
+            payment provider; MSA does not collect card or banking information on this website.
+          </p>
+        )}
+        <p>
+          For questions about a gift, its purpose, or a recipient,{' '}
+          <a href={`mailto:${site.email}?subject=Donation%20question`}>contact the MSA team</a>.
+        </p>
+        {givingActive && <p class="fine-print">Recipient details supplied September 11, 2026.</p>}
+      </div>
+      <aside class="aside-panel">
+        <h2>Partner with our community.</h2>
+        <p>
+          Interested in sponsoring a program or supporting a future gathering? We’d love to hear
+          from you.
+        </p>
+        <a class="text-link" href={`mailto:${site.email}?subject=MSA%20sponsorship%20inquiry`}>
+          Ask about sponsorship <Icon />
+        </a>
+        {givingActive && (
+          <a
+            class="text-link"
+            href="/assets/community-donations.png"
+            data-poster="MSA WhatsApp and donation announcement with Zelle, Venmo, and PayPal recipients"
+          >
+            View the donation announcement <Icon />
+          </a>
+        )}
+      </aside>
+    </div>
+  </div>
+  {givingActive && <PosterDialog />}
+</Layout>

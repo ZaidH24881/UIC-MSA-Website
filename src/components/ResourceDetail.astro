@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { resources, type ResourcePage, type ResourceSection } from '../data/resources';
+import { site } from '../data/site';
+import Icon from '../components/Icon.astro';
+
+interface Props {
+  resource: ResourcePage;
+}
+
+interface Recording {
+  title: string;
+  body: string;
+  url: string;
+  videoId: string | null;
+  isPlaylist: boolean;
+}
+
+const { resource } = Astro.props;
+const isLectures = resource.slug === 'lectures';
+const relatedResources = resources.filter((item) => item.slug !== resource.slug);
+const reviewedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(`${resource.reviewedAt}T00:00:00Z`));
+const channelUrl =
+  site.socials.find((social) => social.name === 'YouTube')?.url ??
+  'https://www.youtube.com/@MSAatUIC';
+
+function toRecording(section: ResourceSection): Recording[] {
+  for (const link of section.links ?? []) {
+    const url = new URL(link.url);
+    if (url.hostname !== 'www.youtube.com') continue;
+
+    const videoId = url.searchParams.get('v');
+    const isVideo =
+      url.pathname === '/watch' && videoId !== null && /^[A-Za-z0-9_-]{11}$/.test(videoId);
+    const isPlaylist = url.pathname === '/playlist' && url.searchParams.has('list');
+    if (!isVideo && !isPlaylist) continue;
+
+    return [
+      {
+        title: section.title,
+        body: section.body,
+        url: link.url,
+        videoId: isVideo ? videoId : null,
+        isPlaylist,
+      },
+    ];
+  }
+  return [];
+}
+
+const recordings: Recording[] = isLectures ? resource.sections.flatMap(toRecording) : [];
+---
+
+<Layout title={resource.title} description={resource.intro}>
+  <header class="page-lead container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/resources/">Resources</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{resource.title}</span>
+    </nav>
+    <h1>{resource.title}</h1>
+    <p class="intro">{resource.intro}</p>
+    <p class="fine-print resource-reviewed">
+      Last reviewed <time datetime={resource.reviewedAt}>{reviewedDate}</time>
+    </p>
+  </header>
+
+  <div class="container page-content content-grid">
+    {isLectures ? (
+      <div class="recordings-content">
+        <div class="video-grid">
+          {recordings.map((recording, index) => (
+            <section class="video-card" aria-labelledby={`recording-${index + 1}`}>
+              <a
+                class="video-frame recording-cover"
+                href={recording.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${recording.isPlaylist ? 'Open' : 'Watch'} ${recording.title} on YouTube (opens in a new tab)`}
+              >
+                {recording.videoId && (
+                  <img
+                    src={`/assets/video-${recording.videoId}.jpg`}
+                    width="480"
+                    height="360"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <span aria-hidden="true">
+                  <Icon name="play" />
+                </span>
+              </a>
+              <h2 id={`recording-${index + 1}`}>{recording.title}</h2>
+              <p>{recording.body}</p>
+              <a
+                class="text-link"
+                href={recording.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${recording.isPlaylist ? 'Open playlist' : 'Watch'}: ${recording.title} on YouTube (opens in a new tab)`}
+              >
+                {recording.isPlaylist ? 'Open playlist on YouTube' : 'Watch on YouTube'}
+                <Icon name="arrow" />
+              </a>
+            </section>
+          ))}
+        </div>
+
+        <section class="announcement-box channel-fallback" aria-labelledby="more-recordings">
+          <h2 id="more-recordings">Find more recordings</h2>
+          <p>
+            Browse the {site.name} YouTube channel for more talks and khutbahs. If a recording is
+            unavailable, choose another video from the channel.
+          </p>
+          <a class="text-link" href={channelUrl} target="_blank" rel="noopener noreferrer">
+            Visit MSA on YouTube <Icon name="arrow" />
+          </a>
+        </section>
+      </div>
+    ) : (
+      <article class="resource-article" aria-label={resource.title}>
+        {resource.sections.map((section, index) => (
+          <section aria-labelledby={`resource-section-${index + 1}`}>
+            <h2 id={`resource-section-${index + 1}`}>{section.title}</h2>
+            <p>{section.body}</p>
+            {section.links && section.links.length > 0 && (
+              <ul class="resource-external">
+                {section.links.map((link) => (
+                  <li>
+                    <a href={link.url} class="text-link">
+                      {link.label} <Icon name="arrow" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ))}
+      </article>
+    )}
+
+    <aside class="aside-panel" aria-labelledby="related-resources">
+      <h2 id="related-resources">More student resources</h2>
+      <nav aria-label="Related resources">
+        {relatedResources.map((item) => (
+          <a href={`/resources/${item.slug}/`}>{item.title}</a>
+        ))}
+        <a href="/prayer/">Prayer on campus</a>
+        <a href="/resources/">All resources</a>
+      </nav>
+    </aside>
+  </div>
+</Layout>
+
+<style>
+  .resource-reviewed {
+    margin-top: 20px;
+  }
+
+  .recordings-content {
+    min-width: 0;
+  }
+
+  .channel-fallback {
+    margin-top: 32px;
+    margin-bottom: 0;
+  }
+</style>

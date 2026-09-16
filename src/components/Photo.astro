@@ -1,0 +1,39 @@
+---
+import { photos } from '../data/photos';
+interface Props {
+  name: string;
+  alt: string;
+  caption?: string;
+  eager?: boolean;
+  class?: string;
+}
+const { name, alt, caption, eager = false, class: className = '' } = Astro.props;
+const photo = photos[name];
+---
+
+<figure
+  class={`photo photo-${name} ${className}`}
+  style={`--focal-desktop:${photo.desktop};--focal-mobile:${photo.mobile};--photo-ratio:${photo.width}/${photo.height}`}
+  data-photo
+>
+  <picture>
+    <source
+      type="image/webp"
+      srcset={`/assets/${name}-640.webp 640w, /assets/${name}-1200.webp 1200w, /assets/${name}-1800.webp ${photo.width}w`}
+      sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1099px) 70vw, 700px"
+    />
+    <img
+      src={`/assets/${name}.jpg`}
+      width={photo.width}
+      height={photo.height}
+      alt={photo.alt || alt}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      decoding="async"
+    />
+  </picture>
+  {caption && <figcaption>{photo.caption}</figcaption>}
+  <span class="photo-fallback" hidden>
+    Community photo unavailable.
+  </span>
+</figure>

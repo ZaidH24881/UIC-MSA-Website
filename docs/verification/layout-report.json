@@ -1,0 +1,13 @@
+{
+  "testedAt": "2026-09-11T06:27:20.390Z",
+  "checks": [
+    "Long event titles and three cards without photos fit at 320px",
+    "Long event titles and three cards without photos fit at 390px",
+    "Long event titles and three cards without photos fit at 768px",
+    "Long event titles and three cards without photos fit at 1440px",
+    "All four community photo crops captured at 390px",
+    "All four community photo crops captured at 1440px",
+    "Visible primary buttons and controls are at least 44 × 44px on mobile"
+  ],
+  "failures": []
+}

@@ -1,0 +1,52 @@
+name: Build and verify MSA website
+on:
+  push:
+    branches: [main, 'codex/**']
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 7 * * *'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+      - run: pnpm test
+      - run: node tests/states.mjs
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Browser and redirect checks
+        run: |
+          node scripts/serve.mjs &
+          node scripts/wait-for-preview.mjs
+          node tests/browser.mjs
+          node tests/layout.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msa-website
+          path: dist
+          include-hidden-files: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-results
+          path: |
+            test-results/*.json
+            test-results/*.png
+            test-results/*.txt
+      - name: Refresh configured static host
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: node scripts/trigger-deploy.mjs

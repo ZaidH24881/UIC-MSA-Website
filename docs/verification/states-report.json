@@ -1,0 +1,12 @@
+{
+  "testedAt": "2026-09-11T06:27:24.222Z",
+  "checks": [
+    "Ongoing event remains visible; ended event has a recap section",
+    "Only cancelled Ramadan occurrence remains visible",
+    "Cancelled and past detail pages suppress RSVP",
+    "Giving disabled: contact fallback, no recipient details or poster in generated output",
+    "Closed committee collection suppresses an open item application",
+    "Verified daily and weekly prayer rooms appear in homepage and detail page"
+  ],
+  "failures": []
+}

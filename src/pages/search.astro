@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from '../components/PageLead.astro';
+import ResourceGrid from '../components/ResourceGrid.astro';
+---
+
+<Layout
+  title="Find your way"
+  description="Find the MSA information you need: joining, prayer, events, student resources, and contact."
+  noindex
+>
+  <PageLead
+    title="Let’s get you to the right place."
+    eyebrow="Find your way"
+    intro="Our website has a new structure. If you arrived from a saved search, use these links to find what you need."
+  />
+  <div class="container page-content">
+    <div class="actions">
+      <a class="button" href="/join/">
+        Join MSA
+      </a>
+      <a class="button secondary" href="/events/">
+        Explore events
+      </a>
+      <a class="button secondary" href="/contact/">
+        Contact MSA
+      </a>
+    </div>
+    <div class="resource-finder">
+      <ResourceGrid />
+    </div>
+  </div>
+</Layout>
