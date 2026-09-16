@@ -46,16 +46,36 @@ scoped to **only** `ZaidH24881/UIC-MSA-Website`, with repository permission
 access to the repo. Either way, note the resulting token — you won't see it again
 after creating it.
 
-## 3. Add the token to the Worker
+## 3. Add the token as a Secrets Store binding
 
-**Cloudflare dashboard → your Worker project → Settings → Variables and Secrets →
-Add**:
+This project reads the token through Cloudflare's **Secrets Store**, not a plain
+"environment variable." Two things need to happen, in order — skipping the second one
+is the main way this silently breaks (bindings added only through the dashboard don't
+survive the next Git-triggered deploy):
 
-- Name: `GITHUB_BOT_TOKEN`
-- Value: the token from step 2
-- Type: **Secret** (encrypted)
+1. **Cloudflare dashboard → your Worker project → Bindings → Add binding → Secrets
+   Store.** Variable name: `GITHUB_BOT_TOKEN`. Under "Secret name," create a new
+   secret (any internal label — using `GITHUB_BOT_TOKEN` again is fine) and paste the
+   token from step 2 as its value. Note the **Store ID** shown on this screen. Deploy.
+2. **Commit that binding into `wrangler.jsonc`** so it's part of the deployed config
+   permanently, instead of a dashboard-only setting that the next `git push` will
+   silently drop:
 
-Redeploy once so the new variable takes effect.
+   ```jsonc
+   "secrets_store_secrets": [
+     {
+       "binding": "GITHUB_BOT_TOKEN",
+       "store_id": "<the Store ID from step 1>",
+       "secret_name": "<the secret name you gave it in step 1>"
+     }
+   ]
+   ```
+
+   Commit and push this change.
+
+To rotate the token later: create a new secret value in the same Secrets Store (or
+update the existing one's value from its detail page), no code or config changes
+needed.
 
 ## 4. Set up Cloudflare Access
 
@@ -106,8 +126,6 @@ remove an event, then it's ready to hand to the board.
   trail beyond Cloudflare Access's own login logs (Zero Trust → Logs → Access), which
   *do* show who actually signed in with Google, even though the git commits
   themselves won't show individual names.
-- If the bot token is ever compromised or needs rotating, regenerate it (step 2) and
-  update the Worker's secret (step 3) — no code changes needed.
 - The CMS edits `src/data/events.json` directly — the same file described in
   [`docs/maintenance.md`](maintenance.md). Its top-level shape is `{ "events": [...] }`.
 - Saving in the CMS commits straight to `main` (`publish_mode: simple` in
