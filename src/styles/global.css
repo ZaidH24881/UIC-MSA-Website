@@ -762,7 +762,7 @@ main:focus {
 .page-content h3 {
   margin-bottom: 16px;
 }
-.page-content article + article {
+.page-content > article + article {
   margin-top: 42px;
 }
 .page-content p {
