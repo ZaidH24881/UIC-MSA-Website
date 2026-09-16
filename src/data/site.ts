@@ -53,8 +53,14 @@ export const prayer: PrayerInfo = {
   ],
   location: 'Location announced weekly',
   weeklyLocation: null,
-  daily: { verified: false, location: null, hours: null, directions: null },
-  exception: null,
+  daily: { 
+	verified: true, 
+	location: 'SCE 315', 
+	hours: 'Monday–Friday · 11:00 AM–9:00 PM', 
+	directions: 'الحمد لله, our daily prayer space is available in SCE 315. Take the escalators to the 2nd floor of SCE and continue straight, passing Amazon on your right. Continue until you reach the elevators on your left. Take the elevator to the 3rd floor, make two lefts, and continue down the hallway.',
+  	accessibilityDirections: 'Separate brothers’ and sisters’ entrances are available.',
+	},
+	exception: null,
 };
 
 export const donations = {
