@@ -15,14 +15,14 @@ Access works in two layers:
    account** with write access to the repo, so the actual commit can happen. Board
    members never see this token.
 
-This is a one-time setup. It needs admin access to the `nauraiz0/msawebsite2026`
+This is a one-time setup. It needs admin access to the `ZaidH24881/UIC-MSA-Website`
 GitHub repo and the Cloudflare account the site deploys through — so it should be
 done by the repo owner or whoever on the board holds those credentials, not
 necessarily by whoever wrote this code.
 
 ## 1. Get the site onto Cloudflare Pages, if it isn't already
 
-Check whether `nauraiz0/msawebsite2026` is already connected to a live Cloudflare
+Check whether `ZaidH24881/UIC-MSA-Website` is already connected to a live Cloudflare
 Pages project, and who has access to that Cloudflare account. If nothing is deployed
 yet: **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git**,
 pick this repo, set build command `pnpm build` and output directory `dist` (see
@@ -33,7 +33,7 @@ to everything else in this guide.
 
 Create one GitHub account for this purpose alone (not a real person's account) —
 or use a [fine-grained personal access token](https://github.com/settings/tokens?type=beta)
-scoped to **only** `nauraiz0/msawebsite2026`, with repository permission
+scoped to **only** `ZaidH24881/UIC-MSA-Website`, with repository permission
 **Contents: Read and write**, generated from an account that already has write
 access to the repo. Either way, note the resulting token — you won't see it again
 after creating it.
@@ -73,7 +73,7 @@ URL:
 ```yaml
 backend:
   name: github
-  repo: nauraiz0/msawebsite2026
+  repo: ZaidH24881/UIC-MSA-Website
   branch: main
   base_url: https://your-real-domain.org
   auth_endpoint: cms-auth

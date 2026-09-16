@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: nauraiz0/msawebsite2026
+  repo: ZaidH24881/UIC-MSA-Website
   branch: main
   base_url: https://REPLACE-WITH-YOUR-SITE-DOMAIN
   auth_endpoint: cms-auth
