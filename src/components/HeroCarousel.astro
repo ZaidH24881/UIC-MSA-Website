@@ -1,0 +1,144 @@
+---
+import Photo from './Photo.astro';
+
+const slides = [
+  {
+    name: 'hero-community',
+    alt: 'MSA community members gathered together',
+    caption: 'A shared meal from the MSA photo archive.',
+  },
+  {
+    name: 'group-audience',
+    alt: 'Students seated together during an MSA event',
+    caption: 'Students gathered together at an MSA event.',
+  },
+  {
+    name: 'brothers-group',
+    alt: 'A group of MSA members gathered together at an event',
+    caption: 'MSA members together at a community gathering.',
+  },
+  {
+    name: 'sisters-group',
+    alt: 'A group of sisters gathered together at an MSA event',
+    caption: 'Sisters together at an MSA community gathering.',
+  },
+];
+---
+
+<div class="hero-carousel" data-hero-carousel>
+  {
+    slides.map((slide, index) => (
+      <div
+        class:list={['hero-carousel-slide', { active: index === 0 }]}
+        aria-hidden={index === 0 ? 'false' : 'true'}
+        data-caption={slide.caption}
+      >
+        <Photo
+          name={slide.name}
+          alt={slide.alt}
+          eager={index === 0}
+          class="hero-photo"
+        />
+      </div>
+    ))
+  }
+
+  <p class="hero-carousel-caption" data-carousel-caption>
+    {slides[0].caption}
+  </p>
+</div>
+
+<script>
+  const carousels = document.querySelectorAll('[data-hero-carousel]');
+
+  carousels.forEach((carousel) => {
+    const slides = Array.from(
+      carousel.querySelectorAll<HTMLElement>('.hero-carousel-slide')
+    );
+
+    const caption =
+      carousel.querySelector<HTMLElement>('[data-carousel-caption]');
+
+    if (slides.length < 2) return;
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    if (reducedMotion) return;
+
+    let current = 0;
+
+    window.setInterval(() => {
+      slides[current].classList.remove('active');
+      slides[current].setAttribute('aria-hidden', 'true');
+
+      current = (current + 1) % slides.length;
+
+      slides[current].classList.add('active');
+      slides[current].setAttribute('aria-hidden', 'false');
+
+      if (caption) {
+        caption.textContent = slides[current].dataset.caption ?? '';
+      }
+    }, 6000);
+  });
+</script>
+
+<style>
+  .hero-carousel {
+    position: relative;
+    width: 100%;
+  }
+
+  .hero-carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    filter: blur(4px);
+    transform: scale(1.015);
+    transition:
+      opacity 1.2s ease-in-out,
+      filter 1.2s ease-in-out,
+      transform 1.2s ease-in-out;
+  }
+
+  .hero-carousel-slide:first-child {
+    position: relative;
+  }
+
+  .hero-carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    filter: blur(0);
+    transform: scale(1);
+  }
+
+  .hero-carousel-caption {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  :global(.hero-carousel-slide .hero-photo) {
+    margin: 0;
+    width: 100%;
+  }
+
+  :global(.hero-carousel-slide .hero-photo picture) {
+    display: block;
+    width: 100%;
+  }
+
+  :global(.hero-carousel-slide .hero-photo img) {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-carousel-slide {
+      transition: none;
+    }
+  }
+</style>

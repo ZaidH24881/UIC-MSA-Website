@@ -8,6 +8,7 @@ import ResourceGrid from '../components/ResourceGrid.astro';
 import { site } from '../data/site';
 import notices from '../data/announcements.json';
 import { activeNotices } from '../lib/events';
+import HeroCarousel from '../components/HeroCarousel.astro';
 ---
 
 <Layout
@@ -45,12 +46,7 @@ import { activeNotices } from '../lib/events';
         There’s a place for you here.
       </p>
     </div>
-    <Photo
-      name="hero-community"
-      alt="MSA community members gathered together"
-      eager
-      class="hero-photo"
-      caption="Faith and friendship, here on campus."
+    <HeroCarousel
     />
   </section>
   <section class="section upcoming-section">
@@ -90,7 +86,7 @@ import { activeNotices } from '../lib/events';
       />
       <div class="mosaic-stack">
         <Photo
-          name="community-together"
+          name="group-audience"
           alt="Members of the MSA community together at a gathering"
           caption="A community built by showing up for each other."
         />

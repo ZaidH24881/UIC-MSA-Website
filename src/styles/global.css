@@ -1370,8 +1370,6 @@ main:focus {
 .announcement-box .prayer-times {
   flex-wrap: wrap;
 }
-.photo-community-together img,
-.photo-prayer-together img,
 .community-mosaic > .photo img {
   aspect-ratio: var(--photo-ratio);
   height: auto;
@@ -1386,16 +1384,6 @@ main:focus {
     min-height: 0;
     object-position: var(--focal-desktop);
   }
-  .intro-photo.photo-community-together {
-    max-width: 880px;
-  }
-  .intro-photo.photo-community-together img {
-    max-height: none;
-    aspect-ratio: 3/2;
-  }
-}
-.mosaic-stack .photo-community-together img {
-  aspect-ratio: var(--photo-ratio);
 }
 .event-photo {
   aspect-ratio: 3/2;

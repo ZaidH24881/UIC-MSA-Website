@@ -18,20 +18,29 @@ export const photos: Record<
     alt: 'Students gathered on a lawn for prayer, with the Chicago skyline behind them',
     caption: 'Making space for faith on campus, from the MSA photo archive.',
   },
-  'community-together': {
-    width: 1600,
-    height: 1066,
-    desktop: '52% 48%',
-    mobile: '52% 48%',
-    alt: 'Three people smiling together at a table during an MSA gathering',
-    caption: 'Together at an MSA gathering. Photo: Art of Khanan.',
+  'brothers-group': {
+    width: 1800,
+    height: 1197,
+    desktop: '50% 50%',
+    mobile: '50% 50%',
+    alt: 'A group of MSA members gathered together at an event',
+    caption: 'MSA members together at a community gathering.',
   },
-  'prayer-together': {
-    width: 1600,
-    height: 1066,
-    desktop: '68% 46%',
-    mobile: '68% 46%',
-    alt: 'A row of people standing shoulder to shoulder in prayer indoors',
-    caption: 'Prayer together, from the MSA photo archive. Photo: Art of Khanan.',
+  'group-audience': {
+    width: 1800,
+    height: 1197,
+    desktop: '50% 50%',
+    mobile: '50% 50%',
+    alt: 'Students seated together during a MSA event',
+    caption: 'Students gathered together at an MSA event.',
   },
+  'sisters-group': {
+    width: 1462,
+    height: 972,
+    desktop: '50% 50%',
+    mobile: '50% 50%',
+    alt: 'A group of sisters gathered together at an MSA event',
+    caption: 'Sisters together at an MSA community gathering.',
+  },
+	
 };
