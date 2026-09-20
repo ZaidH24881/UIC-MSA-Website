@@ -36,6 +36,9 @@ const events = (
             {timeLabel(event.start)} · {event.location || 'Location to be confirmed'}
           </span>
           {event.status !== 'confirmed' && <span class="status-label">{event.status}</span>}
+          {event.status === 'confirmed' && !past && Date.now() >= new Date(event.start).getTime() && (
+            <span class="event-date">In progress</span>
+          )}
         </li>
       ))}
     </ul>

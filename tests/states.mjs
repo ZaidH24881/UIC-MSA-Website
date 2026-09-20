@@ -45,7 +45,7 @@ content = content
   )
   .replace('weeklyLocation: null,', "weeklyLocation: 'Fixture weekly room',")
   .replace(
-    'daily: { verified: false, location: null, hours: null, directions: null },',
+    /daily:\s*\{\s*verified:\s*(?:true|false),[\s\S]*?\},/,
     "daily: { verified: true, location: 'Fixture daily room', hours: 'Fixture hours', directions: 'Fixture directions' },",
   );
 await writeFile(siteFile, content);

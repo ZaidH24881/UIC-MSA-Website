@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import '../styles/design.css';
 import '@fontsource-variable/dm-sans';
 import '@fontsource/libre-baskerville/400.css';
 interface Props {
@@ -19,7 +20,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#21365a" />
+    <meta name="theme-color" content="#f5f5f7" />
     <title>{title} | MSA at UIC</title>
     <link rel="icon" type="image/webp" href="/assets/msa-logo.webp" />
     {canonical && <link rel="canonical" href={canonical} />}
@@ -36,5 +37,6 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
     <Footer />
     <div class="toast" role="status" aria-live="polite" id="copy-status"></div>
     <script src="../scripts/interactions.ts"></script>
+    <script src="../scripts/motion.ts"></script>
   </body>
 </html>

@@ -157,7 +157,7 @@ try {
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
     await page.goto(base, { waitUntil: 'networkidle' });
-    for (const img of await page.locator('[data-photo] img').all()) {
+    for (const img of await page.locator('[data-photo] img:visible').all()) {
       await img.scrollIntoViewIfNeeded();
       await img.evaluate((e) => e.decode());
     }
@@ -170,7 +170,7 @@ try {
     }
   }
   const failedPhotoPage = await context.newPage();
-  await failedPhotoPage.route('**/assets/hero-community*', (route) => route.abort());
+  await failedPhotoPage.route('**/assets/campus-community*', (route) => route.abort());
   await failedPhotoPage.goto(base, { waitUntil: 'networkidle' });
   assert.ok(await failedPhotoPage.locator('.hero-photo .photo-fallback').isVisible());
   await failedPhotoPage.close();

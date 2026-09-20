@@ -12,7 +12,7 @@ try {
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(base + '/events/');
-    await page.locator('.empty-events').evaluate((element) => {
+    await page.locator('.events-layout').evaluate((element) => {
       const grid = document.createElement('div');
       grid.className = 'event-grid';
       for (let i = 0; i < 3; i++) {

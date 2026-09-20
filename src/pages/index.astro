@@ -8,7 +8,7 @@ import ResourceGrid from '../components/ResourceGrid.astro';
 import { site } from '../data/site';
 import notices from '../data/announcements.json';
 import { activeNotices } from '../lib/events';
-import HeroCarousel from '../components/HeroCarousel.astro';
+import CommunityGallery from '../components/CommunityGallery.astro';
 ---
 
 <Layout
@@ -22,15 +22,18 @@ import HeroCarousel from '../components/HeroCarousel.astro';
       </div>
     </aside>
   ))}
-  <section class="container hero">
+  <section class="container hero cinema-hero">
     <div class="hero-copy">
-      <p class="eyebrow">Muslim Students Association · UIC</p>
+      <p class="eyebrow">Muslim Students Association at UIC</p>
       <h1>
-        Find <span class="serif">your community</span> at UIC.
+        Your people.
+        <br />
+        Your place.
       </h1>
       <p class="hero-intro">
-        A space to connect, learn, and grow in faith together. Meet fellow students, join our
-        events, and make MSA part of your time on campus.
+        Rooted in faith. Connected for life.
+        <br />
+        Find your community at UIC.
       </p>
       <div class="actions">
         <a class="button" href="/join/">
@@ -40,14 +43,42 @@ import HeroCarousel from '../components/HeroCarousel.astro';
           Explore events
         </a>
       </div>
-      <p class="welcome-note">
+    </div>
+    <div class="cinema-frame" data-cinema>
+      <Photo
+        name="campus-community"
+        alt="Students gathered for prayer with the Chicago skyline behind them"
+        eager
+        class="hero-photo"
+      />
+      <div class="cinema-caption">
+        <span>Faith. Friendship. Chicago.</span>
+        <a href="/community/">
+          Meet our community <Icon />
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="belonging section container" aria-labelledby="belonging-title">
+    <p class="eyebrow">More than a student organization</p>
+    <h2 id="belonging-title">
+      A big campus.
+      <br />A closer community.
+    </h2>
+    <p class="belonging-copy">
+      Between the lectures and the late nights, find people who make UIC feel like home. A shared
+      meal. A moment of prayer. A friendship that stays with you.
+    </p>
+    <div class="belonging-links">
+      <a href="/about/">
+        Get to know MSA <Icon />
+      </a>
+      <span>
         Your first semester or your final year.
         <br />
         There’s a place for you here.
-      </p>
+      </span>
     </div>
-    <HeroCarousel
-    />
   </section>
   <section class="section upcoming-section">
     <div class="container">
@@ -79,11 +110,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
       look like.
     </p>
     <div class="community-mosaic">
-      <Photo
-        name="campus-community"
-        alt="Students gathered for prayer on a lawn with the Chicago skyline behind them"
-        caption="Making space for faith on campus."
-      />
+      <CommunityGallery />
       <div class="mosaic-stack">
         <Photo
           name="group-audience"
