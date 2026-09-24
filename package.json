@@ -9,7 +9,8 @@
     "preview": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.mjs",
     "check": "astro check",
-    "test:browser": "node tests/browser.mjs"
+    "test:browser": "node tests/browser.mjs",
+    "test:mobile": "node tests/mobile.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -17,7 +18,9 @@
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
     "@fontsource/libre-baskerville": "^5.3.0",
-    "astro": "^7.3.2"
+    "astro": "^7.3.2",
+    "gsap": "3.15.0",
+    "lenis": "1.3.26"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

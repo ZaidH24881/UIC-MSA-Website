@@ -55,7 +55,7 @@ try {
   await page.goto(base);
   const heroTop = await page.locator('.hero-photo').evaluate((e) => e.getBoundingClientRect().top);
   assert.ok(heroTop < 844, 'hero photo starts in mobile first viewport');
-  const open = page.getByRole('button', { name: 'Open navigation' });
+  const open = page.getByRole('button', { name: 'Open navigation menu' });
   await open.click();
   assert.equal(await page.locator('#mobile-menu').evaluate((e) => e.open), true);
   assert.equal(await open.getAttribute('aria-expanded'), 'true');
@@ -68,12 +68,12 @@ try {
   }
   await page.keyboard.press('Escape');
   await page.waitForFunction(
-    () => document.activeElement?.getAttribute('aria-label') === 'Open navigation',
+    () => document.activeElement?.getAttribute('aria-label') === 'Open navigation menu',
   );
   assert.equal(await page.locator('#mobile-menu').evaluate((e) => e.open), false);
   assert.equal(
     await page.evaluate(() => document.activeElement.getAttribute('aria-label')),
-    'Open navigation',
+    'Open navigation menu',
   );
   await open.click();
   await page.getByRole('button', { name: 'Close navigation' }).click();
@@ -116,6 +116,15 @@ try {
   await page.getByRole('button', { name: 'Close announcement' }).click();
   for (const route of routes) {
     await page.goto(base + route, { waitUntil: 'networkidle' });
+    // Audit the settled view, not a partially transparent entrance frame.
+    if (route === '/') {
+      await page.waitForSelector('[data-motion-state="ready"]');
+      await page.waitForFunction(() =>
+        [...document.querySelectorAll('[data-hero-enter]')].every(
+          (element) => Number(getComputedStyle(element).opacity) === 1,
+        ),
+      );
+    }
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
       .analyze();
@@ -157,7 +166,7 @@ try {
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
     await page.goto(base, { waitUntil: 'networkidle' });
-    for (const img of await page.locator('[data-photo] img').all()) {
+    for (const img of await page.locator('[data-photo] img:visible').all()) {
       await img.scrollIntoViewIfNeeded();
       await img.evaluate((e) => e.decode());
     }
@@ -170,7 +179,7 @@ try {
     }
   }
   const failedPhotoPage = await context.newPage();
-  await failedPhotoPage.route('**/assets/hero-community*', (route) => route.abort());
+  await failedPhotoPage.route('**/assets/campus-community*', (route) => route.abort());
   await failedPhotoPage.goto(base, { waitUntil: 'networkidle' });
   assert.ok(await failedPhotoPage.locator('.hero-photo .photo-fallback').isVisible());
   await failedPhotoPage.close();

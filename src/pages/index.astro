@@ -5,15 +5,15 @@ import Icon from '../components/Icon.astro';
 import EventList from '../components/EventList.astro';
 import PrayerSummary from '../components/PrayerSummary.astro';
 import ResourceGrid from '../components/ResourceGrid.astro';
-import { site } from '../data/site';
 import notices from '../data/announcements.json';
 import { activeNotices } from '../lib/events';
-import HeroCarousel from '../components/HeroCarousel.astro';
+import CommunityDeck from '../components/CommunityDeck.astro';
+import CommunityMarquee from '../components/CommunityMarquee.astro';
 ---
 
 <Layout
   title="Find your community"
-  description="Find your community at UIC. Join the Muslim Students Association for prayer, friendship, learning, events, and campus resources."
+  description="Find your community at UIC. Join the Muslim Student Association for prayer, friendship, learning, events, and campus resources."
 >
   {activeNotices(notices).map((notice) => (
     <aside class="notice">
@@ -22,32 +22,83 @@ import HeroCarousel from '../components/HeroCarousel.astro';
       </div>
     </aside>
   ))}
-  <section class="container hero">
+  <section class="container hero cinema-hero" data-motion-home>
     <div class="hero-copy">
-      <p class="eyebrow">Muslim Students Association · UIC</p>
-      <h1>
-        Find <span class="serif">your community</span> at UIC.
-      </h1>
-      <p class="hero-intro">
-        A space to connect, learn, and grow in faith together. Meet fellow students, join our
-        events, and make MSA part of your time on campus.
+      <p class="eyebrow" data-hero-enter>
+        Muslim Student Association at UIC
       </p>
-      <div class="actions">
-        <a class="button" href="/join/">
-          Join MSA <Icon />
-        </a>
+      <h1>
+        <span class="hero-line">
+          <span data-hero-enter>
+            <span class="hero-glint" data-glint>
+              Your people.
+            </span>
+          </span>
+        </span>
+        <span class="hero-line">
+          <span data-hero-enter>
+            <span class="hero-glint" data-glint>
+              Your place.
+            </span>
+          </span>
+        </span>
+      </h1>
+      <p class="hero-intro" data-hero-enter>
+        Rooted in faith. Connected for life.
+        <br />
+        Find your community at UIC.
+      </p>
+      <div class="actions" data-hero-enter>
+        <span class="magnetic-wrap" data-magnetic>
+          <a class="button" href="/join/">
+            Join MSA <Icon />
+          </a>
+        </span>
         <a class="button secondary" href="/events/">
           Explore events
         </a>
       </div>
-      <p class="welcome-note">
+    </div>
+    <div class="cinema-stage" data-hero-stage>
+      {/* Separate wrappers keep entrance and scroll transforms independent. */}
+      <div data-hero-enter>
+        <div class="cinema-frame" data-cinema>
+          <Photo
+            name="campus-community"
+            alt="Students gathered for prayer with the Chicago skyline behind them"
+            eager
+            class="hero-photo"
+          />
+          <div class="cinema-caption">
+            <span>Faith. Friendship. Chicago.</span>
+            <a href="/community/">
+              Meet our community <Icon />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="belonging section container" aria-labelledby="belonging-title">
+    <p class="eyebrow">More than a student organization</p>
+    <h2 id="belonging-title">
+      A big campus.
+      <br />A closer community.
+    </h2>
+    <p class="belonging-copy">
+      Between the lectures and the late nights, find people who make UIC feel like home. A shared
+      meal. A moment of prayer. A friendship that stays with you.
+    </p>
+    <div class="belonging-links">
+      <a href="/about/">
+        Get to know MSA <Icon />
+      </a>
+      <span>
         Your first semester or your final year.
         <br />
         There’s a place for you here.
-      </p>
+      </span>
     </div>
-    <HeroCarousel
-    />
   </section>
   <section class="section upcoming-section">
     <div class="container">
@@ -78,30 +129,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
       Time to pause, people to meet, and a community to come back to. This is what belonging can
       look like.
     </p>
-    <div class="community-mosaic">
-      <Photo
-        name="campus-community"
-        alt="Students gathered for prayer on a lawn with the Chicago skyline behind them"
-        caption="Making space for faith on campus."
-      />
-      <div class="mosaic-stack">
-        <Photo
-          name="group-audience"
-          alt="Members of the MSA community together at a gathering"
-          caption="A community built by showing up for each other."
-        />
-        <div class="community-note">
-          <p>
-            Connected on campus.
-            <br />
-            Connected beyond it.
-          </p>
-          <a href={site.socials[0].url}>
-            <strong>{site.instagramFollowers}</strong> followers on Instagram <Icon />
-          </a>
-        </div>
-      </div>
-    </div>
+    <CommunityDeck />
   </section>
   <section class="first-step section">
     <div class="container split">
@@ -120,29 +148,31 @@ import HeroCarousel from '../components/HeroCarousel.astro';
           How to join <Icon />
         </a>
       </div>
-      <ol class="steps">
-        <li>
-          <span>1</span>
-          <div>
-            <h3>Become a member.</h3>
-            <p>Register through UIC CampusGroups.</p>
-          </div>
-        </li>
-        <li>
-          <span>2</span>
-          <div>
-            <h3>Connect with the community.</h3>
-            <p>Complete the group-access form and follow our announcements.</p>
-          </div>
-        </li>
-        <li>
-          <span>3</span>
-          <div>
-            <h3>Come to an event.</h3>
-            <p>Find a gathering that interests you. Bring a friend, or meet one here.</p>
-          </div>
-        </li>
-      </ol>
+      <div class="join-journey">
+        <ol class="steps">
+          <li>
+            <span>1</span>
+            <div>
+              <h3>Become a member.</h3>
+              <p>Register through UIC CampusGroups.</p>
+            </div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>
+              <h3>Connect with the community.</h3>
+              <p>Complete the group-access form and follow our announcements.</p>
+            </div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>
+              <h3>Come to an event.</h3>
+              <p>Find a gathering that interests you. Bring a friend, or meet one here.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
   </section>
   <section class="section container">
@@ -155,8 +185,9 @@ import HeroCarousel from '../components/HeroCarousel.astro';
         All resources <Icon />
       </a>
     </div>
-    <ResourceGrid />
+    <ResourceGrid featured />
   </section>
+  <CommunityMarquee />
   <section class="support-band">
     <div class="container">
       <div>

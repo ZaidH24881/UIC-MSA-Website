@@ -77,18 +77,20 @@ const givingActive = donations.enabled && donations.methods.length > 0;
           Interested in sponsoring a program or supporting a future gathering? We’d love to hear
           from you.
         </p>
-        <a class="text-link" href={`mailto:${site.email}?subject=MSA%20sponsorship%20inquiry`}>
-          Ask about sponsorship <Icon />
-        </a>
-        {givingActive && (
-          <a
-            class="text-link"
-            href="/assets/community-donations.png"
-            data-poster="MSA WhatsApp and donation announcement with Zelle, Venmo, and PayPal recipients"
-          >
-            View the donation announcement <Icon />
+        <div class="donation-links">
+          <a class="text-link" href={`mailto:${site.email}?subject=MSA%20sponsorship%20inquiry`}>
+            <span>Ask about sponsorship</span> <Icon />
           </a>
-        )}
+          {givingActive && (
+            <a
+              class="text-link"
+              href="/assets/community-donations.png"
+              data-poster="MSA WhatsApp and donation announcement with Zelle, Venmo, and PayPal recipients"
+            >
+              <span>View the donation announcement</span> <Icon />
+            </a>
+          )}
+        </div>
       </aside>
     </div>
   </div>

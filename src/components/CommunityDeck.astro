@@ -1,0 +1,68 @@
+---
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+// Replace these existing content records without changing the motion controller.
+const cards = [
+  {
+    photo: 'hero-community',
+    label: 'Shared meals',
+    title: 'Good food. Even better company.',
+    text: 'A shared meal from the MSA photo archive.',
+  },
+  {
+    photo: 'brothers-group',
+    label: 'Friendship',
+    title: 'Familiar faces. New friendships.',
+    text: 'MSA members together at a community gathering.',
+  },
+  {
+    photo: 'sisters-group',
+    label: 'Connection',
+    title: 'A place to show up as yourself.',
+    text: 'Sisters together at an MSA community gathering.',
+  },
+];
+---
+
+<div class="community-deck" data-deck>
+  <div class="community-note" data-community-note>
+    <p>
+      Connected on campus.
+      <br />
+      Connected beyond it.
+    </p>
+    <a href={site.socials[0].url}>
+      <strong>{site.instagramFollowers}</strong> followers on Instagram <Icon />
+    </a>
+  </div>
+  <div class="deck-gallery">
+    <div class="deck-controls" role="group" aria-label="Community moments" hidden>
+      {cards.map((card, i) => (
+        <button type="button" data-deck-select={i} aria-controls={`community-card-${i}`}>
+          {card.label}
+        </button>
+      ))}
+    </div>
+    <div class="deck-stage" data-deck-stage>
+      {cards.map((card, i) => (
+        <article
+          class="deck-card"
+          data-deck-card
+          id={`community-card-${i}`}
+          aria-labelledby={`community-card-title-${i}`}
+        >
+          <div class="deck-content" data-deck-content>
+            {/* Keep custom headers and media inside this measured content wrapper. */}
+            <div>
+              <h3 id={`community-card-title-${i}`}>{card.title}</h3>
+              <p>{card.text}</p>
+            </div>
+            <Photo name={card.photo} alt={card.text} />
+          </div>
+          <span class="deck-dim" data-deck-dim aria-hidden="true"></span>
+        </article>
+      ))}
+    </div>
+  </div>
+</div>

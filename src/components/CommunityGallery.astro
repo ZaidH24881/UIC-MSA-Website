@@ -1,0 +1,46 @@
+---
+import Photo from './Photo.astro';
+const moments = [
+  { name: 'hero-community', label: 'Shared meals', caption: 'Good food. Even better company.' },
+  { name: 'brothers-group', label: 'Friendship', caption: 'Familiar faces. New friendships.' },
+  { name: 'sisters-group', label: 'Connection', caption: 'A place to show up as yourself.' },
+];
+---
+
+<div class="moments-gallery" data-moments aria-label="Community photo gallery">
+  <div class="moments-stage">
+    {moments.map((moment, i) => (
+      <div class="moment" data-moment hidden={i !== 0}>
+        <Photo name={moment.name} alt={moment.caption} />
+        <p class="moment-caption">{moment.caption}</p>
+      </div>
+    ))}
+  </div>
+  <div class="moment-controls" hidden aria-label="Choose a community photo">
+    {moments.map((moment, i) => (
+      <button type="button" data-moment-select={i} aria-pressed={i === 0}>
+        {moment.label}
+      </button>
+    ))}
+  </div>
+  <p class="sr-only" role="status" data-moment-status></p>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-moments]').forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll<HTMLElement>('[data-moment]')];
+    const buttons = [...gallery.querySelectorAll<HTMLButtonElement>('[data-moment-select]')];
+    const controls = gallery.querySelector<HTMLElement>('.moment-controls');
+    const status = gallery.querySelector<HTMLElement>('[data-moment-status]');
+    if (controls) controls.hidden = false;
+    buttons.forEach((button, index) =>
+      button.addEventListener('click', () => {
+        slides.forEach((slide, i) => {
+          slide.hidden = i !== index;
+        });
+        buttons.forEach((control, i) => control.setAttribute('aria-pressed', String(i === index)));
+        if (status)
+          status.textContent = `${buttons[index].textContent}: photo ${index + 1} of ${slides.length}`;
+      }),
+    );
+  });
+</script>

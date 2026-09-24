@@ -1,6 +1,6 @@
 export const site = {
   name: 'MSA at UIC',
-  fullName: 'Muslim Students Association at UIC',
+  fullName: 'Muslim Student Association at UIC',
   email: 'uicmsa@gmail.com',
   timezone: 'America/Chicago',
   memberUrl: 'https://uic.campusgroups.com/msa/club_signup',
