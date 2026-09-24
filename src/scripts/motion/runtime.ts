@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { mountDeck, mountHero, mountJoin } from './sections';
+import { mountDeck, mountHero } from './sections';
 import { mountPointers, mountMarquee } from './details';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -55,7 +55,6 @@ export function mountMotion() {
     ...[...document.querySelectorAll<HTMLElement>('[data-deck]')].map((deck) =>
       mountDeck(deck, scrollTo),
     ),
-    ...[...document.querySelectorAll<HTMLElement>('[data-join-scrubber]')].map(mountJoin),
     mountPointers(),
     ...[...document.querySelectorAll<HTMLElement>('[data-marquee]')].map(mountMarquee),
   ];

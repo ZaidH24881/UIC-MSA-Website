@@ -6,6 +6,15 @@ const desktopMotion =
 export function mountHero(home: HTMLElement) {
   const media = gsap.matchMedia();
   media.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.fromTo(
+      home.querySelectorAll('[data-glint]'),
+      { '--glint': '125%' },
+      {
+        '--glint': '-25%',
+        ease: 'none',
+        scrollTrigger: { trigger: home, start: 'top top+=160', end: 'top top-=280', scrub: 0.35 },
+      },
+    );
     gsap.from(home.querySelectorAll('[data-hero-enter]'), {
       opacity: 0,
       y: 26,
@@ -161,49 +170,5 @@ export function mountDeck(deck: HTMLElement, scrollTo: (top: number) => void) {
     handlers.forEach((remove) => remove());
     media.revert();
     controls.hidden = true;
-  };
-}
-
-export function mountJoin(section: HTMLElement) {
-  const input = section.querySelector<HTMLInputElement>('input[type="range"]')!;
-  const controls = section.querySelector<HTMLElement>('.join-scrub-controls')!;
-  const steps = [...section.querySelectorAll<HTMLElement>('.steps li')];
-  const fill = section.querySelector<HTMLElement>('[data-join-fill]')!;
-  const number = section.querySelector<HTMLElement>('[data-step-number]')!;
-  const query = matchMedia('(prefers-reduced-motion: reduce)');
-  const value = { progress: Number(input.value) };
-  let tween: gsap.core.Tween | undefined;
-  controls.hidden = false;
-  const paint = () => {
-    const step = Math.round(value.progress * (steps.length - 1));
-    fill.style.transform = `translate3d(0,0,0) scaleX(${value.progress})`;
-    number.textContent = String(step + 1);
-    steps.forEach((element, i) => {
-      element.dataset.active = String(i === step);
-    });
-  };
-  const update = () => {
-    const progress = Number(input.value),
-      target = Math.round(progress * (steps.length - 1));
-    input.setAttribute(
-      'aria-valuetext',
-      `Step ${target + 1}: ${steps[target].querySelector('h3')!.textContent}`,
-    );
-    tween?.kill();
-    if (query.matches) {
-      value.progress = progress;
-      paint();
-    } else tween = gsap.to(value, { progress, duration: 0.4, ease: 'power3.out', onUpdate: paint });
-  };
-  paint();
-  input.addEventListener('input', update);
-  query.addEventListener('change', update);
-  return () => {
-    tween?.kill();
-    input.removeEventListener('input', update);
-    query.removeEventListener('change', update);
-    controls.hidden = true;
-    fill.style.transform = '';
-    steps.forEach((step) => delete step.dataset.active);
   };
 }

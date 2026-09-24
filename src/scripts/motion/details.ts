@@ -76,108 +76,31 @@ export function mountPointers() {
   return () => media.revert();
 }
 
+// Scroll-driven movement stops as soon as scrolling settles; no autoplay controls needed.
 export function mountMarquee(element: HTMLElement) {
   const track = element.querySelector<HTMLElement>('[data-marquee-track]')!;
   const group = element.querySelector<HTMLElement>('[data-marquee-group]')!;
-  const button = element.querySelector<HTMLButtonElement>('[data-marquee-pause]')!;
   const media = gsap.matchMedia();
-  let tween: gsap.core.Tween | undefined;
-  let paused = false,
-    hovered = false,
-    focused = false,
-    visible = true;
-  const sync = () => tween?.paused(paused || hovered || focused || !visible || document.hidden);
-  const enter = () => {
-    hovered = true;
-    sync();
-  };
-  const leave = () => {
-    hovered = false;
-    sync();
-  };
-  const focus = () => {
-    focused = true;
-    sync();
-  };
-  const blur = (event: FocusEvent) => {
-    if (!element.contains(event.relatedTarget as Node | null)) {
-      focused = false;
-      sync();
-    }
-  };
-  const click = () => {
-    paused = !paused;
-    button.setAttribute('aria-pressed', String(paused));
-    button.textContent = paused ? 'Resume animation' : 'Pause animation';
-    sync();
-  };
-  const removeClones = () =>
-    track.querySelectorAll('[data-marquee-clone]').forEach((clone) => clone.remove());
   media.add('(prefers-reduced-motion: no-preference)', () => {
-    button.hidden = false;
-    const build = () => {
-      const width = group.getBoundingClientRect().width;
-      if (!width) return;
-      const progress = tween?.progress() ?? 0;
-      tween?.kill();
-      removeClones();
-      const count = Math.ceil(element.clientWidth / width) + 1;
-      for (let i = 0; i < count; i++) {
-        const clone = group.cloneNode(true) as HTMLElement;
-        clone.removeAttribute('data-marquee-group');
-        clone.dataset.marqueeClone = '';
-        clone.inert = true;
-        clone.setAttribute('aria-hidden', 'true');
-        track.append(clone);
-      }
-      tween = gsap
-        .fromTo(
-          track,
-          { x: 0 },
-          {
-            x: -width,
-            duration: width / 36,
-            repeat: -1,
-            ease: 'none',
-            force3D: true,
-            paused: true,
-          },
-        )
-        .progress(progress);
-      sync();
-    };
-    const observer = new ResizeObserver(build);
-    observer.observe(group);
-    observer.observe(element);
-    build();
-    return () => {
-      observer.disconnect();
-      tween?.kill();
-      tween = undefined;
-      removeClones();
-      gsap.set(track, { clearProps: 'transform' });
-      button.hidden = true;
-    };
+    const clone = group.cloneNode(true) as HTMLElement;
+    clone.removeAttribute('data-marquee-group');
+    clone.dataset.marqueeClone = '';
+    clone.inert = true;
+    clone.setAttribute('aria-hidden', 'true');
+    track.append(clone);
+    gsap.to(track, {
+      x: () => -group.getBoundingClientRect().width * 0.6,
+      ease: 'none',
+      force3D: true,
+      scrollTrigger: {
+        trigger: element,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+      },
+    });
+    return () => clone.remove();
   });
-  element.addEventListener('pointerenter', enter);
-  element.addEventListener('pointerleave', leave);
-  element.addEventListener('focusin', focus);
-  element.addEventListener('focusout', blur);
-  button.addEventListener('click', click);
-  document.addEventListener('visibilitychange', sync);
-  const observer = new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    sync();
-  });
-  observer.observe(element);
-  return () => {
-    observer.disconnect();
-    media.revert();
-    element.removeEventListener('pointerenter', enter);
-    element.removeEventListener('pointerleave', leave);
-    element.removeEventListener('focusin', focus);
-    element.removeEventListener('focusout', blur);
-    button.removeEventListener('click', click);
-    document.removeEventListener('visibilitychange', sync);
-  };
+  return () => media.revert();
 }

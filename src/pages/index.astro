@@ -5,7 +5,6 @@ import Icon from '../components/Icon.astro';
 import EventList from '../components/EventList.astro';
 import PrayerSummary from '../components/PrayerSummary.astro';
 import ResourceGrid from '../components/ResourceGrid.astro';
-import { site } from '../data/site';
 import notices from '../data/announcements.json';
 import { activeNotices } from '../lib/events';
 import CommunityDeck from '../components/CommunityDeck.astro';
@@ -14,7 +13,7 @@ import CommunityMarquee from '../components/CommunityMarquee.astro';
 
 <Layout
   title="Find your community"
-  description="Find your community at UIC. Join the Muslim Students Association for prayer, friendship, learning, events, and campus resources."
+  description="Find your community at UIC. Join the Muslim Student Association for prayer, friendship, learning, events, and campus resources."
 >
   {activeNotices(notices).map((notice) => (
     <aside class="notice">
@@ -26,14 +25,22 @@ import CommunityMarquee from '../components/CommunityMarquee.astro';
   <section class="container hero cinema-hero" data-motion-home>
     <div class="hero-copy">
       <p class="eyebrow" data-hero-enter>
-        Muslim Students Association at UIC
+        Muslim Student Association at UIC
       </p>
       <h1>
         <span class="hero-line">
-          <span data-hero-enter>Your people.</span>
+          <span data-hero-enter>
+            <span class="hero-glint" data-glint>
+              Your people.
+            </span>
+          </span>
         </span>
         <span class="hero-line">
-          <span data-hero-enter>Your place.</span>
+          <span data-hero-enter>
+            <span class="hero-glint" data-glint>
+              Your place.
+            </span>
+          </span>
         </span>
       </h1>
       <p class="hero-intro" data-hero-enter>
@@ -123,18 +130,8 @@ import CommunityMarquee from '../components/CommunityMarquee.astro';
       look like.
     </p>
     <CommunityDeck />
-    <div class="community-note">
-      <p>
-        Connected on campus.
-        <br />
-        Connected beyond it.
-      </p>
-      <a href={site.socials[0].url}>
-        <strong>{site.instagramFollowers}</strong> followers on Instagram <Icon />
-      </a>
-    </div>
   </section>
-  <section class="first-step section" data-join-scrubber>
+  <section class="first-step section">
     <div class="container split">
       <div>
         <p class="eyebrow">New here? Assalamu alaikum.</p>
@@ -152,27 +149,7 @@ import CommunityMarquee from '../components/CommunityMarquee.astro';
         </a>
       </div>
       <div class="join-journey">
-        <div class="join-scrub-controls" hidden>
-          <div class="join-scrub-heading">
-            <label for="join-progress">How to join</label>
-            <span aria-hidden="true">
-              Step <strong data-step-number>1</strong> of 3
-            </span>
-          </div>
-          <input
-            id="join-progress"
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value="0"
-            aria-valuetext="Step 1: Become a member."
-          />
-          <div class="join-track" aria-hidden="true">
-            <span data-join-fill></span>
-          </div>
-        </div>
-        <ol class="steps" data-join-steps>
+        <ol class="steps">
           <li>
             <span>1</span>
             <div>
