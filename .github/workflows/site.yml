@@ -25,7 +25,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
       - run: pnpm test
       - run: node tests/states.mjs
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright install --with-deps chromium webkit
       - name: Browser and redirect checks
         run: |
           node scripts/serve.mjs &
@@ -33,6 +33,7 @@ jobs:
           node tests/browser.mjs
           node tests/design.mjs
           node tests/layout.mjs
+          node tests/mobile.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: msa-website

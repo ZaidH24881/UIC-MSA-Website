@@ -192,7 +192,16 @@ export function mountDeck(deck: HTMLElement, scrollTo: (top: number) => void) {
       if (trigger) {
         scrollTo(trigger.start + (i / (cards.length - 1 + 0.3)) * (trigger.end - trigger.start));
         trigger.getTween()?.progress(1);
-      } else scrollTo(cards[i].getBoundingClientRect().top + scrollY - 96);
+      } else {
+        // On phones the connection statement stays above the photos. Account for
+        // its real wrapped height so a selected photo is never hidden behind it.
+        const note = deck.querySelector<HTMLElement>('[data-community-note]');
+        const stickyHeight =
+          note && getComputedStyle(note).position === 'sticky' ? note.offsetHeight : 0;
+        const headerHeight =
+          document.querySelector<HTMLElement>('.site-header')?.offsetHeight ?? 76;
+        scrollTo(cards[i].getBoundingClientRect().top + scrollY - headerHeight - stickyHeight - 24);
+      }
     };
     button.addEventListener('click', click);
     return () => button.removeEventListener('click', click);

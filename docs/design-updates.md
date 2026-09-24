@@ -27,3 +27,9 @@ Physical-device Safari and screen-reader application checks remain separate from
 The labeled Menu button stays visible across screen sizes. Its destinations begin Prayer, Join MSA, Resources, followed by the unchanged relative order of the other links. The donation sidebar uses a shared arrow column so wrapped announcement text stays aligned with sponsorship. The prayer heading includes explicit spacing when its responsive line break is hidden.
 
 The hero uses a wider blue glint and a stronger photo expansion. Event cards and prayer panels settle into place as they enter the viewport; resource illustration scenes move independently of their hover effects. These additions are scrubbed by scroll position and removed when reduced motion is enabled. Tests verify menu ordering, heading spacing, donation-arrow alignment, and animation cleanup alongside the existing responsive checks.
+
+## Mobile verification
+
+`pnpm test:mobile` exercises touch-enabled Chromium and WebKit at 320×568, 390×844, 430×932, 844×390, 820×1180, and 1180×820. Coverage includes native scrolling without Lenis or pinned cards on touch devices, a long menu and rotation while open, photo selection below the sticky statement, resource navigation, donation dialogs, reduced motion, and overflow on key routes. Screenshots and a JSON report are written under `test-results`. These are emulated devices, not physical iOS or Android hardware.
+
+Photo controls measure the mobile header and sticky statement before scrolling to a selected card. Short landscape screens use a normal-flow statement, and the menu close control remains visible as its links scroll. CI installs Chromium and WebKit and runs the mobile suite alongside the existing route, accessibility, and layout checks.

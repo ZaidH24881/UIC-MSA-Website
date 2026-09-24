@@ -428,6 +428,17 @@ h2 {
 .header-actions .menu-open:hover {
   background: var(--navy-hover);
 }
+.menu-dialog {
+  overscroll-behavior: contain;
+  padding-bottom: max(22px, env(safe-area-inset-bottom));
+}
+.menu-dialog .menu-top {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding-block: 8px;
+  background: var(--paper);
+}
 .header-actions .menu-open svg {
   width: 21px;
   height: 21px;
