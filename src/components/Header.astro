@@ -3,8 +3,10 @@ import { navigation } from '../data/site';
 import Icon from './Icon.astro';
 const active = (url: string) => Astro.url.pathname.startsWith(url);
 const menu = [
+  { label: 'Prayer', url: '/prayer/' },
   { label: 'Join MSA', url: '/join/' },
-  ...navigation,
+  { label: 'Resources', url: '/resources/' },
+  ...navigation.filter((item) => !['/prayer/', '/resources/'].includes(item.url)),
   { label: 'Get involved', url: '/get-involved/' },
   { label: 'Ramadan', url: '/ramadan/' },
   { label: 'Donate', url: '/donate/' },
@@ -39,12 +41,13 @@ const menu = [
       </a>
       <button
         class="icon-button menu-open"
-        aria-label="Open navigation"
+        aria-label="Open navigation menu"
         aria-controls="mobile-menu"
         aria-expanded="false"
         hidden
       >
         <Icon name="menu" />
+        <span>Menu</span>
       </button>
     </div>
   </div>

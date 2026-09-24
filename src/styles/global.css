@@ -1256,7 +1256,6 @@ main:focus {
     font-size: 0.9375rem;
     text-decoration: none;
   }
-  .menu-open,
   .mobile-utility {
     display: none !important;
   }

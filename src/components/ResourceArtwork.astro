@@ -8,111 +8,117 @@ const { index } = Astro.props;
 <!-- Decorative illustrations describe each destination; the link text supplies its accessible name. -->
 <div class={`resource-art resource-art-${index}`} aria-hidden="true">
   <svg viewBox="0 0 320 200" fill="none" class="resource-drawing">
-    {index === 0 && (
-      <>
-        <path d="M70 196V94a90 90 0 0 1 180 0v102" fill="#34648d" />
-        <path d="M88 196V96a72 72 0 0 1 144 0v100" stroke="#acc9df" stroke-width="2" />
-        <circle cx="160" cy="102" r="28" fill="#f1cc8b" />
-        <path d="M99 145h122M93 158h134M86 173h148M78 190h164" stroke="#adc6db" stroke-width="2" />
-        <path d="M38 65h16m-8-8v16M269 104h14m-7-7v14" stroke="#e7f0f8" stroke-width="2" />
-      </>
-    )}
-    {index === 1 && (
-      <>
-        <g transform="translate(90 25) rotate(-12 65 75)">
-          <rect width="134" height="158" rx="12" fill="#254c76" />
-          <path d="M18 0v158" stroke="#86a5c4" stroke-width="2" />
-          <rect x="39" y="30" width="72" height="5" rx="2" fill="#c8d9e9" />
-          <rect x="39" y="43" width="49" height="5" rx="2" fill="#87a7c6" />
-        </g>
-        <g transform="translate(148 52) rotate(12 55 60)">
-          <rect width="107" height="132" rx="10" fill="#fff" stroke="#b9c6d4" />
-          <path d="M22 32h63M22 48h63M22 64h45M22 98h32" stroke="#b9c6d4" stroke-width="3" />
-          <path d="m51 88 10 10 23-25" stroke="#417c69" stroke-width="4" />
-        </g>
-        <path d="m65 145 16-78 7 2-16 78-7 9Z" fill="#c28f45" />
-      </>
-    )}
-    {index === 2 && (
-      <>
-        <path
-          d="M-10 155h80q25 0 25-25V80q0-25 25-25h45q25 0 25 25v30q0 25 25 25h120"
-          stroke="#9ab4d0"
-          stroke-width="16"
-        />
-        <path
-          d="M-10 155h80q25 0 25-25V80q0-25 25-25h45q25 0 25 25v30q0 25 25 25h120"
-          stroke="#254c76"
-          stroke-width="6"
-        />
-        {[55, 145, 252].map((x, i) => (
-          <circle
-            cx={x}
-            cy={[155, 55, 135][i]}
-            r="10"
-            fill="white"
+    <g data-resource-scene>
+      {index === 0 && (
+        <>
+          <path d="M70 196V94a90 90 0 0 1 180 0v102" fill="#34648d" />
+          <path d="M88 196V96a72 72 0 0 1 144 0v100" stroke="#acc9df" stroke-width="2" />
+          <circle cx="160" cy="102" r="28" fill="#f1cc8b" />
+          <path
+            d="M99 145h122M93 158h134M86 173h148M78 190h164"
+            stroke="#adc6db"
+            stroke-width="2"
+          />
+          <path d="M38 65h16m-8-8v16M269 104h14m-7-7v14" stroke="#e7f0f8" stroke-width="2" />
+        </>
+      )}
+      {index === 1 && (
+        <>
+          <g transform="translate(90 25) rotate(-12 65 75)">
+            <rect width="134" height="158" rx="12" fill="#254c76" />
+            <path d="M18 0v158" stroke="#86a5c4" stroke-width="2" />
+            <rect x="39" y="30" width="72" height="5" rx="2" fill="#c8d9e9" />
+            <rect x="39" y="43" width="49" height="5" rx="2" fill="#87a7c6" />
+          </g>
+          <g transform="translate(148 52) rotate(12 55 60)">
+            <rect width="107" height="132" rx="10" fill="#fff" stroke="#b9c6d4" />
+            <path d="M22 32h63M22 48h63M22 64h45M22 98h32" stroke="#b9c6d4" stroke-width="3" />
+            <path d="m51 88 10 10 23-25" stroke="#417c69" stroke-width="4" />
+          </g>
+          <path d="m65 145 16-78 7 2-16 78-7 9Z" fill="#c28f45" />
+        </>
+      )}
+      {index === 2 && (
+        <>
+          <path
+            d="M-10 155h80q25 0 25-25V80q0-25 25-25h45q25 0 25 25v30q0 25 25 25h120"
+            stroke="#9ab4d0"
+            stroke-width="16"
+          />
+          <path
+            d="M-10 155h80q25 0 25-25V80q0-25 25-25h45q25 0 25 25v30q0 25 25 25h120"
             stroke="#254c76"
-            stroke-width="5"
+            stroke-width="6"
           />
-        ))}
-        <g class="transit-marker">
-          <path d="M176 79c-19-27-26-34-26-48a26 26 0 1 1 52 0c0 14-7 21-26 48Z" fill="#254c76" />
-          <circle cx="176" cy="30" r="9" fill="#fff" />
-        </g>
-      </>
-    )}
-    {index === 3 && (
-      <>
-        <ellipse cx="162" cy="160" rx="95" ry="17" fill="#d8c3a0" opacity=".5" />
-        <circle cx="160" cy="101" r="72" fill="#fffaf0" stroke="#d7bf94" stroke-width="3" />
-        <circle cx="160" cy="101" r="53" stroke="#d7bf94" stroke-width="2" />
-        <path
-          d="M146 119c-31-9-27-40-27-40 32-5 40 21 40 21 8-28 39-34 39-34 8 39-16 66-52 53Z"
-          fill="#728b60"
-        />
-        <path d="m145 129 33-35" stroke="#fffaf0" stroke-width="3" />
-        <path
-          d="M61 50v47m-9-47v28q0 12 9 12t9-12V50M61 90v68M258 51q-19 30-9 48h9v59V51Z"
-          stroke="#8e7046"
-          stroke-width="4"
-          stroke-linecap="round"
-        />
-      </>
-    )}
-    {index === 4 && (
-      <>
-        {Array.from({ length: 17 }, (_, i) => (
-          <rect
-            class="sound-bar"
-            x={27 + i * 16}
-            y={100 - [13, 22, 38, 55, 35, 64, 44, 27, 69, 41, 58, 29, 46, 62, 33, 20, 12][i]}
-            width="7"
-            height={2 * [13, 22, 38, 55, 35, 64, 44, 27, 69, 41, 58, 29, 46, 62, 33, 20, 12][i]}
-            rx="3.5"
-            fill="currentColor"
-            style={`--bar-delay:${i * 18}ms`}
+          {[55, 145, 252].map((x, i) => (
+            <circle
+              cx={x}
+              cy={[155, 55, 135][i]}
+              r="10"
+              fill="white"
+              stroke="#254c76"
+              stroke-width="5"
+            />
+          ))}
+          <g class="transit-marker">
+            <path d="M176 79c-19-27-26-34-26-48a26 26 0 1 1 52 0c0 14-7 21-26 48Z" fill="#254c76" />
+            <circle cx="176" cy="30" r="9" fill="#fff" />
+          </g>
+        </>
+      )}
+      {index === 3 && (
+        <>
+          <ellipse cx="162" cy="160" rx="95" ry="17" fill="#d8c3a0" opacity=".5" />
+          <circle cx="160" cy="101" r="72" fill="#fffaf0" stroke="#d7bf94" stroke-width="3" />
+          <circle cx="160" cy="101" r="53" stroke="#d7bf94" stroke-width="2" />
+          <path
+            d="M146 119c-31-9-27-40-27-40 32-5 40 21 40 21 8-28 39-34 39-34 8 39-16 66-52 53Z"
+            fill="#728b60"
           />
-        ))}
-        <circle cx="160" cy="100" r="31" fill="#fff" />
-        <path d="m154 85 21 15-21 15Z" fill="#254c76" />
-      </>
-    )}
-    {index === 5 && (
-      <>
-        <path d="M40 164h240" stroke="#9dabb8" stroke-width="6" stroke-linecap="round" />
-        <rect x="65" y="46" width="36" height="114" rx="5" fill="#254c76" />
-        <rect x="105" y="31" width="39" height="129" rx="5" fill="#88a5bb" />
-        <rect x="148" y="63" width="30" height="97" rx="5" fill="#b89561" />
-        <g transform="rotate(-15 218 160)">
-          <rect x="193" y="42" width="38" height="118" rx="5" fill="#4d726b" />
-          <path d="M201 62h22M201 137h22" stroke="#e4eeeb" stroke-width="3" />
-        </g>
-        <path
-          d="M72 63h22M72 142h22M112 51h25M112 140h25M155 78h16"
-          stroke="#eef3f7"
-          stroke-width="3"
-        />
-      </>
-    )}
+          <path d="m145 129 33-35" stroke="#fffaf0" stroke-width="3" />
+          <path
+            d="M61 50v47m-9-47v28q0 12 9 12t9-12V50M61 90v68M258 51q-19 30-9 48h9v59V51Z"
+            stroke="#8e7046"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+        </>
+      )}
+      {index === 4 && (
+        <>
+          {Array.from({ length: 17 }, (_, i) => (
+            <rect
+              class="sound-bar"
+              x={27 + i * 16}
+              y={100 - [13, 22, 38, 55, 35, 64, 44, 27, 69, 41, 58, 29, 46, 62, 33, 20, 12][i]}
+              width="7"
+              height={2 * [13, 22, 38, 55, 35, 64, 44, 27, 69, 41, 58, 29, 46, 62, 33, 20, 12][i]}
+              rx="3.5"
+              fill="currentColor"
+              style={`--bar-delay:${i * 18}ms`}
+            />
+          ))}
+          <circle cx="160" cy="100" r="31" fill="#fff" />
+          <path d="m154 85 21 15-21 15Z" fill="#254c76" />
+        </>
+      )}
+      {index === 5 && (
+        <>
+          <path d="M40 164h240" stroke="#9dabb8" stroke-width="6" stroke-linecap="round" />
+          <rect x="65" y="46" width="36" height="114" rx="5" fill="#254c76" />
+          <rect x="105" y="31" width="39" height="129" rx="5" fill="#88a5bb" />
+          <rect x="148" y="63" width="30" height="97" rx="5" fill="#b89561" />
+          <g transform="rotate(-15 218 160)">
+            <rect x="193" y="42" width="38" height="118" rx="5" fill="#4d726b" />
+            <path d="M201 62h22M201 137h22" stroke="#e4eeeb" stroke-width="3" />
+          </g>
+          <path
+            d="M72 63h22M72 142h22M112 51h25M112 140h25M155 78h16"
+            stroke="#eef3f7"
+            stroke-width="3"
+          />
+        </>
+      )}
+    </g>
   </svg>
 </div>

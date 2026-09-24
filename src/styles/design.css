@@ -281,7 +281,9 @@ h2 {
 .site-footer {
   background: #172c46;
 }
-.calendar-day.is-outside { color: #596575; }
+.calendar-day.is-outside {
+  color: #596575;
+}
 .menu-dialog[open] {
   animation: menu-enter 0.3s ease-out;
 }
@@ -405,5 +407,69 @@ h2 {
   }
   .button:hover {
     transform: none;
+  }
+}
+
+/* A labeled, high-contrast entry point stays recognizable beside the join action. */
+.header-actions .menu-open {
+  display: inline-flex;
+  width: auto;
+  min-width: 96px;
+  gap: 9px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--navy);
+  border-color: var(--navy);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.header-actions .menu-open:hover {
+  background: var(--navy-hover);
+}
+.header-actions .menu-open svg {
+  width: 21px;
+  height: 21px;
+}
+.header-actions .button.small {
+  background: transparent;
+  border-color: #9caabd;
+  color: var(--navy);
+}
+.donation-links {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+.donation-links .text-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20px;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+  padding-block: 8px;
+}
+.donation-links .text-link svg {
+  width: 20px;
+  height: 20px;
+  justify-self: end;
+}
+@media (max-width: 600px) {
+  .header-actions {
+    gap: 7px;
+  }
+  .header-actions .menu-open {
+    min-width: 84px;
+    padding-inline: 12px;
+    gap: 7px;
+  }
+  .header-actions .button.small {
+    padding-inline: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .header-actions .button.small {
+    display: none;
   }
 }

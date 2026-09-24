@@ -21,3 +21,9 @@ Reduced motion is honored live: inertia, pinning, pointer effects, and marquee m
 Run `pnpm build`, `pnpm test`, and start `pnpm preview`. Then run `pnpm test:browser`, `node tests/design.mjs`, `node tests/layout.mjs`, and `node tests/states.mjs`. Motion checks cover pinning, keyboard card selection, scaling, headline glint, persistent community text, resource illustrations, marquee settling, live reduced-motion changes, mobile overflow, lifecycle cleanup, and no-JavaScript fallback. Site-wide checks cover routes, links, keyboard dialogs, accessibility, responsive layouts, and content states.
 
 Physical-device Safari and screen-reader application checks remain separate from the automated Chromium checks. This branch does not change event records, payment destinations, membership destinations, or production deployment settings.
+
+## Navigation and scroll refinements
+
+The labeled Menu button stays visible across screen sizes. Its destinations begin Prayer, Join MSA, Resources, followed by the unchanged relative order of the other links. The donation sidebar uses a shared arrow column so wrapped announcement text stays aligned with sponsorship. The prayer heading includes explicit spacing when its responsive line break is hidden.
+
+The hero uses a wider blue glint and a stronger photo expansion. Event cards and prayer panels settle into place as they enter the viewport; resource illustration scenes move independently of their hover effects. These additions are scrubbed by scroll position and removed when reduced motion is enabled. Tests verify menu ordering, heading spacing, donation-arrow alignment, and animation cleanup alongside the existing responsive checks.

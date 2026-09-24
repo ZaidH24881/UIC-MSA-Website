@@ -30,10 +30,11 @@ export function mountHero(home: HTMLElement) {
     const depth = home.querySelector<HTMLElement>('[data-cinema]')!;
     gsap.fromTo(
       depth,
-      { scale: 0.97, y: 0 },
+      { scale: 0.93, y: 0, borderRadius: 32 },
       {
-        scale: 1.025,
-        y: -24,
+        scale: 1.035,
+        y: -40,
+        borderRadius: 12,
         ease: 'none',
         force3D: true,
         scrollTrigger: {
@@ -55,6 +56,54 @@ export function mountHero(home: HTMLElement) {
       depth.style.willChange = '';
     };
   });
+  return () => media.revert();
+}
+
+// Independent transform layers keep scrolling separate from links and illustration hover effects.
+export function mountPageFlow() {
+  const media = gsap.matchMedia();
+  media.add(
+    { wide: '(min-width: 768px)', motion: '(prefers-reduced-motion: no-preference)' },
+    (context) => {
+      if (!context.conditions?.motion) return;
+      const compact = !context.conditions.wide;
+      gsap.utils
+        .toArray<HTMLElement>('.upcoming-section .event-card, .prayer-panel')
+        .forEach((card, index) => {
+          gsap.fromTo(
+            card,
+            { y: compact ? 20 : 56, rotation: compact ? 0 : index % 2 ? 1 : -1, scale: 0.97 },
+            {
+              y: 0,
+              rotation: 0,
+              scale: 1,
+              ease: 'none',
+              force3D: true,
+              scrollTrigger: { trigger: card, start: 'top 96%', end: 'top 62%', scrub: 0.45 },
+            },
+          );
+        });
+      gsap.utils.toArray<HTMLElement>('.resource-art').forEach((art, index) => {
+        const scene = art.querySelector('[data-resource-scene]')!;
+        // Move the inner scene: its outer SVG retains the existing hover response.
+        gsap.fromTo(
+          scene,
+          { y: compact ? 12 : 28 },
+          {
+            y: compact ? -6 : -14,
+            ease: 'none',
+            force3D: true,
+            scrollTrigger: {
+              trigger: art,
+              start: 'top bottom',
+              end: 'bottom 15%',
+              scrub: 0.6 + index * 0.04,
+            },
+          },
+        );
+      });
+    },
+  );
   return () => media.revert();
 }
 

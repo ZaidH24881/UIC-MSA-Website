@@ -55,7 +55,7 @@ try {
   await page.goto(base);
   const heroTop = await page.locator('.hero-photo').evaluate((e) => e.getBoundingClientRect().top);
   assert.ok(heroTop < 844, 'hero photo starts in mobile first viewport');
-  const open = page.getByRole('button', { name: 'Open navigation' });
+  const open = page.getByRole('button', { name: 'Open navigation menu' });
   await open.click();
   assert.equal(await page.locator('#mobile-menu').evaluate((e) => e.open), true);
   assert.equal(await open.getAttribute('aria-expanded'), 'true');
@@ -68,12 +68,12 @@ try {
   }
   await page.keyboard.press('Escape');
   await page.waitForFunction(
-    () => document.activeElement?.getAttribute('aria-label') === 'Open navigation',
+    () => document.activeElement?.getAttribute('aria-label') === 'Open navigation menu',
   );
   assert.equal(await page.locator('#mobile-menu').evaluate((e) => e.open), false);
   assert.equal(
     await page.evaluate(() => document.activeElement.getAttribute('aria-label')),
-    'Open navigation',
+    'Open navigation menu',
   );
   await open.click();
   await page.getByRole('button', { name: 'Close navigation' }).click();

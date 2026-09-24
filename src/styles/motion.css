@@ -286,14 +286,15 @@
     background: linear-gradient(
       110deg,
       #172231 0%,
-      #172231 40%,
-      #365f8d 46%,
-      #6683a2 50%,
-      #365f8d 54%,
-      #172231 60%,
+      #172231 27%,
+      #075ec5 39%,
+      #3687b3 48%,
+      #4384a6 52%,
+      #075ec5 62%,
+      #172231 74%,
       #172231 100%
     );
-    background-size: 280% 100%;
+    background-size: 220% 100%;
     background-position: var(--glint, 125%) 50%;
     background-clip: text;
     -webkit-text-fill-color: transparent;

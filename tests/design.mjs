@@ -10,6 +10,26 @@ try {
   await expect(page.locator('[data-motion-state]')).toHaveAttribute('data-motion-state', 'ready');
   await expect(page.locator('.pin-spacer')).toHaveCount(2);
   await expect(page.locator('html')).toHaveClass(/lenis/);
+  await page.getByRole('button', { name: 'Open navigation menu' }).click();
+  assert.deepEqual(
+    (await page.locator('#mobile-menu nav a').allTextContents()).map((text) => text.trim()),
+    [
+      'Prayer',
+      'Join MSA',
+      'Resources',
+      'Events',
+      'Community',
+      'About',
+      'Get involved',
+      'Ramadan',
+      'Donate',
+      'Contact',
+    ],
+  );
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.prayer-layout h2')).toHaveText(
+    /Room for faith\.\s+In your everyday\./,
+  );
   await expect(page.locator('.cinema-hero .eyebrow')).toHaveText(
     'Muslim Student Association at UIC',
   );
@@ -54,6 +74,10 @@ try {
   await expect(page.locator('html')).not.toHaveClass(/lenis/);
   await expect(deck.locator('[inert]')).toHaveCount(0);
   await expect(page.locator('[data-marquee-clone]')).toHaveCount(0);
+  await expect(page.locator('[data-resource-scene]').first()).not.toHaveAttribute(
+    'style',
+    /transform/,
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -71,6 +95,17 @@ try {
   await expect(noJS.locator('[data-deck-card]')).toHaveCount(3);
   await expect(noJS.locator('.deck-controls')).toBeHidden();
   await expect(noJS.locator('.join-scrub-controls')).toBeHidden();
+  for (const width of [390, 1100, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto(base + '/donate/');
+    const arrows = await page
+      .locator('.donation-links svg')
+      .evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().x));
+    assert.equal(arrows.length, 2);
+    assert.ok(Math.abs(arrows[0] - arrows[1]) < 1, 'donation-link arrows share a column');
+    await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeVisible();
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  }
   assert.deepEqual(errors, []);
   console.log(
     'Passed: desktop pinning, keyboard deck controls, scaling, headline glint, persistent community statement, illustrated resources, scroll-linked marquee, reduced motion, mobile overflow, lifecycle cleanup and no-JavaScript fallback.',
