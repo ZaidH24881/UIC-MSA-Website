@@ -8,7 +8,8 @@ import ResourceGrid from '../components/ResourceGrid.astro';
 import { site } from '../data/site';
 import notices from '../data/announcements.json';
 import { activeNotices } from '../lib/events';
-import CommunityGallery from '../components/CommunityGallery.astro';
+import CommunityDeck from '../components/CommunityDeck.astro';
+import CommunityMarquee from '../components/CommunityMarquee.astro';
 ---
 
 <Layout
@@ -22,40 +23,52 @@ import CommunityGallery from '../components/CommunityGallery.astro';
       </div>
     </aside>
   ))}
-  <section class="container hero cinema-hero">
+  <section class="container hero cinema-hero" data-motion-home>
     <div class="hero-copy">
-      <p class="eyebrow">Muslim Students Association at UIC</p>
+      <p class="eyebrow" data-hero-enter>
+        Muslim Students Association at UIC
+      </p>
       <h1>
-        Your people.
-        <br />
-        Your place.
+        <span class="hero-line">
+          <span data-hero-enter>Your people.</span>
+        </span>
+        <span class="hero-line">
+          <span data-hero-enter>Your place.</span>
+        </span>
       </h1>
-      <p class="hero-intro">
+      <p class="hero-intro" data-hero-enter>
         Rooted in faith. Connected for life.
         <br />
         Find your community at UIC.
       </p>
-      <div class="actions">
-        <a class="button" href="/join/">
-          Join MSA <Icon />
-        </a>
+      <div class="actions" data-hero-enter>
+        <span class="magnetic-wrap" data-magnetic>
+          <a class="button" href="/join/">
+            Join MSA <Icon />
+          </a>
+        </span>
         <a class="button secondary" href="/events/">
           Explore events
         </a>
       </div>
     </div>
-    <div class="cinema-frame" data-cinema>
-      <Photo
-        name="campus-community"
-        alt="Students gathered for prayer with the Chicago skyline behind them"
-        eager
-        class="hero-photo"
-      />
-      <div class="cinema-caption">
-        <span>Faith. Friendship. Chicago.</span>
-        <a href="/community/">
-          Meet our community <Icon />
-        </a>
+    <div class="cinema-stage" data-hero-stage>
+      {/* Separate wrappers keep entrance and scroll transforms independent. */}
+      <div data-hero-enter>
+        <div class="cinema-frame" data-cinema>
+          <Photo
+            name="campus-community"
+            alt="Students gathered for prayer with the Chicago skyline behind them"
+            eager
+            class="hero-photo"
+          />
+          <div class="cinema-caption">
+            <span>Faith. Friendship. Chicago.</span>
+            <a href="/community/">
+              Meet our community <Icon />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -109,28 +122,19 @@ import CommunityGallery from '../components/CommunityGallery.astro';
       Time to pause, people to meet, and a community to come back to. This is what belonging can
       look like.
     </p>
-    <div class="community-mosaic">
-      <CommunityGallery />
-      <div class="mosaic-stack">
-        <Photo
-          name="group-audience"
-          alt="Members of the MSA community together at a gathering"
-          caption="A community built by showing up for each other."
-        />
-        <div class="community-note">
-          <p>
-            Connected on campus.
-            <br />
-            Connected beyond it.
-          </p>
-          <a href={site.socials[0].url}>
-            <strong>{site.instagramFollowers}</strong> followers on Instagram <Icon />
-          </a>
-        </div>
-      </div>
+    <CommunityDeck />
+    <div class="community-note">
+      <p>
+        Connected on campus.
+        <br />
+        Connected beyond it.
+      </p>
+      <a href={site.socials[0].url}>
+        <strong>{site.instagramFollowers}</strong> followers on Instagram <Icon />
+      </a>
     </div>
   </section>
-  <section class="first-step section">
+  <section class="first-step section" data-join-scrubber>
     <div class="container split">
       <div>
         <p class="eyebrow">New here? Assalamu alaikum.</p>
@@ -147,29 +151,51 @@ import CommunityGallery from '../components/CommunityGallery.astro';
           How to join <Icon />
         </a>
       </div>
-      <ol class="steps">
-        <li>
-          <span>1</span>
-          <div>
-            <h3>Become a member.</h3>
-            <p>Register through UIC CampusGroups.</p>
+      <div class="join-journey">
+        <div class="join-scrub-controls" hidden>
+          <div class="join-scrub-heading">
+            <label for="join-progress">How to join</label>
+            <span aria-hidden="true">
+              Step <strong data-step-number>1</strong> of 3
+            </span>
           </div>
-        </li>
-        <li>
-          <span>2</span>
-          <div>
-            <h3>Connect with the community.</h3>
-            <p>Complete the group-access form and follow our announcements.</p>
+          <input
+            id="join-progress"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0"
+            aria-valuetext="Step 1: Become a member."
+          />
+          <div class="join-track" aria-hidden="true">
+            <span data-join-fill></span>
           </div>
-        </li>
-        <li>
-          <span>3</span>
-          <div>
-            <h3>Come to an event.</h3>
-            <p>Find a gathering that interests you. Bring a friend, or meet one here.</p>
-          </div>
-        </li>
-      </ol>
+        </div>
+        <ol class="steps" data-join-steps>
+          <li>
+            <span>1</span>
+            <div>
+              <h3>Become a member.</h3>
+              <p>Register through UIC CampusGroups.</p>
+            </div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>
+              <h3>Connect with the community.</h3>
+              <p>Complete the group-access form and follow our announcements.</p>
+            </div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>
+              <h3>Come to an event.</h3>
+              <p>Find a gathering that interests you. Bring a friend, or meet one here.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
   </section>
   <section class="section container">
@@ -182,8 +208,9 @@ import CommunityGallery from '../components/CommunityGallery.astro';
         All resources <Icon />
       </a>
     </div>
-    <ResourceGrid />
+    <ResourceGrid featured />
   </section>
+  <CommunityMarquee />
   <section class="support-band">
     <div class="container">
       <div>

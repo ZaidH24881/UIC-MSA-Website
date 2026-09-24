@@ -116,6 +116,15 @@ try {
   await page.getByRole('button', { name: 'Close announcement' }).click();
   for (const route of routes) {
     await page.goto(base + route, { waitUntil: 'networkidle' });
+    // Audit the settled view, not a partially transparent entrance frame.
+    if (route === '/') {
+      await page.waitForSelector('[data-motion-state="ready"]');
+      await page.waitForFunction(() =>
+        [...document.querySelectorAll('[data-hero-enter]')].every(
+          (element) => Number(getComputedStyle(element).opacity) === 1,
+        ),
+      );
+    }
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
       .analyze();

@@ -1,11 +1,15 @@
 ---
 import { resourceLinks } from '../data/site';
 import Icon from './Icon.astro';
+interface Props {
+  featured?: boolean;
+}
+const { featured = false } = Astro.props;
 ---
 
-<div class="resource-grid">
+<div class:list={['resource-grid', { 'resource-bento': featured }]}>
   {resourceLinks.map((item) => (
-    <a class="resource-link" href={item.url}>
+    <a class="resource-link" href={item.url} data-glow={featured ? '' : undefined}>
       <span class="resource-icon">
         <Icon name={item.icon} />
       </span>
@@ -14,6 +18,7 @@ import Icon from './Icon.astro';
         <p>{item.description}</p>
       </div>
       <Icon />
+      {featured && <span class="glow-border" aria-hidden="true"></span>}
     </a>
   ))}
 </div>
