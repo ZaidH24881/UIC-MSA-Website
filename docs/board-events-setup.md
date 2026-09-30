@@ -1,6 +1,6 @@
 # Board event editing (Firebase)
 
-Board members add, edit, and see new events immediately at `/events/` — no
+Board members add, edit, delete, and see new events immediately at `/events/` — no
 GitHub account, JSON editing, or separate admin page required. There's a
 small "Board sign-in" button near the bottom of that page; signing in with
 the shared board Google account reveals an "Add an event" form, including a

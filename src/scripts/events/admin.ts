@@ -5,7 +5,7 @@ import {
   signOut,
   type User,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore/lite';
+import { deleteDoc, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore/lite';
 import { auth, db } from '../../lib/firebase-client';
 import { boardEmails } from '../../data/board-access';
 import { chicagoIsoFromLocal, chicagoLocalInputFromIso, shortDateLabel, type EventRecord } from '../../lib/events';
@@ -25,6 +25,7 @@ if (root) {
   const flyerInput = form.querySelector<HTMLInputElement>('[data-events-admin-flyer]')!;
   const flyerPreview = form.querySelector<HTMLImageElement>('[data-events-admin-flyer-preview]')!;
   const submitButton = form.querySelector<HTMLButtonElement>('[data-events-admin-submit]')!;
+  const deleteButton = form.querySelector<HTMLButtonElement>('[data-events-admin-delete]')!;
 
   let slugTouched = false;
   slugInput.addEventListener('input', () => {
@@ -139,6 +140,7 @@ if (root) {
     flyerPreview.removeAttribute('src');
     heading.textContent = 'Add an event';
     submitLabel.textContent = 'Save event';
+    deleteButton.hidden = true;
     existingSelect.value = '';
   }
 
@@ -171,6 +173,7 @@ if (root) {
     }
     heading.textContent = 'Edit event';
     submitLabel.textContent = 'Update event';
+    deleteButton.hidden = false;
     status.textContent = '';
   }
 
@@ -179,6 +182,27 @@ if (root) {
     if (!slug) return resetToNewEvent();
     const event = cachedEvents.find((e) => e.slug === slug);
     if (event) loadEventIntoForm(event);
+  });
+
+  deleteButton.addEventListener('click', async () => {
+    if (!editingEvent) return;
+    const title = editingEvent.title;
+    if (!window.confirm(`Delete "${title}"? This can’t be undone.`)) return;
+    deleteButton.disabled = true;
+    submitButton.disabled = true;
+    status.textContent = 'Deleting…';
+    try {
+      await deleteDoc(doc(db, 'events', editingEvent.slug));
+      resetToNewEvent();
+      await populateExistingSelect();
+      status.textContent = `“${title}” was deleted.`;
+    } catch (error) {
+      status.textContent =
+        error instanceof Error ? error.message : 'Something went wrong deleting the event.';
+    } finally {
+      deleteButton.disabled = false;
+      submitButton.disabled = false;
+    }
   });
 
   form.addEventListener('submit', async (event) => {

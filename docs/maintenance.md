@@ -41,7 +41,7 @@ For every content change: edit the record, build, test, inspect its page on a ph
 
 ### Add or change an event
 
-Board members add, edit, and see events immediately at **`/events/`** — sign
+Board members add, edit, delete, and see events immediately at **`/events/`** — sign
 in with the shared board Google account via the "Board sign-in" button near
 the bottom of that page. See
 [`docs/board-events-setup.md`](board-events-setup.md) for the one-time
