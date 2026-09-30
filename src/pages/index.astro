@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import HeroCarousel from '../components/HeroCarousel.astro';
+import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import EventList from '../components/EventList.astro';
 import QuickLinks from '../components/QuickLinks.astro';
@@ -51,11 +51,19 @@ import { activeNotices } from '../lib/events';
     <div class="cinema-stage">
       <div data-hero-enter>
         <div class="cinema-frame">
-          <HeroCarousel />
+          <Photo
+            name="hero-community"
+            alt="MSA members gathered together sharing a meal"
+            eager
+            class="hero-photo"
+          />
+          <div class="cinema-caption">
+            <span>Good food. Real community.</span>
+            <a href="/community/">
+              Meet our community <Icon />
+            </a>
+          </div>
         </div>
-        <a class="text-link" href="/community/">
-          Meet our community <Icon />
-        </a>
       </div>
     </div>
   </section>
