@@ -1235,7 +1235,8 @@ main:focus {
     align-items: center;
     text-decoration: none;
   }
-  .desktop-nav a[aria-current='page'] {
+  .desktop-nav a[aria-current='page'],
+  .donate-nav[aria-current='page'] {
     text-decoration: underline;
     text-underline-offset: 8px;
   }
