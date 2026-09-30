@@ -143,53 +143,9 @@ h2 {
   font-size: 0.9rem;
   min-height: 44px;
 }
-.belonging {
-  max-width: 1000px;
-}
-.belonging h2 {
-  font-size: clamp(2.8rem, 6.5vw, 5.5rem);
-}
-.belonging-copy {
-  margin-top: 32px;
-  font-size: clamp(1.25rem, 2.5vw, 2rem);
-  line-height: 1.5;
-  color: var(--muted);
-  max-width: 42ch;
-}
-.belonging-links {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 28px;
-  margin-top: 36px;
-}
-.belonging-links a {
-  display: inline-flex;
-  gap: 12px;
-  align-items: center;
-  min-height: 44px;
-}
-.belonging-links span {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-.upcoming-section {
-  border: 0;
-}
 .empty-events {
   padding: 36px;
   border: 0;
-}
-.prayer-band {
-  background: #e9eff5;
-}
-.prayer-panel {
-  border-radius: 24px;
-  padding: 32px;
-  background: #fff;
-}
-.prayer-layout {
-  gap: 24px;
 }
 .community-mosaic {
   gap: 30px;
@@ -250,15 +206,6 @@ h2 {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-}
-.community-note > p {
-  font-family: inherit;
-  font-weight: 550;
-  letter-spacing: -0.03em;
-  font-size: 1.8rem;
-}
-.first-step {
-  background: #edf0f4;
 }
 .steps li > span {
   color: var(--navy);
@@ -338,25 +285,6 @@ h2 {
     opacity: 1;
   }
 }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .belonging h2 {
-      animation: story-focus linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 100%;
-    }
-    @keyframes story-focus {
-      from {
-        opacity: 0.35;
-        transform: translateY(28px);
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  }
-}
 @media (max-width: 767px) {
   .header-inner {
     height: 64px;
@@ -382,12 +310,7 @@ h2 {
     align-items: start;
     gap: 0;
   }
-  .belonging-links {
-    flex-direction: column;
-    align-items: start;
-  }
-  .empty-events,
-  .prayer-panel {
+  .empty-events {
     padding: 24px;
   }
   .support-band {

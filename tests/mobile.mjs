@@ -42,7 +42,6 @@ for (const [engine, type] of [
       );
       await expect(page.locator('html')).not.toHaveClass(/lenis/);
       await expect(page.locator('.pin-spacer')).toHaveCount(0);
-      await expect(page.locator('[data-deck-card][inert]')).toHaveCount(0);
       await fits();
       const menu = page.getByRole('button', { name: 'Open navigation menu' });
       await menu.tap();
@@ -62,20 +61,9 @@ for (const [engine, type] of [
       if (profile.name === 'phone') {
         await page.setViewportSize({ width: profile.width, height: profile.height });
       }
-      await page.getByRole('button', { name: 'Connection', exact: true }).tap();
-      const photo = await page.locator('#community-card-2 .photo').boundingBox();
-      const note = await page.locator('[data-community-note]').boundingBox();
-      const sticky = await page
-        .locator('[data-community-note]')
-        .evaluate((e) => getComputedStyle(e).position === 'sticky');
-      if (sticky)
-        assert.ok(
-          photo.y >= note.y + note.height,
-          `${engine}/${profile.name}: selected photo clears the sticky heading`,
-        );
       if (profile.name === 'phone')
-        await page.screenshot({ path: `test-results/mobile-${engine}-community.png` });
-      await page.locator('.resource-bento a').first().tap();
+        await page.screenshot({ path: `test-results/mobile-${engine}-home.png` });
+      await page.locator('.resource-grid a[href="/prayer/"]').tap();
       await expect(page).toHaveURL(/\/prayer\/$/);
       await fits();
       await page.goto(base + '/donate/');
@@ -91,10 +79,9 @@ for (const [engine, type] of [
       await page.goto(base);
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await expect(page.locator('.pin-spacer')).toHaveCount(0);
-      await expect(page.locator('[data-marquee-clone]')).toHaveCount(0);
       assert.deepEqual(errors, [], `${engine}/${profile.name}: runtime errors`);
       checks.push(
-        `${engine}: ${profile.name} (${profile.width} × ${profile.height}), touch navigation, photo selection, resource link, donation dialog, reduced motion and page overflow`,
+        `${engine}: ${profile.name} (${profile.width} × ${profile.height}), touch navigation, resource link, donation dialog, reduced motion and page overflow`,
       );
       console.log(checks.at(-1));
       await context.close();

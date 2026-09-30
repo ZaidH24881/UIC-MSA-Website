@@ -3,12 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import EventList from '../components/EventList.astro';
-import PrayerSummary from '../components/PrayerSummary.astro';
-import ResourceGrid from '../components/ResourceGrid.astro';
+import QuickLinks from '../components/QuickLinks.astro';
 import notices from '../data/announcements.json';
 import { activeNotices } from '../lib/events';
-import CommunityDeck from '../components/CommunityDeck.astro';
-import CommunityMarquee from '../components/CommunityMarquee.astro';
 ---
 
 <Layout
@@ -79,115 +76,24 @@ import CommunityMarquee from '../components/CommunityMarquee.astro';
       </div>
     </div>
   </section>
-  <section class="belonging section container" aria-labelledby="belonging-title">
-    <p class="eyebrow">More than a student organization</p>
-    <h2 id="belonging-title">
-      A big campus.
-      <br />A closer community.
-    </h2>
-    <p class="belonging-copy">
-      Between the lectures and the late nights, find people who make UIC feel like home. A shared
-      meal. A moment of prayer. A friendship that stays with you.
-    </p>
-    <div class="belonging-links">
-      <a href="/about/">
-        Get to know MSA <Icon />
-      </a>
-      <span>
-        Your first semester or your final year.
-        <br />
-        There’s a place for you here.
-      </span>
+  <section class="section container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Find your way around</p>
+        <h2>Everything MSA, in one place.</h2>
+      </div>
     </div>
-  </section>
-  <section class="section upcoming-section">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Make time for community</p>
-          <h2>What’s happening at MSA</h2>
-        </div>
-        <a class="text-link" href="/events/">
+    <div class="content-grid">
+      <QuickLinks />
+      <aside class="aside-panel">
+        <h3>Upcoming</h3>
+        <EventList compact limit={3} />
+        <a class="text-link" href="/events/" style="margin-top:16px">
           View all events <Icon />
         </a>
-      </div>
-      <EventList limit={3} />
+      </aside>
     </div>
   </section>
-  <PrayerSummary />
-  <section class="section container">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Life, together</p>
-        <h2>The moments that make MSA.</h2>
-      </div>
-      <a class="text-link" href="/community/">
-        See our community <Icon />
-      </a>
-    </div>
-    <p class="section-intro">
-      Time to pause, people to meet, and a community to come back to. This is what belonging can
-      look like.
-    </p>
-    <CommunityDeck />
-  </section>
-  <section class="first-step section">
-    <div class="container split">
-      <div>
-        <p class="eyebrow">New here? Assalamu alaikum.</p>
-        <h2>
-          Your first step
-          <br />
-          starts here.
-        </h2>
-        <p class="prose">
-          You don’t have to know anyone to belong. Come as you are, find your people, and make your
-          own place in MSA.
-        </p>
-        <a class="button" href="/join/">
-          How to join <Icon />
-        </a>
-      </div>
-      <div class="join-journey">
-        <ol class="steps">
-          <li>
-            <span>1</span>
-            <div>
-              <h3>Become a member.</h3>
-              <p>Register through UIC CampusGroups.</p>
-            </div>
-          </li>
-          <li>
-            <span>2</span>
-            <div>
-              <h3>Connect with the community.</h3>
-              <p>Complete the group-access form and follow our announcements.</p>
-            </div>
-          </li>
-          <li>
-            <span>3</span>
-            <div>
-              <h3>Come to an event.</h3>
-              <p>Find a gathering that interests you. Bring a friend, or meet one here.</p>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </section>
-  <section class="section container">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">A little help along the way</p>
-        <h2>Campus life, made easier.</h2>
-      </div>
-      <a class="text-link" href="/resources/">
-        All resources <Icon />
-      </a>
-    </div>
-    <ResourceGrid featured />
-  </section>
-  <CommunityMarquee />
   <section class="support-band">
     <div class="container">
       <div>

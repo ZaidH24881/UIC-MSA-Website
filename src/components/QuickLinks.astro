@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+const links = [
+  {
+    title: 'About MSA',
+    description: 'Our mission, our story, and who we are.',
+    url: '/about/',
+    icon: 'book',
+  },
+  {
+    title: 'Events',
+    description: 'See what’s coming up and what you’ve missed.',
+    url: '/events/',
+    icon: 'calendar',
+  },
+  {
+    title: 'Prayer & Jumu’ah',
+    description: 'Daily prayer space and this week’s Friday schedule.',
+    url: '/prayer/',
+    icon: 'sun',
+  },
+  {
+    title: 'Our community',
+    description: 'Photos and moments from MSA gatherings.',
+    url: '/community/',
+    icon: 'heart',
+  },
+  {
+    title: 'Campus resources',
+    description: 'Halal food, transportation, student success, and more.',
+    url: '/resources/',
+    icon: 'map',
+  },
+  {
+    title: 'Join MSA',
+    description: 'Register, connect, and take your first step.',
+    url: '/join/',
+    icon: 'arrow',
+  },
+];
+---
+
+<div class="resource-grid">
+  {links.map((item) => (
+    <a class="resource-link" href={item.url}>
+      <span class="resource-icon">
+        <Icon name={item.icon} />
+      </span>
+      <div class="resource-copy">
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+      </div>
+      <Icon />
+    </a>
+  ))}
+</div>

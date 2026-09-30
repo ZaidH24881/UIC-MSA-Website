@@ -56,17 +56,15 @@ test('the connection process and payment identifiers match supplied instructions
     '2488434318',
   ])
     assert.ok(donate.includes(recipient), recipient);
-  assert.match(read('index.html'), /5,000\+/);
+  assert.match(read('about/index.html'), /5,000\+/);
 });
 
 test('the supplied prayer announcement supersedes old fixed-room and summer schedules', () => {
-  for (const file of ['index.html', 'prayer/index.html']) {
-    const html = read(file);
-    assert.match(html, /1:05/);
-    assert.match(html, /3:05/);
-    assert.match(html, /[Ll]ocation announced weekly/);
-    assert.doesNotMatch(html, /1:00\s?PM|SCE 301/);
-  }
+  const html = read('prayer/index.html');
+  assert.match(html, /1:05/);
+  assert.match(html, /3:05/);
+  assert.match(html, /[Ll]ocation announced weekly/);
+  assert.doesNotMatch(html, /1:00\s?PM|SCE 301/);
 });
 
 test('every local link, asset and fragment resolves, including migrated URLs', () => {

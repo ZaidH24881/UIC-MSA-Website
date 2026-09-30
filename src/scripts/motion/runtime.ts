@@ -1,8 +1,8 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { mountDeck, mountHero, mountPageFlow } from './sections';
-import { mountPointers, mountMarquee } from './details';
+import { mountHero } from './sections';
+import { mountPointers } from './details';
 
 gsap.registerPlugin(ScrollTrigger);
 export function mountMotion() {
@@ -11,12 +11,6 @@ export function mountMotion() {
   let lenis: Lenis | undefined;
   let dead = false;
   let refreshTimer = 0;
-  const scrollTo = (top: number) => {
-    if (lenis) {
-      lenis.resize();
-      lenis.scrollTo(top, { immediate: true });
-    } else window.scrollTo({ top, behavior: 'instant' });
-  };
   media.add(
     '(min-width: 1000px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)',
     () => {
@@ -50,15 +44,7 @@ export function mountMotion() {
       };
     },
   );
-  const cleanups = [
-    mountHero(home),
-    ...[...document.querySelectorAll<HTMLElement>('[data-deck]')].map((deck) =>
-      mountDeck(deck, scrollTo),
-    ),
-    mountPointers(),
-    mountPageFlow(),
-    ...[...document.querySelectorAll<HTMLElement>('[data-marquee]')].map(mountMarquee),
-  ];
+  const cleanups = [mountHero(home), mountPointers()];
   const refresh = () => {
     clearTimeout(refreshTimer);
     refreshTimer = window.setTimeout(() => {

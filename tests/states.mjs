@@ -74,10 +74,8 @@ assert.match(giving, /Online giving details are not currently available/);
 assert.doesNotMatch(giving, /sojeong|sjpark83|2488434318|community-donations\.png/);
 await assert.rejects(access(join(root, 'dist/assets/community-donations.png')));
 assert.doesNotMatch(await html('get-involved'), /href="https:\/\/example.com\/closed-application"/);
-for (const route of ['', 'prayer']) {
-  assert.match(await html(route), /Fixture daily room/);
-  assert.match(await html(route), /Fixture weekly room/);
-}
+assert.match(await html('prayer'), /Fixture daily room/);
+assert.match(await html('prayer'), /Fixture weekly room/);
 const report = {
   testedAt: new Date().toISOString(),
   checks: [
@@ -86,7 +84,7 @@ const report = {
     'Cancelled and past detail pages suppress RSVP',
     'Giving disabled: contact fallback, no recipient details or poster in generated output',
     'Closed committee collection suppresses an open item application',
-    'Verified daily and weekly prayer rooms appear in homepage and detail page',
+    'Verified daily and weekly prayer rooms appear on the prayer page',
   ],
   failures: [],
 };
