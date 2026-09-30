@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Photo from '../components/Photo.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import Icon from '../components/Icon.astro';
 import EventList from '../components/EventList.astro';
 import QuickLinks from '../components/QuickLinks.astro';
@@ -26,18 +26,10 @@ import { activeNotices } from '../lib/events';
       </p>
       <h1>
         <span class="hero-line">
-          <span data-hero-enter>
-            <span class="hero-glint" data-glint>
-              Your people.
-            </span>
-          </span>
+          <span data-hero-enter>Your people.</span>
         </span>
         <span class="hero-line">
-          <span data-hero-enter>
-            <span class="hero-glint" data-glint>
-              Your place.
-            </span>
-          </span>
+          <span data-hero-enter>Your place.</span>
         </span>
       </h1>
       <p class="hero-intro" data-hero-enter>
@@ -56,23 +48,14 @@ import { activeNotices } from '../lib/events';
         </a>
       </div>
     </div>
-    <div class="cinema-stage" data-hero-stage>
-      {/* Separate wrappers keep entrance and scroll transforms independent. */}
+    <div class="cinema-stage">
       <div data-hero-enter>
-        <div class="cinema-frame" data-cinema>
-          <Photo
-            name="campus-community"
-            alt="Students gathered for prayer with the Chicago skyline behind them"
-            eager
-            class="hero-photo"
-          />
-          <div class="cinema-caption">
-            <span>Faith. Friendship. Chicago.</span>
-            <a href="/community/">
-              Meet our community <Icon />
-            </a>
-          </div>
+        <div class="cinema-frame">
+          <HeroCarousel />
         </div>
+        <a class="text-link" href="/community/">
+          Meet our community <Icon />
+        </a>
       </div>
     </div>
   </section>

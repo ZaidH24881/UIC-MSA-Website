@@ -8,7 +8,6 @@ try {
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(base);
   await expect(page.locator('[data-motion-state]')).toHaveAttribute('data-motion-state', 'ready');
-  await expect(page.locator('.pin-spacer')).toHaveCount(1);
   await expect(page.locator('html')).toHaveClass(/lenis/);
   await page.getByRole('button', { name: 'Open navigation menu' }).click();
   assert.deepEqual(
@@ -30,28 +29,21 @@ try {
   await expect(page.locator('.cinema-hero .eyebrow')).toHaveText(
     'Muslim Student Association at UIC',
   );
-  const glint = page.locator('[data-glint]').first();
-  const initial = await glint.evaluate((e) => getComputedStyle(e).backgroundPosition);
-  await page.mouse.wheel(0, 200);
-  await expect
-    .poll(() => glint.evaluate((e) => getComputedStyle(e).backgroundPosition))
-    .not.toBe(initial);
   await expect(page.locator('.resource-grid .resource-link')).toHaveCount(6);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(page.locator('.pin-spacer')).toHaveCount(0);
   await expect(page.locator('html')).not.toHaveClass(/lenis/);
   await page.setViewportSize({ width: 390, height: 844 });
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(page.locator('.pin-spacer')).toHaveCount(0);
+  await expect(page.locator('html')).not.toHaveClass(/lenis/);
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await expect(page.locator('.pin-spacer')).toHaveCount(1);
+  await expect(page.locator('html')).toHaveClass(/lenis/);
   await page.evaluate(() => dispatchEvent(new PageTransitionEvent('pagehide')));
-  await expect(page.locator('.pin-spacer')).toHaveCount(0);
+  await expect(page.locator('html')).not.toHaveClass(/lenis/);
   await page.evaluate(() =>
     dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })),
   );
-  await expect(page.locator('.pin-spacer')).toHaveCount(1);
+  await expect(page.locator('html')).toHaveClass(/lenis/);
   const noJS = await browser.newPage({ javaScriptEnabled: false });
   await noJS.goto(base);
   await expect(noJS.locator('.resource-grid .resource-link')).toHaveCount(6);
@@ -68,7 +60,7 @@ try {
   }
   assert.deepEqual(errors, []);
   console.log(
-    'Passed: desktop pinning, headline glint, quick links, reduced motion, mobile overflow, lifecycle cleanup and no-JavaScript fallback.',
+    'Passed: quick links, reduced motion, mobile overflow, lifecycle cleanup and no-JavaScript fallback.',
   );
 } finally {
   await browser.close();

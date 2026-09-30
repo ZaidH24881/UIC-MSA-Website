@@ -53,7 +53,10 @@ try {
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(base);
-  const heroTop = await page.locator('.hero-photo').evaluate((e) => e.getBoundingClientRect().top);
+  const heroTop = await page
+    .locator('.hero-photo')
+    .first()
+    .evaluate((e) => e.getBoundingClientRect().top);
   assert.ok(heroTop < 844, 'hero photo starts in mobile first viewport');
   const open = page.getByRole('button', { name: 'Open navigation menu' });
   await open.click();
@@ -187,9 +190,9 @@ try {
     }
   }
   const failedPhotoPage = await context.newPage();
-  await failedPhotoPage.route('**/assets/campus-community*', (route) => route.abort());
+  await failedPhotoPage.route('**/assets/hero-community*', (route) => route.abort());
   await failedPhotoPage.goto(base, { waitUntil: 'load' });
-  assert.ok(await failedPhotoPage.locator('.hero-photo .photo-fallback').isVisible());
+  assert.ok(await failedPhotoPage.locator('.photo-hero-community .photo-fallback').isVisible());
   await failedPhotoPage.close();
   const redirects = JSON.parse(await readFile('content/redirects.json', 'utf8'));
   for (const [from, to] of Object.entries(redirects)) {
