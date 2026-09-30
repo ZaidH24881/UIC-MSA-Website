@@ -5,7 +5,7 @@ import {
   signOut,
   type User,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore/lite';
 import { auth, db } from '../../lib/firebase-client';
 import { boardEmails } from '../../data/board-access';
 import { chicagoIsoFromLocal, chicagoLocalInputFromIso, shortDateLabel, type EventRecord } from '../../lib/events';

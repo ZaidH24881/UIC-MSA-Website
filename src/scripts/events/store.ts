@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore/lite';
 import { db } from '../../lib/firebase-client';
 import type { EventRecord } from '../../lib/events';
 

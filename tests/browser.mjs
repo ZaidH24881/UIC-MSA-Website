@@ -40,7 +40,7 @@ try {
   for (const width of [320, 390, 430, 768, 1024, 1099, 1100, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of routes) {
-      const response = await page.goto(base + route, { waitUntil: 'networkidle' });
+      const response = await page.goto(base + route, { waitUntil: 'load' });
       if (response.status() !== 200) failures.push(`${route}: HTTP ${response.status()}`);
       const dimensions = await page.evaluate(() => ({
         scroll: document.documentElement.scrollWidth,
@@ -115,16 +115,24 @@ try {
   await page.getByText('Expand announcement', { exact: false }).click();
   await page.getByRole('button', { name: 'Close announcement' }).click();
   for (const route of routes) {
-    await page.goto(base + route, { waitUntil: 'networkidle' });
-    // Audit the settled view, not a partially transparent entrance frame.
+    await page.goto(base + route, { waitUntil: 'load' });
+    // Audit the settled view: not a partially transparent hero entrance
+    // frame, and not mid-swap from a loading skeleton to fetched event data
+    // (both would otherwise race unpredictably against the axe snapshot).
     if (route === '/') {
       await page.waitForSelector('[data-motion-state="ready"]');
-      await page.waitForFunction(() =>
-        [...document.querySelectorAll('[data-hero-enter]')].every(
-          (element) => Number(getComputedStyle(element).opacity) === 1,
-        ),
-      );
+      // Polling computed opacity is racy: it can observe a false "done"
+      // reading in the single frame before GSAP's staggered entrance tweens
+      // actually start rendering. Wait out the known total duration instead
+      // (6 elements, 0.1s stagger, 0.85s each: last one finishes at 1.35s).
+      await page.waitForTimeout(1600);
     }
+    await page
+      .waitForFunction(
+        () => ![...document.querySelectorAll('[aria-busy="true"]')].length,
+        { timeout: 10000 },
+      )
+      .catch(() => {});
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
       .analyze();
@@ -165,7 +173,7 @@ try {
   );
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
-    await page.goto(base, { waitUntil: 'networkidle' });
+    await page.goto(base, { waitUntil: 'load' });
     for (const img of await page.locator('[data-photo] img:visible').all()) {
       await img.scrollIntoViewIfNeeded();
       await img.evaluate((e) => e.decode());
@@ -180,7 +188,7 @@ try {
   }
   const failedPhotoPage = await context.newPage();
   await failedPhotoPage.route('**/assets/campus-community*', (route) => route.abort());
-  await failedPhotoPage.goto(base, { waitUntil: 'networkidle' });
+  await failedPhotoPage.goto(base, { waitUntil: 'load' });
   assert.ok(await failedPhotoPage.locator('.hero-photo .photo-fallback').isVisible());
   await failedPhotoPage.close();
   const redirects = JSON.parse(await readFile('content/redirects.json', 'utf8'));

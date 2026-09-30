@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
@@ -14,4 +14,9 @@ const firebaseConfig = {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+// The "lite" Firestore SDK: plain REST-style one-time reads/writes, no
+// realtime listener machinery. We never use onSnapshot, and the full SDK's
+// persistent "Listen" channel (kept open for connection-state tracking even
+// without listeners) gets blocked in some browsers/network environments —
+// the lite SDK doesn't open that channel at all.
 export const db = getFirestore(app);
