@@ -1,0 +1,109 @@
+---
+import Icon from './Icon.astro';
+---
+
+<section class="events-admin" data-events-admin aria-label="Board event editing">
+  <button type="button" class="button secondary" data-board-signin>
+    Board sign-in <Icon />
+  </button>
+
+  <div data-events-admin-unauthorized hidden>
+    <p>This Google account isn’t authorized to add events.</p>
+    <button type="button" class="text-link" data-board-signout>Sign out</button>
+  </div>
+
+  <form class="event-form" data-events-admin-form hidden>
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Signed in as board</p>
+        <h2 data-events-admin-heading>Add an event</h2>
+      </div>
+      <button type="button" class="text-link" data-board-signout>Sign out</button>
+    </div>
+
+    <div class="field">
+      <label for="event-existing">Editing</label>
+      <select id="event-existing" data-events-admin-existing>
+        <option value="">New event</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="event-title">Title</label>
+      <input id="event-title" name="title" type="text" required />
+    </div>
+    <div class="field">
+      <label for="event-slug">URL slug</label>
+      <input
+        id="event-slug"
+        name="slug"
+        type="text"
+        pattern="[a-z0-9]+(-[a-z0-9]+)*"
+        required
+        data-events-admin-slug
+      />
+      <p class="fine-print">Auto-filled from the title. Lowercase words separated by hyphens.</p>
+    </div>
+    <div class="field">
+      <label for="event-description">Description</label>
+      <textarea id="event-description" name="description" rows="4" required></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="event-start">Starts</label>
+        <input id="event-start" name="start" type="datetime-local" required />
+      </div>
+      <div class="field">
+        <label for="event-end">Ends</label>
+        <input id="event-end" name="end" type="datetime-local" required />
+      </div>
+    </div>
+    <p class="fine-print">Enter the Chicago clock time exactly as it should read.</p>
+    <div class="field-row">
+      <div class="field">
+        <label for="event-location">Location</label>
+        <input id="event-location" name="location" type="text" placeholder="TBD" />
+      </div>
+      <div class="field">
+        <label for="event-audience">Audience</label>
+        <input id="event-audience" name="audience" type="text" value="All students" />
+      </div>
+    </div>
+    <div class="field">
+      <label for="event-rsvp">RSVP link</label>
+      <input id="event-rsvp" name="rsvpUrl" type="url" placeholder="https://" />
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="event-status">Status</label>
+        <select id="event-status" name="status">
+          <option value="confirmed" selected>Confirmed</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="postponed">Postponed</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="event-category">Category</label>
+        <select id="event-category" name="category">
+          <option value="">None</option>
+          <option value="ramadan">Ramadan</option>
+          <option value="community">Community</option>
+          <option value="learning">Learning</option>
+          <option value="service">Service</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="event-flyer">Flyer image</label>
+      <input id="event-flyer" name="flyer" type="file" accept="image/*" data-events-admin-flyer />
+      <img data-events-admin-flyer-preview alt="Flyer preview" hidden />
+    </div>
+    <div class="actions">
+      <button type="submit" class="button" data-events-admin-submit>
+        <span data-events-admin-submit-label>Save event</span> <Icon />
+      </button>
+    </div>
+  </form>
+
+  <p class="fine-print" data-events-admin-status role="status"></p>
+</section>

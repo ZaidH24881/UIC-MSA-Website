@@ -3,10 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import PageLead from '../../components/PageLead.astro';
 import EventList from '../../components/EventList.astro';
 import EventCalendar from '../../components/EventCalendar.astro';
+import EventDialog from '../../components/EventDialog.astro';
+import EventsAdmin from '../../components/EventsAdmin.astro';
 import Icon from '../../components/Icon.astro';
 import { site } from '../../data/site';
-import eventData from '../../data/events.json';
-import type { EventRecord } from '../../lib/events';
 ---
 
 <Layout
@@ -22,7 +22,7 @@ import type { EventRecord } from '../../lib/events';
     <section>
       <h2>Current and upcoming events</h2>
       <div class="events-layout">
-        <EventCalendar events={eventData.events as EventRecord[]} />
+        <EventCalendar />
         <aside class="aside-panel events-agenda-panel">
           <div class="agenda-selected" data-agenda-selected hidden>
             <div class="agenda-selected-head">
@@ -69,5 +69,10 @@ import type { EventRecord } from '../../lib/events';
       </aside>
     </div>
     <EventList past />
+    <EventsAdmin />
   </div>
+  <EventDialog />
+  <script src="../../scripts/events/calendar.ts"></script>
+  <script src="../../scripts/events/dialog.ts"></script>
+  <script src="../../scripts/events/admin.ts"></script>
 </Layout>

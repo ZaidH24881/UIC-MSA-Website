@@ -34,7 +34,7 @@ CI installs Chromium and runs the same suite. It checks 17 routes across eight w
 ## Maintain and launch
 
 - [Content updates, hosting, annual handover, and rollback](docs/maintenance.md)
-- [Board events editor setup (`/admin`)](docs/board-editing-setup.md)
+- [Board event editing setup (Firebase)](docs/board-events-setup.md)
 - [Asset provenance and crop manifest](content/asset-manifest.json)
 - [Legacy redirect map](content/redirects.json)
 - [Implementation decisions and scope](docs/implementation-plan.md)

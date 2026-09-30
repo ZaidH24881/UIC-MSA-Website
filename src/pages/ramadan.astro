@@ -2,12 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageLead from '../components/PageLead.astro';
 import { site } from '../data/site';
-import eventData from '../data/events.json';
 import EventList from '../components/EventList.astro';
-import { currentEvents, type EventRecord } from '../lib/events';
-const activeSeason = currentEvents(eventData.events as EventRecord[]).some(
-  (event) => event.category === 'ramadan',
-);
 ---
 
 <Layout
@@ -21,27 +16,24 @@ const activeSeason = currentEvents(eventData.events as EventRecord[]).some(
   />
   <div class="container page-content content-grid">
     <div>
-      {activeSeason ? (
-        <section>
-          <h2>Ramadan program updates.</h2>
-          <EventList category="ramadan" />
-        </section>
-      ) : (
-        <section>
-          <h2>Looking ahead to Ramadan.</h2>
-          <p>
-            Our next Ramadan program has not been announced here. Confirmed iftar dates, venues, and
-            registration details will appear on the events page when available.
-          </p>
-          <p>
-            Follow MSA announcements to hear about the next season. We look forward to coming
-            together again.
-          </p>
-          <a class="button" href={site.whatsappUrl}>
-            Follow community announcements
-          </a>
-        </section>
-      )}
+      <section data-ramadan-active hidden>
+        <h2>Ramadan program updates.</h2>
+        <EventList category="ramadan" />
+      </section>
+      <section data-ramadan-inactive>
+        <h2>Looking ahead to Ramadan.</h2>
+        <p>
+          Our next Ramadan program has not been announced here. Confirmed iftar dates, venues, and
+          registration details will appear on the events page when available.
+        </p>
+        <p>
+          Follow MSA announcements to hear about the next season. We look forward to coming
+          together again.
+        </p>
+        <a class="button" href={site.whatsappUrl}>
+          Follow community announcements
+        </a>
+      </section>
       <EventList past category="ramadan" />
     </div>
     <aside class="aside-panel">
@@ -54,4 +46,5 @@ const activeSeason = currentEvents(eventData.events as EventRecord[]).some(
       </nav>
     </aside>
   </div>
+  <script src="../scripts/events/ramadan.ts"></script>
 </Layout>

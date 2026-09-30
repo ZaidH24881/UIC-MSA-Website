@@ -17,5 +17,13 @@
   "/miscellaneous": "/resources/books/",
   "/mission-index-impact": "/about/",
   "/home": "/",
-  "/gallery": "/community/"
+  "/gallery": "/community/",
+  "/events/jumuah-first-2026-09-18": "/events/?event=jumuah-first-2026-09-18",
+  "/events/jumuah-second-2026-09-18": "/events/?event=jumuah-second-2026-09-18",
+  "/events/jumuah-first-2026-09-25": "/events/?event=jumuah-first-2026-09-25",
+  "/events/jumuah-second-2026-09-25": "/events/?event=jumuah-second-2026-09-25",
+  "/events/jumuah-first-2026-10-02": "/events/?event=jumuah-first-2026-10-02",
+  "/events/jumuah-second-2026-10-02": "/events/?event=jumuah-second-2026-10-02",
+  "/events/jumuah-first-2026-10-09": "/events/?event=jumuah-first-2026-10-09",
+  "/events/jumuah-second-2026-10-09": "/events/?event=jumuah-second-2026-10-09"
 }

@@ -28,7 +28,7 @@ pnpm preview
 | Content | File |
 | --- | --- |
 | Membership links, social accounts, contact, prayer, giving, committees | `src/data/site.ts` |
-| Events and individual occurrences | `src/data/events.json` |
+| Events and individual occurrences | Firestore, via board sign-in at `/events/` (see `docs/board-events-setup.md`) |
 | Expiring homepage notices | `src/data/announcements.json` |
 | Student resources, books, recorded talks, source/review dates | `src/data/resources.ts` |
 | Photo dimensions, focal points, descriptions, credits | `src/data/photos.ts` |
@@ -41,18 +41,18 @@ For every content change: edit the record, build, test, inspect its page on a ph
 
 ### Add or change an event
 
-Board members without repo access should use the **Events Editor at `/admin`**
-instead of editing this file directly — see
-[`docs/board-editing-setup.md`](board-editing-setup.md) for the one-time setup and
-[`public/admin/config.yml`](../public/admin/config.yml) for the field definitions it
-edits. The rest of this section is for editing `events.json` by hand.
+Board members add, edit, and see events immediately at **`/events/`** — sign
+in with the shared board Google account via the "Board sign-in" button near
+the bottom of that page. See
+[`docs/board-events-setup.md`](board-events-setup.md) for the one-time
+Firebase setup and how access/flyers work. Events live in Firestore, not a
+file in this repo, so there's no build/redeploy step to add one.
 
-`events.json`'s top level is `{ "events": [...] }`. Each object in that array has
-`slug`, `title`, `description`, `start`, `end`, `timezone`, `location`, `audience`, `rsvpUrl`, and `status`. Optional fields are `photo`, `photoAlt`, `flyer`, `recap`, and `category`. Supply a factual `photoAlt` description with an event photograph. Use a unique URL-safe slug; use `null` for unknown location or absent RSVP. Status is `confirmed`, `cancelled`, or `postponed`. Categories are `ramadan`, `community`, `learning`, or `service`.
+Events have `slug`, `title`, `description`, `start`, `end`, `timezone`, `location`, `audience`, `rsvpUrl`, and `status`; optional fields are `flyer` and `category`. Use a unique URL-safe slug (the add-event form suggests one from the title); use an empty location or RSVP field for unknown/absent values. Status is `confirmed`, `cancelled`, or `postponed`. Categories are `ramadan`, `community`, `learning`, or `service`.
 
-Use complete ISO date-times with an explicit offset and `timezone: "America/Chicago"`. For example, `2027-01-15T13:05:00-06:00` is a winter Chicago time; `2027-07-16T13:05:00-05:00` is a summer Chicago time. These are formatting examples, not event records. Check the correct offset for the actual date, especially around daylight-saving transitions. End must follow start. Avoid date-only strings for occurrences and deadlines.
+The add-event form takes Chicago wall-clock time directly and computes the correct seasonal UTC offset itself — no need to reason about `-05:00` vs `-06:00` by hand.
 
-There is **no recurrence generator**: enter each confirmed occurrence explicitly. For a weekly program, enter only its approved term, omit exception dates, and mark cancellations/postponements clearly. Keep a cancelled record long enough to inform students. Past records can retain a factual `recap`; expired RSVP urgency is removed from detail pages. Event routes are generated from real records, not sample content.
+There is **no recurrence generator**: enter each confirmed occurrence explicitly. For a weekly program, enter only its approved term, omit exception dates, and mark cancellations/postponements clearly. Keep a cancelled record long enough to inform students. Individual event pages no longer exist as separate URLs — clicking an event opens its flyer/logistics in a dialog on `/events/` instead (shareable via `/events/?event=<slug>`).
 
 Any current or future event with `category: "ramadan"` activates the Ramadan program view, including cancellations so important changes remain visible. Without one, the Ramadan page uses its off-season message. Past Ramadan records remain available as recaps. Events stay in the current list until their end, with an "In progress" label after they start.
 

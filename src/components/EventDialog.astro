@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+---
+
+<dialog id="event-dialog" class="poster-dialog event-dialog" aria-labelledby="event-dialog-title">
+  <div class="dialog-top">
+    <button class="icon-button" data-close-event aria-label="Close event details">
+      <Icon name="close" />
+    </button>
+  </div>
+  <img data-event-dialog-flyer alt="" hidden />
+  <div data-event-dialog-body>
+    <h2 id="event-dialog-title" data-event-dialog-title></h2>
+    <dl class="event-logistics">
+      <div>
+        <dt>Date</dt>
+        <dd data-event-dialog-date></dd>
+      </div>
+      <div>
+        <dt>Time</dt>
+        <dd data-event-dialog-time></dd>
+      </div>
+      <div>
+        <dt>Location</dt>
+        <dd data-event-dialog-location></dd>
+      </div>
+      <div>
+        <dt>Who it’s for</dt>
+        <dd data-event-dialog-audience></dd>
+      </div>
+    </dl>
+    <p data-event-dialog-status class="status-label" hidden></p>
+    <p data-event-dialog-description class="prose"></p>
+    <a class="button" data-event-dialog-rsvp hidden></a>
+  </div>
+</dialog>
