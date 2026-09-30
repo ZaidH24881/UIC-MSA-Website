@@ -116,7 +116,7 @@ h2 {
   border-radius: 0;
 }
 .cinema-frame .hero-photo img {
-  aspect-ratio: 2.15;
+  aspect-ratio: 1.8;
   object-position: 50% 67%;
 }
 .cinema-caption {
@@ -302,7 +302,7 @@ h2 {
     transform: none;
   }
   .cinema-frame .hero-photo img {
-    aspect-ratio: 1.1;
+    aspect-ratio: 1;
   }
   .cinema-caption {
     padding: 60px 22px 20px;

@@ -190,9 +190,9 @@ try {
     }
   }
   const failedPhotoPage = await context.newPage();
-  await failedPhotoPage.route('**/assets/hero-community*', (route) => route.abort());
+  await failedPhotoPage.route('**/assets/brothers-group*', (route) => route.abort());
   await failedPhotoPage.goto(base, { waitUntil: 'load' });
-  assert.ok(await failedPhotoPage.locator('.photo-hero-community .photo-fallback').isVisible());
+  assert.ok(await failedPhotoPage.locator('.photo-brothers-group .photo-fallback').isVisible());
   await failedPhotoPage.close();
   const redirects = JSON.parse(await readFile('content/redirects.json', 'utf8'));
   for (const [from, to] of Object.entries(redirects)) {
