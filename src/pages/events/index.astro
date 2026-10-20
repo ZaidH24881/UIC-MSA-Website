@@ -4,7 +4,6 @@ import PageLead from '../../components/PageLead.astro';
 import EventList from '../../components/EventList.astro';
 import EventCalendar from '../../components/EventCalendar.astro';
 import EventDialog from '../../components/EventDialog.astro';
-import EventsAdmin from '../../components/EventsAdmin.astro';
 import Icon from '../../components/Icon.astro';
 import { site } from '../../data/site';
 ---
@@ -69,10 +68,8 @@ import { site } from '../../data/site';
       </aside>
     </div>
     <EventList past />
-    <EventsAdmin />
   </div>
   <EventDialog />
   <script src="../../scripts/events/calendar.ts"></script>
   <script src="../../scripts/events/dialog.ts"></script>
-  <script src="../../scripts/events/admin.ts"></script>
 </Layout>

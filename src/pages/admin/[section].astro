@@ -1,0 +1,9 @@
+---
+import AdminWorkspace from '../../components/AdminWorkspace.astro';
+import { labels } from '../../lib/admin-schema.mjs';
+export function getStaticPaths() {
+  return Object.keys(labels).map((section) => ({ params: { section } }));
+}
+---
+
+<AdminWorkspace section={Astro.params.section as keyof typeof labels} />

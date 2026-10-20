@@ -17,7 +17,7 @@ if (origin) {
       )
     ).flat();
   const urls = (await walk('dist'))
-    .filter((f) => f.endsWith('/index.html') && !f.includes('/search/'))
+    .filter((f) => f.endsWith('/index.html') && !f.includes('/search/') && !f.includes('/admin/'))
     .map((f) => new URL(f.replace(/^dist/, '').replace(/index.html$/, ''), origin).href);
   await writeFile(
     'dist/sitemap.xml',

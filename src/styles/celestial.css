@@ -92,20 +92,39 @@ main > .celestial-sky {
   border-bottom: 1px solid #c7d8ed;
   background: #edf3fce8;
 }
-.desktop-nav a {
+.desktop-nav a,
+.donate-nav {
   position: relative;
 }
-.desktop-nav a::after {
-  content: none;
-}
-.desktop-nav a[aria-current='page'],
+.desktop-nav a,
 .desktop-nav a:hover,
-.donate-nav[aria-current='page'],
-.donate-nav:hover {
-  text-decoration-line: underline;
-  text-decoration-color: #a47c37;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 8px;
+.desktop-nav a[aria-current='page'],
+.donate-nav,
+.donate-nav:hover,
+.donate-nav[aria-current='page'] {
+  text-decoration: none;
+}
+.desktop-nav a::after,
+.donate-nav::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  background: #a47c37;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+.desktop-nav a:hover::after,
+.desktop-nav a:focus-visible::after,
+.desktop-nav a[aria-current='page']::after,
+.donate-nav:hover::after,
+.donate-nav:focus-visible::after,
+.donate-nav[aria-current='page']::after {
+  transform: scaleX(1);
 }
 .cinema-hero.hero {
   position: relative;
@@ -812,13 +831,75 @@ html[data-motion-paused] [data-reveal] {
   html *::before,
   html *::after {
     cursor:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M21 3A13 13 0 1 0 29 23A12 12 0 0 1 21 3Z' fill='%23ecc77e' stroke='%23234e83' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E")
-        21 3,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M3 2L28 21L17 20L12 29L8 27L11 17L3 21Z' fill='%23f3d18c' stroke='%23234e83' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M12 9A5 5 0 1 0 17 16A5 5 0 0 1 12 9Z' fill='%23234e83'/%3E%3C/svg%3E")
+        3 2,
       auto !important;
   }
 }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
   .moon-mote {
+    display: none;
+  }
+}
+.menu-admin {
+  margin-top: 24px;
+  border-top: 1px solid #a8bfdc;
+  padding-top: 20px;
+}
+.menu-admin h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #6e5527;
+  margin-bottom: 10px;
+}
+.menu-admin a {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 1.1rem;
+}
+.cursor-spark {
+  position: fixed;
+  pointer-events: none;
+  width: 9px;
+  height: 9px;
+  background: #d8ad5c;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  opacity: 0;
+  z-index: 2147483647;
+}
+.cursor-spark:nth-child(even) {
+  background: #3b79c6;
+}
+.admin-public-card {
+  overflow-wrap: anywhere;
+  margin-bottom: 20px;
+}
+.admin-public-card p {
+  white-space: pre-line;
+}
+.admin-public-card iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+  border-radius: 16px;
+  margin-block: 16px;
+}
+.admin-public-card .text-link {
+  margin: 12px 16px 12px 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .desktop-nav a::after,
+  .donate-nav::after {
+    transition: none;
+  }
+  .cursor-spark {
+    display: none;
+  }
+}
+@media (pointer: coarse) {
+  .cursor-spark {
     display: none;
   }
 }

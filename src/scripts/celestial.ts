@@ -86,3 +86,62 @@ document.addEventListener('visibilitychange', () => {
 });
 preference.addEventListener('change', clearTrail);
 pointerMedia.addEventListener('change', clearTrail);
+
+// Tiny, pooled bursts respond to interactive targets, including modal controls.
+const sparks = Array.from({ length: 24 }, () => {
+  const s = document.createElement('span');
+  s.className = 'cursor-spark';
+  s.setAttribute('aria-hidden', 'true');
+  document.body.append(s);
+  return s;
+});
+let sparkIndex = 0,
+  lastSpark = 0;
+const clickable =
+  'a[href],button:not(:disabled),summary,[role="button"],input[type="submit"],input[type="checkbox"]';
+function sparkle(event: PointerEvent, count: number) {
+  if (paused || !pointerMedia.matches || event.pointerType !== 'mouse') return;
+  const target = event.target instanceof Element ? event.target.closest(clickable) : null;
+  if (!target) return;
+  const parent = target.closest('dialog[open]') || document.body;
+  for (let i = 0; i < count; i++) {
+    const spark = sparks[sparkIndex++ % sparks.length];
+    spark.getAnimations().forEach((a) => a.cancel());
+    parent.append(spark);
+    spark.style.left = `${event.clientX}px`;
+    spark.style.top = `${event.clientY}px`;
+    const angle = Math.random() * Math.PI * 2,
+      distance = 18 + Math.random() * 26;
+    spark.animate(
+      [
+        { opacity: 1, transform: 'translate(-50%, -50%) scale(.4) rotate(0deg)' },
+        {
+          opacity: 0,
+          transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1.1) rotate(100deg)`,
+        },
+      ],
+      { duration: 550, easing: 'ease-out' },
+    );
+  }
+}
+document.addEventListener('pointerover', (e) => {
+  const previous = e.relatedTarget instanceof Element ? e.relatedTarget.closest(clickable) : null;
+  const target = e.target instanceof Element ? e.target.closest(clickable) : null;
+  if (target !== previous) sparkle(e, 7);
+});
+document.addEventListener(
+  'pointermove',
+  (e) => {
+    if (performance.now() - lastSpark > 90) {
+      sparkle(e, 2);
+      lastSpark = performance.now();
+    }
+  },
+  { passive: true },
+);
+document.addEventListener('pointerdown', (e) => sparkle(e, 12));
+const clearSparks = () => sparks.forEach((s) => s.getAnimations().forEach((a) => a.cancel()));
+preference.addEventListener('change', clearSparks);
+pointerMedia.addEventListener('change', clearSparks);
+window.addEventListener('blur', clearSparks);
+document.documentElement.addEventListener('pointerleave', clearSparks);

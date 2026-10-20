@@ -58,11 +58,23 @@ try {
   }
   await page.goto('http://127.0.0.1:4322/resources/');
   const activeLink = page.locator('.desktop-nav a[aria-current="page"]');
-  assert.equal(await activeLink.evaluate((e) => getComputedStyle(e, '::after').content), 'none');
+  assert.equal(await activeLink.evaluate((e) => getComputedStyle(e).textDecorationLine), 'none');
   assert.equal(
-    await activeLink.evaluate((e) => getComputedStyle(e).textDecorationColor),
+    await activeLink.evaluate((e) => getComputedStyle(e, '::after').backgroundColor),
     'rgb(164, 124, 55)',
   );
+  const inactive = page.locator('.desktop-nav a[href="/events/"]');
+  assert.equal(
+    await inactive.evaluate((e) => getComputedStyle(e, '::after').transform),
+    'matrix(0, 0, 0, 1, 0, 0)',
+  );
+  await inactive.hover();
+  await page.waitForFunction(
+    () =>
+      getComputedStyle(document.querySelector('.desktop-nav a[href="/events/"]'), '::after')
+        .transform === 'matrix(1, 0, 0, 1, 0, 0)',
+  );
+  assert.equal(await page.locator('.cursor-spark').count(), 24);
   await page.mouse.move(350, 300);
   assert.equal(await page.locator('.moon-mote').count(), 10);
   assert.equal(

@@ -2,16 +2,5 @@
   "name": "uic-msa-website",
   "compatibility_date": "2024-09-23",
   "main": "worker/entry.js",
-  "assets": {
-    "directory": "./dist",
-    "binding": "ASSETS",
-    "run_worker_first": ["/cms-auth"]
-  },
-  "secrets_store_secrets": [
-    {
-      "binding": "GITHUB_BOT_TOKEN",
-      "store_id": "2757ef99657b48c983c58ec0eae06bd3",
-      "secret_name": "GITHUB_BOT_TOKEN"
-    }
-  ]
+  "assets": { "directory": "./dist", "binding": "ASSETS", "run_worker_first": ["/cms-auth"] },
 }

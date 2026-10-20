@@ -1,3 +1,5 @@
+Board tools: see [Admin workspace](docs/admin-workspace.md) for the new menu entry, local preview password, editors, and Firebase rollout steps.
+
 # MSA at UIC
 
 The replacement MSA community website, built with Astro, TypeScript, self-hosted DM Sans/Libre Baskerville, and static content. Implements the design in [improvements.md](improvements.md) and migrates useful content documented in [site-analysis.md](site-analysis.md).

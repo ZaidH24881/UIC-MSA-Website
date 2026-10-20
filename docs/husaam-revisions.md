@@ -8,7 +8,7 @@ Desktop pointers use a gold crescent with a blue outline as the actual cursor, i
 
 The existing Resources alignment and Donate design are preserved, including the plain-text Sahih Muslim 2588 reference. No new dependencies were added.
 
-The future Admin section is scoped in admin-area-scope.md only. Existing menu, authentication, and board-editing behavior have not changed.
+The Admin workspace is implemented; see admin-workspace.md for setup and verification. The navigation underline now extends smoothly on hover/focus, and the sharper crescent-arrow cursor emits pooled sparkles over clickable controls.
 
 ## Verification
 

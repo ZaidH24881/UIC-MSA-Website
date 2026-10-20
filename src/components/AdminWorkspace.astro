@@ -1,0 +1,159 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageLead from './PageLead.astro';
+import { labels } from '../lib/admin-schema.mjs';
+import '../styles/admin.css';
+interface Props {
+  section?: keyof typeof labels | 'dashboard';
+}
+const { section = 'dashboard' } = Astro.props;
+---
+
+<Layout
+  title="Board workspace"
+  description="Manage MSA announcements and community information."
+  noindex
+>
+  <PageLead
+    title="Care for your community."
+    eyebrow="Board workspace"
+    intro="Keep the details up to date, so everyone can find their place."
+  />
+  <div class="container admin-workspace" data-admin-workspace data-section={section}>
+    <p class="admin-mode" data-admin-mode role="status">
+      Connecting to board workspace…
+    </p>
+    <section class="admin-login" data-admin-login hidden>
+      <span class="admin-emblem" aria-hidden="true">
+        ☾
+      </span>
+      <h2>Welcome back.</h2>
+      <p data-login-description>Sign in with your approved board Google account.</p>
+      <form data-login-form>
+        <div data-password-field hidden>
+          <label for="board-password">Preview password</label>
+          <input
+            id="board-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+          />
+        </div>
+        <button class="button" type="submit" data-login-button>
+          Board sign in
+        </button>
+      </form>
+    </section>
+    <div data-admin-authorized hidden>
+      <div class="admin-topline">
+        <p data-admin-identity></p>
+        <button type="button" class="button secondary" data-admin-signout>
+          Sign out
+        </button>
+      </div>
+      <div class="admin-shell" hidden>
+        <nav class="admin-nav" aria-label="Board tools">
+          <a href="/admin/" aria-current={section === 'dashboard' ? 'page' : undefined}>
+            Overview
+          </a>
+          {Object.entries(labels).map(([key, label]) => (
+            <a href={`/admin/${key}/`} aria-current={section === key ? 'page' : undefined}>
+              {label}
+            </a>
+          ))}
+          <a href="/" class="admin-back">
+            View website ↗
+          </a>
+        </nav>
+        <section class="admin-main" aria-label="Content workspace">
+          {section === 'dashboard' ? (
+            <>
+              <h2>Small updates. A connected community.</h2>
+              <p>Choose an area to edit. Save a draft, preview it, then publish when it’s ready.</p>
+              <div class="admin-dashboard">
+                {Object.entries(labels).map(([key, label], i) => (
+                  <a href={`/admin/${key}/`}>
+                    <span aria-hidden="true">0{i + 1} / ☾</span>
+                    <h3>{label}</h3>
+                    <p>
+                      {key === 'prayer'
+                        ? 'Times, rooms, directions and announcements.'
+                        : key === 'events'
+                          ? 'Gatherings, registrations and flyers.'
+                          : key === 'khutbahs'
+                            ? 'Recordings, speakers and transcripts.'
+                            : key === 'donations'
+                              ? 'Payment methods and recipient details.'
+                              : 'The story behind your giving campaign.'}
+                    </p>
+                    <span>Open editor →</span>
+                  </a>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div class="admin-editor-heading">
+                <h2>{labels[section]}</h2>
+                <button type="button" class="button secondary" data-admin-new>
+                  New entry
+                </button>
+              </div>
+              <label for="admin-record">Choose an entry</label>
+              <select id="admin-record" data-admin-record></select>
+              <form data-content-form>
+                <div class="admin-field">
+                  <label for="content-id">Entry ID</label>
+                  <input
+                    id="content-id"
+                    name="id"
+                    pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                    maxlength="100"
+                    required
+                  />
+                  <small>
+                    Lowercase words separated by hyphens. This stays fixed after saving.
+                  </small>
+                </div>
+                <div data-admin-fields class="admin-fields"></div>
+                <label class="admin-archive">
+                  <input type="checkbox" name="archived" /> Archive this entry (hide it from the
+                  website)
+                </label>
+                <p class="fine-print" data-revision></p>
+                <div class="actions admin-savebar">
+                  <button class="button secondary" type="button" data-preview>
+                    Preview
+                  </button>
+                  <button class="button secondary" type="button" data-save-draft>
+                    Save draft
+                  </button>
+                  <button class="button" type="submit" data-publish>
+                    Publish changes
+                  </button>
+                </div>
+              </form>
+              <section class="admin-preview" data-admin-preview hidden aria-label="Content preview">
+                <h3>Public preview</h3>
+                <div data-preview-body></div>
+              </section>
+              <details class="admin-history">
+                <summary>Revision history & restore</summary>
+                <p>
+                  Restore loads an earlier revision into the form. Review and publish it as a new
+                  revision.
+                </p>
+                <div data-history></div>
+              </details>
+            </>
+          )}
+        </section>
+      </div>
+    </div>
+    <p class="admin-status" data-admin-status role="status" aria-live="polite"></p>
+    <noscript>
+      <p>JavaScript is required to sign in and edit board content.</p>
+    </noscript>
+  </div>
+  <script src="../scripts/admin-workspace.ts"></script>
+</Layout>

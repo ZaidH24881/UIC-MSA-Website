@@ -61,6 +61,7 @@ const menu = [
     {menu.map((item) => (
       <a href={item.url}>{item.label}</a>
     ))}
+    <a href="/admin/">Admin · Board workspace</a>
   </nav>
 </noscript>
 <dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title">
@@ -81,4 +82,10 @@ const menu = [
   <a class="menu-email" href="mailto:uicmsa@gmail.com">
     uicmsa@gmail.com
   </a>
+  <section class="menu-admin" aria-labelledby="menu-admin-title">
+    <h3 id="menu-admin-title">Admin</h3>
+    <a href="/admin/">
+      Board workspace <span aria-hidden="true">↗</span>
+    </a>
+  </section>
 </dialog>

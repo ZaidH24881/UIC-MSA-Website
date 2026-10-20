@@ -24,7 +24,7 @@ const reviewDate = new Intl.DateTimeFormat('en-US', {
     intro="Find the community’s Friday announcement and the latest information for praying on campus."
   />
   <div class="container page-content content-grid">
-    <div>
+    <div data-prayer-content>
       {exception && (
         <aside class="notice announcement-box">
           <h2>Prayer update</h2>
@@ -101,7 +101,7 @@ const reviewDate = new Intl.DateTimeFormat('en-US', {
         <a href="/resources/lectures/">Browse lectures and recordings</a>
       </article>
     </div>
-    <aside class="aside-panel">
+    <aside class="aside-panel" data-prayer-poster>
       <h2>The Friday announcement</h2>
       <p>
         The supplied MSA poster is available below. Prayer details are also written out on this

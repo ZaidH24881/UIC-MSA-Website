@@ -34,12 +34,13 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium webkit
       - name: Browser and redirect checks
         run: |
-          node scripts/serve.mjs &
+          ADMIN_DEMO=1 node scripts/serve.mjs &
           node scripts/wait-for-preview.mjs
           node tests/browser.mjs
           node tests/design.mjs
           node tests/layout.mjs
           node tests/mobile.mjs
+          node tests/admin-browser.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: msa-website

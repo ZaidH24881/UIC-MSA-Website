@@ -1,6 +1,7 @@
 import http from 'node:http';
 import path from 'node:path';
 import { readFile, stat } from 'node:fs/promises';
+import { demoRequest } from './admin-demo.mjs';
 const root = path.resolve('dist');
 const redirects = JSON.parse(await readFile('content/redirects.json', 'utf8'));
 const port = Number(process.env.PORT || 4322);
@@ -20,6 +21,7 @@ const mime = {
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
+    if (await demoRequest(req, res, url)) return;
     const pathname = decodeURIComponent(url.pathname);
     const legacy = pathname.replace(/\/$/, '');
     if (redirects[legacy]) {

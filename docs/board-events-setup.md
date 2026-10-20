@@ -1,3 +1,7 @@
+# Historical setup reference
+
+The current editor is now at /admin/. Follow [Admin workspace](admin-workspace.md) for current rules, roles, and deployment instructions. The rules and old event-page location below describe the previous implementation and must not be redeployed over the new CMS rules.
+
 # Board event editing (Firebase)
 
 Board members add, edit, delete, and see new events immediately at `/events/` — no
@@ -17,7 +21,7 @@ binding to maintain anymore.
   sign in, but only allowlisted emails can actually save an event.
 - **The allowlist** lives in two places that must be kept in sync:
   - `src/data/board-access.ts`'s `boardEmails` — controls whether the
-    add-event *form* is shown after sign-in. This is a convenience, not
+    add-event _form_ is shown after sign-in. This is a convenience, not
     security.
   - Firestore's security rules (Firebase Console → Firestore Database →
     Rules) — this is what actually rejects unauthorized writes, even if
@@ -58,6 +62,7 @@ binding to maintain anymore.
    Add or remove emails from that list any time someone's access should
    change — just keep it in sync with `src/data/board-access.ts` in the
    repo. → Publish.
+
 6. You do **not** need to set up Firebase Storage — flyers are stored
    directly on the event document, so there's nothing to enable there, and
    no billing plan upgrade is required.
