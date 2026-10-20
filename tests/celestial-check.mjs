@@ -17,16 +17,14 @@ try {
         `${route} overflow at ${width}`,
       );
       if (route === '/resources/') {
-        const cards = await page
-          .locator('.resource-directory .resource-link')
-          .evaluateAll((es) =>
-            es.map((e) => ({
-              x: e.getBoundingClientRect().x,
-              y: e.getBoundingClientRect().y,
-              w: e.getBoundingClientRect().width,
-              h: e.getBoundingClientRect().height,
-            })),
-          );
+        const cards = await page.locator('.resource-directory .resource-link').evaluateAll((es) =>
+          es.map((e) => ({
+            x: e.getBoundingClientRect().x,
+            y: e.getBoundingClientRect().y,
+            w: e.getBoundingClientRect().width,
+            h: e.getBoundingClientRect().height,
+          })),
+        );
         assert.ok(
           cards.every((c) => Math.abs(c.w - cards[0].w) < 1),
           'consistent resource card widths',
@@ -47,24 +45,45 @@ try {
     }
   }
   await page.goto('http://127.0.0.1:4322/');
-  await page.mouse.move(350, 300);
-  await page.waitForFunction(() =>
-    document.querySelector('.star-cursor')?.classList.contains('is-visible'),
-  );
+  assert.equal(await page.locator('.star-cursor, .sky-star, .sky-comet').count(), 0);
+  assert.ok((await page.locator('.sky-moon').count()) > 0);
+  for (const selector of ['body', '.desktop-nav a', '.button']) {
+    assert.match(
+      await page
+        .locator(selector)
+        .first()
+        .evaluate((e) => getComputedStyle(e).cursor),
+      /data:image\/svg\+xml/,
+    );
+  }
+  await page.goto('http://127.0.0.1:4322/resources/');
+  const activeLink = page.locator('.desktop-nav a[aria-current="page"]');
+  assert.equal(await activeLink.evaluate((e) => getComputedStyle(e, '::after').content), 'none');
   assert.equal(
-    await page.locator('.star-cursor').evaluate((e) => getComputedStyle(e).pointerEvents),
+    await activeLink.evaluate((e) => getComputedStyle(e).textDecorationColor),
+    'rgb(164, 124, 55)',
+  );
+  await page.mouse.move(350, 300);
+  assert.equal(await page.locator('.moon-mote').count(), 10);
+  assert.equal(
+    await page
+      .locator('.moon-mote')
+      .first()
+      .evaluate((e) => getComputedStyle(e).pointerEvents),
     'none',
   );
-  await page.screenshot({ path: 'test-results/cursor-star.png' });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction(() => document.documentElement.hasAttribute('data-motion-paused'));
   assert.equal(
-    await page.locator('.star-cursor').evaluate((e) => getComputedStyle(e).display),
+    await page
+      .locator('.moon-mote')
+      .first()
+      .evaluate((e) => getComputedStyle(e).display),
     'none',
   );
   assert.equal(
     await page
-      .locator('.sky-comet')
+      .locator('.sky-moon')
       .first()
       .evaluate((e) => getComputedStyle(e).animationName),
     'none',
@@ -77,7 +96,10 @@ try {
   const tp = await touch.newPage();
   await tp.goto('http://127.0.0.1:4322/');
   assert.equal(
-    await tp.locator('.star-cursor').evaluate((e) => getComputedStyle(e).display),
+    await tp
+      .locator('.moon-mote')
+      .first()
+      .evaluate((e) => getComputedStyle(e).display),
     'none',
   );
   console.log(

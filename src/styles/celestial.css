@@ -25,21 +25,21 @@ main > .celestial-sky {
   position: fixed;
   opacity: 0.55;
 }
-.sky-star {
+.sky-moon {
   position: absolute;
   left: var(--x);
   top: var(--y);
   width: var(--size);
   height: var(--size);
   opacity: 0.5;
-  animation: star-drift var(--duration) ease-in-out var(--delay) infinite alternate;
+  animation: moon-drift var(--duration) ease-in-out var(--delay) infinite alternate;
 }
-.sky-star svg {
+.sky-moon svg {
   display: block;
   width: 100%;
   height: 100%;
 }
-.sky-star--gold {
+.sky-moon--gold {
   color: #bd944a;
 }
 .sky-glow {
@@ -96,20 +96,16 @@ main > .celestial-sky {
   position: relative;
 }
 .desktop-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #a47c37;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s;
+  content: none;
 }
-.desktop-nav a:hover::after,
-.desktop-nav a[aria-current]::after {
-  transform: scaleX(1);
+.desktop-nav a[aria-current='page'],
+.desktop-nav a:hover,
+.donate-nav[aria-current='page'],
+.donate-nav:hover {
+  text-decoration-line: underline;
+  text-decoration-color: #a47c37;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
 }
 .cinema-hero.hero {
   position: relative;
@@ -126,10 +122,10 @@ main > .celestial-sky {
   color: #76b2ff;
   background: radial-gradient(ellipse at 50% 15%, #214f83 0%, transparent 65%);
 }
-.celestial-sky--hero .sky-star {
+.celestial-sky--hero .sky-moon {
   opacity: 0.75;
 }
-.celestial-sky--hero .sky-star--gold {
+.celestial-sky--hero .sky-moon--gold {
   color: #efca7f;
 }
 .celestial-sky--hero .sky-orbit {
@@ -202,7 +198,7 @@ main > .celestial-sky {
   gap: 12px;
 }
 .community-ribbon span::before {
-  content: '✦';
+  content: '☾';
   color: #eaca8e;
   font-size: 1rem;
 }
@@ -259,7 +255,7 @@ main > .celestial-sky {
   border-bottom: 1px solid #d3b576;
 }
 .support-band::before {
-  content: '✦';
+  content: '☾';
   position: absolute;
   z-index: -1;
   right: 8%;
@@ -292,7 +288,7 @@ html[data-motion-paused] [data-reveal] {
   transform: none !important;
   transition: none !important;
 }
-@keyframes star-drift {
+@keyframes moon-drift {
   from {
     transform: translate3d(0, -6px, 0) rotate(-12deg);
     opacity: 0.3;
@@ -364,7 +360,7 @@ html[data-motion-paused] [data-reveal] {
     font-size: 0.62rem;
     letter-spacing: 0.08em;
   }
-  .sky-star:nth-of-type(2n) {
+  .sky-moon:nth-of-type(2n) {
     display: none;
   }
 }
@@ -413,111 +409,6 @@ html[data-motion-paused] [data-reveal] {
 @media (max-width: 600px) {
   .content-grid .resource-link {
     padding: 20px;
-  }
-}
-
-.sky-constellation {
-  position: absolute;
-  width: clamp(170px, 24vw, 330px);
-  left: 1%;
-  top: 20%;
-  opacity: 0.23;
-  transform: rotate(-12deg);
-}
-.celestial-sky--hero .sky-constellation {
-  left: auto;
-  right: -3%;
-  top: 5%;
-  color: #b9d7ff;
-  opacity: 0.27;
-}
-.sky-comet {
-  position: absolute;
-  width: 90px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #eacb8a);
-  opacity: 0;
-  transform: rotate(-35deg);
-}
-.sky-comet--one {
-  top: 12%;
-  left: 65%;
-  animation: comet-pass 13s 2s linear infinite;
-}
-.sky-comet--two {
-  top: 35%;
-  left: 25%;
-  animation: comet-pass 17s 7s linear infinite;
-}
-@keyframes comet-pass {
-  0%,
-  84%,
-  100% {
-    opacity: 0;
-    transform: translate(0, 0) rotate(-35deg);
-  }
-  87% {
-    opacity: 0.8;
-  }
-  96% {
-    opacity: 0;
-    transform: translate(-180px, 126px) rotate(-35deg);
-  }
-}
-.star-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 30px;
-  height: 30px;
-  z-index: 90;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s;
-  filter: drop-shadow(0 0 7px #77aaff85);
-}
-.star-cursor.is-visible {
-  opacity: 1;
-}
-.star-cursor svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.3s ease;
-}
-.star-cursor.is-interactive svg {
-  transform: rotate(90deg) scale(1.35);
-}
-.cursor-spark {
-  position: fixed;
-  width: 11px;
-  height: 11px;
-  background: #447ed0;
-  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-  z-index: 89;
-  pointer-events: none;
-  opacity: 0;
-}
-.cursor-spark--gold {
-  background: #ce9e44;
-}
-.section-heading h2::after {
-  content: '✦';
-  display: inline-block;
-  margin-left: 0.3em;
-  font-size: 0.45em;
-  color: #9c793b;
-  vertical-align: middle;
-}
-@media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .star-cursor,
-  .cursor-spark {
-    display: none;
-  }
-}
-@media (max-width: 600px) {
-  .sky-constellation {
-    opacity: 0.13;
   }
 }
 
@@ -711,7 +602,7 @@ html[data-motion-paused] [data-reveal] {
   border-block: 1px solid #cfb37d;
   background: linear-gradient(90deg, #e6effa80, #fff5dfd9, #e6effa80);
 }
-.quote-star {
+.quote-moon {
   display: block;
   color: #9b742f;
   font-size: 25px;
@@ -877,5 +768,57 @@ html[data-motion-paused] [data-reveal] {
   }
   .giving-values {
     gap: 12px;
+  }
+}
+
+/* Moon phases and crescents replace the previous star and constellation motifs. */
+.sky-phases {
+  position: absolute;
+  width: clamp(140px, 21vw, 280px);
+  right: 2%;
+  top: 9%;
+  color: #a9874b;
+  opacity: 0.22;
+}
+.celestial-sky--hero .sky-phases {
+  color: #e5c78f;
+  opacity: 0.28;
+}
+.page-ornament span {
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.support-band::before {
+  font-family: Georgia, serif;
+}
+.moon-mote {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #749bd2;
+  box-shadow: 0 0 8px #749bd2;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 90;
+}
+.moon-mote--gold {
+  background: #d2ad67;
+  box-shadow: 0 0 8px #d2ad67;
+}
+@media (hover: hover) and (pointer: fine) {
+  html,
+  html *,
+  html *::before,
+  html *::after {
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M21 3A13 13 0 1 0 29 23A12 12 0 0 1 21 3Z' fill='%23ecc77e' stroke='%23234e83' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E")
+        21 3,
+      auto !important;
+  }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .moon-mote {
+    display: none;
   }
 }

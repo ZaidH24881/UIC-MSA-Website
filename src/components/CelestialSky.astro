@@ -3,10 +3,10 @@ interface Props {
   hero?: boolean;
 }
 const { hero = false } = Astro.props;
-const stars = Array.from({ length: hero ? 42 : 32 }, (_, i) => ({
+const moons = Array.from({ length: hero ? 16 : 12 }, (_, i) => ({
   x: (i * 37 + 7) % 100,
   y: (i * 23 + 11) % 100,
-  size: i % 5 === 0 ? 30 : i % 3 === 0 ? 13 : 5,
+  size: i % 3 === 0 ? 32 : 18,
   delay: -(i % 7),
 }));
 ---
@@ -16,27 +16,18 @@ const stars = Array.from({ length: hero ? 42 : 32 }, (_, i) => ({
   <div class="sky-glow sky-glow--gold"></div>
   <div class="sky-orbit sky-orbit--one"></div>
   <div class="sky-orbit sky-orbit--two"></div>
-  <svg class="sky-constellation" viewBox="0 0 260 300" fill="none">
-    <path d="M30 35 130 80 80 170 205 240 230 125 130 80" stroke="currentColor" stroke-width="1" />
-    {[
-      [30, 35],
-      [130, 80],
-      [80, 170],
-      [205, 240],
-      [230, 125],
-    ].map(([cx, cy]) => (
-      <circle cx={cx} cy={cy} r="3" fill="currentColor" />
-    ))}
+  <svg class="sky-phases" viewBox="0 0 240 80" fill="none">
+    <circle cx="40" cy="40" r="22" stroke="currentColor" />
+    <path d="M120 18 A22 22 0 1 0 120 62 A14 22 0 0 1 120 18Z" fill="currentColor" />
+    <circle cx="200" cy="40" r="22" fill="currentColor" />
   </svg>
-  <span class="sky-comet sky-comet--one"></span>
-  <span class="sky-comet sky-comet--two"></span>
-  {stars.map((star, i) => (
+  {moons.map((moon, i) => (
     <span
-      class:list={['sky-star', { 'sky-star--gold': i % 4 === 0 }]}
-      style={`--x:${star.x}%;--y:${star.y}%;--size:${star.size}px;--delay:${star.delay}s;--duration:${6 + (i % 5)}s`}
+      class:list={['sky-moon', { 'sky-moon--gold': i % 3 === 0 }]}
+      style={`--x:${moon.x}%;--y:${moon.y}%;--size:${moon.size}px;--delay:${moon.delay}s;--duration:${8 + (i % 5)}s`}
     >
       <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0 15 9 24 12 15 15 12 24 9 15 0 12 9 9Z" />
+        <path d="M17 2A10 10 0 1 0 22 17A9 9 0 0 1 17 2Z" />
       </svg>
     </span>
   ))}

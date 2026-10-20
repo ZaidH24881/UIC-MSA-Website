@@ -42,71 +42,47 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// A pooled sparkle trail keeps pointer movement lightweight and avoids DOM growth.
+// The cursor itself is a native SVG cursor: no offset follower or duplicate arrow.
+// A bounded pool of soft moonlight dots provides an optional moving trail.
 const pointerMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
-const cursor = document.createElement('div');
-cursor.className = 'star-cursor';
-cursor.setAttribute('aria-hidden', 'true');
-cursor.innerHTML =
-  '<svg viewBox="0 0 40 40" fill="none"><path d="M20 1 25 15 39 20 25 25 20 39 15 25 1 20 15 15Z" fill="#ecc77e" stroke="#285da4" stroke-width="2"/><path d="M20 10 22 18 30 20 22 22 20 30 18 22 10 20 18 18Z" fill="#437bca"/></svg>';
-document.body.append(cursor);
-const sparks = Array.from({ length: 12 }, (_, i) => {
-  const spark = document.createElement('span');
-  spark.className = `cursor-spark ${i % 2 ? 'cursor-spark--gold' : ''}`;
-  spark.setAttribute('aria-hidden', 'true');
-  document.body.append(spark);
-  return spark;
+const motes = Array.from({ length: 10 }, (_, i) => {
+  const mote = document.createElement('span');
+  mote.className = `moon-mote ${i % 2 ? 'moon-mote--gold' : ''}`;
+  mote.setAttribute('aria-hidden', 'true');
+  document.body.append(mote);
+  return mote;
 });
-let frame = 0,
-  x = 0,
-  y = 0,
-  lastSpark = 0,
-  sparkIndex = 0;
-function hideCursor() {
-  cancelAnimationFrame(frame);
-  frame = 0;
-  cursor.classList.remove('is-visible');
-  sparks.forEach((spark) => spark.getAnimations().forEach((animation) => animation.cancel()));
+let lastMote = 0,
+  moteIndex = 0;
+function clearTrail() {
+  motes.forEach((mote) => mote.getAnimations().forEach((animation) => animation.cancel()));
 }
-function moveCursor(event: PointerEvent) {
-  if (paused || !pointerMedia.matches || event.pointerType !== 'mouse') return;
-  x = event.clientX;
-  y = event.clientY;
-  cursor.classList.toggle(
-    'is-interactive',
-    !!(event.target as Element).closest('a, button, summary, input, textarea'),
-  );
-  if (frame) return;
-  frame = requestAnimationFrame(() => {
-    frame = 0;
-    cursor.style.transform = `translate3d(${x + 12}px, ${y + 12}px, 0)`;
-    cursor.classList.add('is-visible');
+document.addEventListener(
+  'pointermove',
+  (event) => {
+    if (paused || !pointerMedia.matches || event.pointerType !== 'mouse') return;
     const now = performance.now();
-    if (now - lastSpark < 55) return;
-    lastSpark = now;
-    const spark = sparks[sparkIndex++ % sparks.length];
-    spark.getAnimations().forEach((animation) => animation.cancel());
-    spark.style.left = `${x}px`;
-    spark.style.top = `${y}px`;
-    const drift = ((sparkIndex % 3) - 1) * 16;
-    spark.animate(
+    if (now - lastMote < 60) return;
+    lastMote = now;
+    const mote = motes[moteIndex++ % motes.length];
+    mote.getAnimations().forEach((animation) => animation.cancel());
+    mote.style.left = `${event.clientX}px`;
+    mote.style.top = `${event.clientY}px`;
+    mote.animate(
       [
-        { opacity: 0.85, transform: 'translate(-50%, -50%) scale(1) rotate(0deg)' },
-        {
-          opacity: 0,
-          transform: `translate(calc(-50% + ${drift}px), 24px) scale(.15) rotate(100deg)`,
-        },
+        { opacity: 0.6, transform: 'translate(-50%, -50%) scale(1)' },
+        { opacity: 0, transform: 'translate(-50%, 15px) scale(.2)' },
       ],
-      { duration: 620, easing: 'ease-out' },
+      { duration: 550, easing: 'ease-out' },
     );
-  });
-}
-document.addEventListener('pointermove', moveCursor, { passive: true });
-document.documentElement.addEventListener('pointerleave', hideCursor);
-window.addEventListener('blur', hideCursor);
-window.addEventListener('pagehide', hideCursor);
+  },
+  { passive: true },
+);
+document.documentElement.addEventListener('pointerleave', clearTrail);
+window.addEventListener('blur', clearTrail);
+window.addEventListener('pagehide', clearTrail);
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) hideCursor();
+  if (document.hidden) clearTrail();
 });
-preference.addEventListener('change', hideCursor);
-pointerMedia.addEventListener('change', hideCursor);
+preference.addEventListener('change', clearTrail);
+pointerMedia.addEventListener('change', clearTrail);

@@ -1,18 +1,17 @@
 # Husaam visual revisions
 
-Branch: `husaam-revisions-1`.
+Current branch: `husaam-revision-2`, based on `husaam-revisions-1`.
 
-The existing page structure and content now sit in a blue and gold celestial theme: a deep-blue home hero, decorative drifting stars, slowly moving orbital lines and ambient glows, gold calls to action, spaced resource cards, scroll entrances, animated card icons and navigation underlines. Shared backgrounds carry the theme through the other pages. No new dependencies or image downloads were added.
+The blue/gold layout now uses drifting crescents, moon phases, orbital lines, and ambient glows. Interior page ornaments, ribbon separators, the support banner, and charity quotation use moon motifs. Navigation has one gold underline at the original underline position.
 
-The motion button has been removed on request. System reduced-motion settings automatically disable animations and the decorative cursor. The mouse cursor has a blue/gold star and a bounded sparkle trail; touch devices keep their normal interaction. Interior page ornaments, constellation lines, shooting stars, card entrances, and hover effects extend the theme across the site. Resources uses consistently aligned cards. Donate includes a community photograph and a short charity hadith excerpt attributed in plain text to Sahih Muslim 2588, reported by Abu Hurayrah.
+Desktop pointers use a gold crescent with a blue outline as the actual cursor, including links and buttons. A bounded pool of soft moonlight dots trails the pointer. Touch devices have no custom pointer; system reduced-motion settings disable motion and the trail while retaining the static crescent cursor. No motion-toggle button is present.
+
+The existing Resources alignment and Donate design are preserved, including the plain-text Sahih Muslim 2588 reference. No new dependencies were added.
+
+The future Admin section is scoped in admin-area-scope.md only. Existing menu, authentication, and board-editing behavior have not changed.
 
 ## Verification
 
-- Production build and Astro check: zero errors and warnings; one existing async-function hint.
-- Eight existing content/site tests pass using Node 24.
-- Existing layout suite passes for long content, photo crops, and mobile touch targets.
-- Existing browser suite traversed 17 routes at eight widths without horizontal overflow and completed keyboard/dialog/no-JavaScript checks, but its final runtime assertion fails with Firebase `auth/invalid-api-key` because this checkout has no local Firebase configuration. Live events and board authentication are therefore not verified here.
-- `node tests/celestial-check.mjs` verifies responsive layouts, resource alignment, the donation reference, cursor behavior, reduced motion, and touch handling, and captures desktop/mobile screenshots. Run against `pnpm preview` on port 4322 with Chrome installed.
-- `node tests/celestial-accessibility.mjs` audits seven primary routes at 390px and 1440px using axe.
+Run `pnpm build`, the existing unit tests with Node 24, `node tests/celestial-check.mjs`, and `node tests/celestial-accessibility.mjs`. Browser checks expect the production preview at port 4322 and Chrome installed. The visual checks cover responsive layouts, resource alignment, donation reference, moon cursor styling, reduced motion, and touch behavior.
 
-No production deployment was performed.
+This local checkout lacks Firebase credentials, so live events and board authentication cannot be verified here. No production deployment is included.
