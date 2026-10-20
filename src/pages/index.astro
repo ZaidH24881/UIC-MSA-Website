@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import CelestialSky from '../components/CelestialSky.astro';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import EventList from '../components/EventList.astro';
@@ -20,6 +21,7 @@ import { activeNotices } from '../lib/events';
     </aside>
   ))}
   <section class="container hero cinema-hero" data-motion-home>
+    <CelestialSky hero />
     <div class="hero-copy">
       <p class="eyebrow" data-hero-enter>
         Muslim Student Association at UIC
@@ -65,6 +67,11 @@ import { activeNotices } from '../lib/events';
           </div>
         </div>
       </div>
+    </div>
+    <div class="community-ribbon" aria-label="Faith, friendship, belonging">
+      <span>Rooted in faith</span>
+      <span>Built on friendship</span>
+      <span>A place to belong</span>
     </div>
   </section>
   <section class="section container">

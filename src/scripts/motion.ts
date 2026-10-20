@@ -5,7 +5,11 @@ async function start() {
   const current = ++generation;
   dispose?.();
   dispose = undefined;
-  if (!document.querySelector('[data-motion-home]')) return;
+  if (
+    document.documentElement.hasAttribute('data-motion-paused') ||
+    !document.querySelector('[data-motion-home]')
+  )
+    return;
   const { mountMotion } = await import('./motion/runtime');
   if (current === generation) dispose = mountMotion();
 }
@@ -20,4 +24,9 @@ document.addEventListener('astro:page-load', () => void start());
 window.addEventListener('pagehide', stop);
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) void start();
+});
+
+window.addEventListener('msa:motion-change', () => {
+  if (document.documentElement.hasAttribute('data-motion-paused')) stop();
+  else void start();
 });

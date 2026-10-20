@@ -1,0 +1,29 @@
+---
+interface Props {
+  hero?: boolean;
+}
+const { hero = false } = Astro.props;
+const stars = Array.from({ length: hero ? 30 : 24 }, (_, i) => ({
+  x: (i * 37 + 7) % 100,
+  y: (i * 23 + 11) % 100,
+  size: i % 5 === 0 ? 23 : i % 3 === 0 ? 13 : 5,
+  delay: -(i % 7),
+}));
+---
+
+<div class:list={['celestial-sky', { 'celestial-sky--hero': hero }]} aria-hidden="true">
+  <div class="sky-glow sky-glow--blue"></div>
+  <div class="sky-glow sky-glow--gold"></div>
+  <div class="sky-orbit sky-orbit--one"></div>
+  <div class="sky-orbit sky-orbit--two"></div>
+  {stars.map((star, i) => (
+    <span
+      class:list={['sky-star', { 'sky-star--gold': i % 4 === 0 }]}
+      style={`--x:${star.x}%;--y:${star.y}%;--size:${star.size}px;--delay:${star.delay}s;--duration:${6 + (i % 5)}s`}
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0 15 9 24 12 15 15 12 24 9 15 0 12 9 9Z" />
+      </svg>
+    </span>
+  ))}
+</div>

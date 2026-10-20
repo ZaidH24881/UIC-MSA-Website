@@ -1,0 +1,437 @@
+/* Decorative motion is optional; content remains visible without JavaScript. */
+:root {
+  --paper: #edf3fc;
+  --navy: #204f93;
+  --navy-hover: #163c73;
+  --gold: #927035;
+  --line: #cddbef;
+}
+body {
+  background: var(--paper);
+}
+main {
+  position: relative;
+  isolation: isolate;
+}
+.celestial-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  color: #3570bd;
+}
+main > .celestial-sky {
+  position: fixed;
+  opacity: 0.55;
+}
+.sky-star {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  opacity: 0.5;
+  animation: star-drift var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+.sky-star svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.sky-star--gold {
+  color: #bd944a;
+}
+.sky-glow {
+  position: absolute;
+  width: min(70vw, 800px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8ab7ff40, transparent 70%);
+  animation: sky-breathe 14s ease-in-out infinite alternate;
+}
+.sky-glow--blue {
+  left: -25%;
+  top: 0;
+}
+.sky-glow--gold {
+  right: -25%;
+  bottom: 0;
+  background: radial-gradient(circle, #e6bd6030, transparent 70%);
+  animation-delay: -7s;
+}
+.sky-orbit {
+  position: absolute;
+  width: min(90vw, 1000px);
+  aspect-ratio: 1;
+  border: 1px solid #497ab523;
+  border-radius: 50%;
+}
+.sky-orbit::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 14%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #be9447;
+  box-shadow: 0 0 18px #d1ab62;
+}
+.sky-orbit--one {
+  top: -20%;
+  left: -45%;
+  animation: orbit-turn 85s linear infinite;
+}
+.sky-orbit--two {
+  bottom: -25%;
+  right: -45%;
+  animation: orbit-turn 100s linear infinite reverse;
+}
+.site-header {
+  border-bottom: 1px solid #c7d8ed;
+  background: #edf3fce8;
+}
+.desktop-nav a {
+  position: relative;
+}
+.desktop-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #a47c37;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.desktop-nav a:hover::after,
+.desktop-nav a[aria-current]::after {
+  transform: scaleX(1);
+}
+.cinema-hero.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 24px;
+  padding: clamp(40px, 6vw, 76px) clamp(18px, 3vw, 44px) 24px;
+  border-radius: 32px;
+  color: #f4f7ff;
+  background: #0c2348;
+  box-shadow: 0 24px 65px #15396724;
+}
+.celestial-sky--hero {
+  color: #76b2ff;
+  background: radial-gradient(ellipse at 50% 15%, #214f83 0%, transparent 65%);
+}
+.celestial-sky--hero .sky-star {
+  opacity: 0.75;
+}
+.celestial-sky--hero .sky-star--gold {
+  color: #efca7f;
+}
+.celestial-sky--hero .sky-orbit {
+  border-color: #9ec9ff26;
+}
+.celestial-sky--hero .sky-glow--gold {
+  background: radial-gradient(circle, #d2a75024, transparent 70%);
+}
+.cinema-hero .hero-copy {
+  position: relative;
+}
+.cinema-hero .hero-copy > .eyebrow {
+  background: #142e51d9;
+  color: #e6ca92;
+  border-color: #d8b56865;
+  letter-spacing: 0.065em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.cinema-hero h1 {
+  color: #f4f7ff;
+}
+.cinema-hero .hero-line:last-child {
+  color: #eaca8e;
+}
+.cinema-hero .hero-intro {
+  color: #d1def1;
+}
+.cinema-hero .button {
+  background: #edca87;
+  color: #14294a;
+  border-color: #edca87;
+  box-shadow: 0 8px 28px #030e2929;
+}
+.cinema-hero .button:hover {
+  background: #ffe0a4;
+  box-shadow: 0 8px 32px #eac47d30;
+}
+.cinema-hero .button.secondary {
+  background: #16385c;
+  color: #fff;
+  border-color: #7694bd;
+}
+.cinema-hero :focus-visible {
+  outline-color: #f0ce8e;
+}
+.cinema-stage {
+  margin-top: 36px;
+}
+.cinema-frame {
+  border: 1px solid #c4d9f752;
+  box-shadow: 0 15px 45px #0005;
+  border-radius: 22px;
+}
+.community-ribbon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding: 25px 10px 4px;
+  color: #d2def0;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.community-ribbon span {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.community-ribbon span::before {
+  content: '✦';
+  color: #eaca8e;
+  font-size: 1rem;
+}
+.section {
+  padding-block: clamp(48px, 6vw, 80px);
+}
+.section-heading .eyebrow,
+.page-lead .eyebrow {
+  color: #76571e;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+.resource-link {
+  background: linear-gradient(135deg, #ffffffed, #e3edfcf2);
+  border: 1px solid #c4d6ee;
+  box-shadow: 0 6px 22px #234f7c08;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s,
+    border-color 0.3s;
+}
+.resource-link:nth-child(3n + 2) {
+  background: linear-gradient(135deg, #fffaf0f5, #f4edddf2);
+  border-color: #ded0ad;
+}
+.resource-link .resource-icon {
+  background: #dce9fb;
+  color: #265792;
+  border: 1px solid #bfd4f1;
+  transition:
+    transform 0.35s,
+    background 0.3s;
+}
+.resource-link:nth-child(3n + 2) .resource-icon {
+  background: #eee2c8;
+  color: #72551f;
+  border-color: #d8c599;
+}
+.resource-link > svg {
+  transition: transform 0.3s;
+}
+.aside-panel {
+  background: linear-gradient(145deg, #e0eaf9, #f2f6fd);
+  border: 1px solid #bed0eb;
+  box-shadow: inset 0 3px 0 #c7a15c;
+}
+.support-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 85% 40%, #2e5480, transparent 60%), #102b50;
+  border-top: 1px solid #d3b576;
+  border-bottom: 1px solid #d3b576;
+}
+.support-band::before {
+  content: '✦';
+  position: absolute;
+  z-index: -1;
+  right: 8%;
+  top: -90px;
+  font-size: 370px;
+  line-height: 1;
+  color: #caa56826;
+  animation: support-turn 26s ease-in-out infinite alternate;
+}
+.support-band h2 .serif {
+  color: #e8c88d;
+}
+.support-band .button.light {
+  background: #efd397;
+  color: #182e4d;
+  border-color: #efd397;
+}
+.site-footer {
+  background: #091c36;
+}
+.button {
+  position: relative;
+}
+.motion-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 35;
+  min-height: 44px;
+  border: 1px solid #869ec1;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #173354;
+  background: #f3f7ffed;
+  box-shadow: 0 4px 18px #06172d20;
+  backdrop-filter: blur(12px);
+}
+html[data-motion-paused] .celestial-sky *,
+html[data-motion-paused] .support-band::before {
+  animation-play-state: paused !important;
+}
+html[data-motion-paused] [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+@keyframes star-drift {
+  from {
+    transform: translate3d(0, -6px, 0) rotate(-12deg);
+    opacity: 0.3;
+  }
+  to {
+    transform: translate3d(5px, 10px, 0) rotate(25deg);
+    opacity: 0.85;
+  }
+}
+@keyframes sky-breathe {
+  to {
+    transform: translate3d(8%, 5%, 0) scale(1.1);
+  }
+}
+@keyframes orbit-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes support-turn {
+  to {
+    transform: rotate(50deg) scale(0.9);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .resource-link:hover {
+    transform: translateY(-5px);
+    border-color: #b18a43;
+    box-shadow: 0 15px 30px #214c7c18;
+  }
+  .resource-link:hover .resource-icon {
+    transform: rotate(-9deg) scale(1.08);
+  }
+  .resource-link:hover > svg {
+    transform: translateX(4px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    transition:
+      opacity 0.65s ease,
+      transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal]:focus-within {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 600px) {
+  .cinema-hero.hero {
+    margin-top: 14px;
+    border-radius: 24px;
+    padding-bottom: 18px;
+  }
+  .cinema-hero .hero-copy > .eyebrow {
+    font-size: 0.62rem;
+    padding-inline: 12px;
+  }
+  .cinema-stage {
+    margin-top: 28px;
+  }
+  .cinema-caption {
+    padding: 60px 18px 18px;
+  }
+  .community-ribbon {
+    gap: 6px 18px;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+  .sky-star:nth-of-type(2n) {
+    display: none;
+  }
+  .motion-toggle {
+    right: 12px;
+    bottom: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .celestial-sky *,
+  .support-band::before {
+    animation: none !important;
+  }
+  [data-reveal],
+  .resource-link,
+  .resource-icon,
+  .resource-link > svg,
+  .desktop-nav a::after {
+    transition: none !important;
+  }
+}
+/* Give the existing quick-link grid room for its new card treatment. */
+.content-grid > .resource-grid {
+  gap: 16px;
+}
+.content-grid .resource-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 18px;
+}
+.content-grid .resource-copy {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.content-grid .resource-icon {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+.content-grid .resource-link > svg {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .content-grid .resource-link {
+    padding: 20px;
+  }
+}
