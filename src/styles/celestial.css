@@ -283,22 +283,6 @@ main > .celestial-sky {
 .button {
   position: relative;
 }
-.motion-toggle {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 35;
-  min-height: 44px;
-  border: 1px solid #869ec1;
-  border-radius: 999px;
-  padding: 10px 16px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #173354;
-  background: #f3f7ffed;
-  box-shadow: 0 4px 18px #06172d20;
-  backdrop-filter: blur(12px);
-}
 html[data-motion-paused] .celestial-sky *,
 html[data-motion-paused] .support-band::before {
   animation-play-state: paused !important;
@@ -383,10 +367,6 @@ html[data-motion-paused] [data-reveal] {
   .sky-star:nth-of-type(2n) {
     display: none;
   }
-  .motion-toggle {
-    right: 12px;
-    bottom: 12px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .celestial-sky *,
@@ -433,5 +413,469 @@ html[data-motion-paused] [data-reveal] {
 @media (max-width: 600px) {
   .content-grid .resource-link {
     padding: 20px;
+  }
+}
+
+.sky-constellation {
+  position: absolute;
+  width: clamp(170px, 24vw, 330px);
+  left: 1%;
+  top: 20%;
+  opacity: 0.23;
+  transform: rotate(-12deg);
+}
+.celestial-sky--hero .sky-constellation {
+  left: auto;
+  right: -3%;
+  top: 5%;
+  color: #b9d7ff;
+  opacity: 0.27;
+}
+.sky-comet {
+  position: absolute;
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #eacb8a);
+  opacity: 0;
+  transform: rotate(-35deg);
+}
+.sky-comet--one {
+  top: 12%;
+  left: 65%;
+  animation: comet-pass 13s 2s linear infinite;
+}
+.sky-comet--two {
+  top: 35%;
+  left: 25%;
+  animation: comet-pass 17s 7s linear infinite;
+}
+@keyframes comet-pass {
+  0%,
+  84%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-35deg);
+  }
+  87% {
+    opacity: 0.8;
+  }
+  96% {
+    opacity: 0;
+    transform: translate(-180px, 126px) rotate(-35deg);
+  }
+}
+.star-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  filter: drop-shadow(0 0 7px #77aaff85);
+}
+.star-cursor.is-visible {
+  opacity: 1;
+}
+.star-cursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+.star-cursor.is-interactive svg {
+  transform: rotate(90deg) scale(1.35);
+}
+.cursor-spark {
+  position: fixed;
+  width: 11px;
+  height: 11px;
+  background: #447ed0;
+  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+  z-index: 89;
+  pointer-events: none;
+  opacity: 0;
+}
+.cursor-spark--gold {
+  background: #ce9e44;
+}
+.section-heading h2::after {
+  content: '✦';
+  display: inline-block;
+  margin-left: 0.3em;
+  font-size: 0.45em;
+  color: #9c793b;
+  vertical-align: middle;
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .star-cursor,
+  .cursor-spark {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .sky-constellation {
+    opacity: 0.13;
+  }
+}
+
+/* A shared ornamental header gives every interior page the same visual identity. */
+.page-lead {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  margin-top: 22px;
+  margin-bottom: 28px;
+  padding: clamp(28px, 5vw, 58px);
+  border: 1px solid #c2d4ed;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 100% 0, #bed5f58c, transparent 65%),
+    linear-gradient(120deg, #f7faffee, #e1ecfbd9);
+  box-shadow: 0 14px 40px #284b7810;
+}
+.page-lead h1 {
+  max-width: 20ch;
+  padding-right: 15%;
+}
+.page-lead .eyebrow {
+  color: #77591e;
+}
+.page-ornament {
+  position: absolute;
+  right: 5%;
+  top: 15%;
+  width: clamp(110px, 17vw, 230px);
+  aspect-ratio: 1;
+  color: #3167a7;
+  z-index: -1;
+  opacity: 0.22;
+}
+.page-ornament span {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: clamp(90px, 15vw, 210px);
+  animation: ornament-float 12s ease-in-out infinite alternate;
+}
+.page-ornament i {
+  position: absolute;
+  inset: 5%;
+  border: 1px solid #9f7a39;
+  border-radius: 30%;
+  transform: rotate(45deg);
+  animation: orbit-turn 55s linear infinite;
+}
+.page-ornament i:last-child {
+  inset: -8%;
+  border-radius: 50%;
+  animation-direction: reverse;
+}
+@keyframes ornament-float {
+  to {
+    transform: rotate(35deg) scale(0.85);
+  }
+}
+.resource-grid {
+  gap: 18px;
+  align-items: stretch;
+}
+.resource-link,
+.content-grid .resource-link {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 20px;
+  align-items: start;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 20px;
+  height: 100%;
+}
+.resource-link .resource-copy,
+.content-grid .resource-copy {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+.resource-link .resource-icon,
+.content-grid .resource-icon {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+}
+.resource-link > svg,
+.content-grid .resource-link > svg {
+  grid-column: 3;
+  grid-row: 1;
+  margin: 10px 0 0;
+  width: 20px;
+  align-self: start;
+}
+.resource-link h3,
+.page-content .resource-link h3 {
+  margin: 0 0 10px;
+}
+.resource-link p,
+.page-content .resource-link p {
+  margin: 0;
+}
+.resource-directory {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.content-grid > .resource-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.content-grid .resource-link {
+  grid-template-columns: 1fr 20px;
+}
+.content-grid .resource-link .resource-copy {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.content-grid .resource-link > svg {
+  grid-column: 2;
+}
+.aside-panel,
+.method,
+.video-card,
+.event-card {
+  transition:
+    transform 0.35s,
+    box-shadow 0.35s,
+    border-color 0.35s;
+}
+.page-content .intro-photo {
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 14px 40px #153a671a;
+}
+.photo img {
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.photo picture {
+  overflow: hidden;
+}
+.faq details {
+  padding-inline: 20px;
+  background: #ffffff7a;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.faq details[open] {
+  background: #e2ecfa;
+  border-color: #b9cde8;
+}
+.join-steps .steps > li {
+  border-bottom: 1px solid #c9d9ed;
+}
+.button > svg,
+.text-link > svg {
+  transition: transform 0.3s ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .aside-panel:hover,
+  .method:hover,
+  .video-card:hover,
+  .event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 38px #234c7e19;
+    border-color: #c3a366;
+  }
+  .photo:hover img {
+    transform: scale(1.035);
+  }
+  .button:hover > svg,
+  .text-link:hover > svg {
+    transform: translateX(4px);
+  }
+  .giving-story .button {
+    animation: giving-glow 3s ease-in-out infinite alternate;
+  }
+}
+@keyframes giving-glow {
+  to {
+    box-shadow:
+      0 0 0 7px #e8c27c16,
+      0 8px 28px #c8a35c38;
+  }
+}
+.charity-quote {
+  position: relative;
+  text-align: center;
+  margin: 0 0 30px;
+  padding: 40px 24px;
+  border-block: 1px solid #cfb37d;
+  background: linear-gradient(90deg, #e6effa80, #fff5dfd9, #e6effa80);
+}
+.quote-star {
+  display: block;
+  color: #9b742f;
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+.charity-quote .eyebrow {
+  margin: 0 auto 12px;
+  color: #65502c;
+  font-size: 0.8rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.charity-quote blockquote {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: clamp(1.5rem, 3.3vw, 2.7rem);
+  line-height: 1.45;
+  color: #193e6b;
+  margin: 0 auto 18px;
+}
+.charity-quote figcaption {
+  font-size: 0.82rem;
+  color: #675637;
+}
+.charity-quote cite {
+  font-style: normal;
+}
+.giving-story {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: #102b50;
+  color: #f2f6ff;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid #b59a66;
+}
+.giving-story-copy {
+  padding: clamp(26px, 4vw, 52px);
+  background: radial-gradient(ellipse at 0 0, #34689a6b, transparent 70%);
+}
+.giving-story-copy .eyebrow {
+  color: #edd29c;
+  font-size: 0.75rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.giving-story h2 {
+  font-size: clamp(2rem, 3.4vw, 3.3rem);
+  line-height: 1.15;
+}
+.giving-story h2 span {
+  color: #edcc8d;
+}
+.giving-story-copy > p:not(.eyebrow) {
+  color: #d8e4f5;
+  margin-block: 24px;
+}
+.giving-story .button {
+  background: #edcc8d;
+  color: #172e4f;
+  border-color: #edcc8d;
+}
+.giving-story-photo {
+  position: relative;
+  min-height: 320px;
+}
+.giving-story-photo .photo,
+.giving-story-photo picture,
+.giving-story-photo img {
+  height: 100%;
+}
+.giving-story-photo picture {
+  border-radius: 0;
+}
+.giving-story-photo img {
+  object-fit: cover;
+}
+.giving-photo-note {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 60px 28px 28px;
+  background: linear-gradient(transparent, #0c2348e6);
+  color: white;
+  font-weight: 600;
+}
+.giving-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-block: 28px 54px;
+}
+.giving-values > div {
+  padding: 24px;
+  border: 1px solid #c4d5eb;
+  border-radius: 20px;
+  background: #f7faffc9;
+}
+.giving-values svg {
+  color: #9a7433;
+  margin-bottom: 12px;
+}
+.giving-values span {
+  display: block;
+  font-weight: 650;
+  font-size: 1.1rem;
+  color: #21466e;
+}
+.giving-values p {
+  color: #526176;
+  margin: 10px 0 0;
+  font-size: 0.95rem;
+}
+.giving-options > .eyebrow {
+  color: #77591e;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.75rem;
+}
+.giving-options > h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+.method {
+  background: linear-gradient(145deg, #fff, #e5effb);
+  border-top: 3px solid #c4a064;
+  box-shadow: 0 8px 25px #1a416c0d;
+}
+.method h2 {
+  color: #214d7d;
+}
+.method-grid {
+  align-items: stretch;
+}
+.method .copy-button {
+  border-radius: 999px;
+}
+@media (max-width: 767px) {
+  .page-lead h1 {
+    padding-right: 0;
+  }
+  .page-ornament {
+    right: -4%;
+    opacity: 0.12;
+  }
+  .resource-directory,
+  .content-grid > .resource-grid {
+    grid-template-columns: 1fr;
+  }
+  .resource-link {
+    padding: 20px;
+    gap: 12px;
+  }
+  .giving-story,
+  .giving-values {
+    grid-template-columns: 1fr;
+  }
+  .giving-story-photo {
+    min-height: 0;
+  }
+  .giving-story-photo img {
+    aspect-ratio: 1.4;
+    height: auto;
+  }
+  .giving-values {
+    gap: 12px;
   }
 }

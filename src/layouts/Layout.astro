@@ -40,9 +40,6 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
       <slot />
     </main>
     <Footer />
-    <button class="motion-toggle" data-motion-toggle aria-pressed="false" hidden>
-      ✦ Pause motion
-    </button>
     <div class="toast" role="status" aria-live="polite" id="copy-status"></div>
     <script src="../scripts/interactions.ts"></script>
     <script src="../scripts/celestial.ts"></script>

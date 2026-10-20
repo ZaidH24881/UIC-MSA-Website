@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageLead from '../components/PageLead.astro';
+import Photo from '../components/Photo.astro';
 import PosterDialog from '../components/PosterDialog.astro';
 import Icon from '../components/Icon.astro';
 import { donations, site } from '../data/site';
@@ -12,50 +13,106 @@ const givingActive = donations.enabled && donations.methods.length > 0;
   description="Learn how to support MSA at UIC community programming and iftars, or contact the team about sponsorship."
 >
   <PageLead
-    title="Help make it possible."
+    title="Give a little. Mean a lot."
     eyebrow="Support MSA"
     intro="Shared meals. Meaningful gatherings. A place for students to connect. Your generosity helps our community show up for one another."
   />
-  <div class="container page-content">
-    <p>{donations.purpose}</p>
-    {givingActive ? (
-      <div class="method-grid">
-        {donations.methods.map((method) => (
-          <article class="method">
-            <h2>{method.name}</h2>
-            <p>{method.instruction}</p>
-            <strong class="recipient">{method.recipient}</strong>
-            {method.url ? (
-              <a class="button" href={method.url}>
-                Give with PayPal <Icon />
-              </a>
-            ) : (
-              <button class="copy-button" data-copy={method.recipient} hidden>
-                <Icon name="copy" />
-                Copy {method.name === 'Zelle' ? 'email' : 'handle'}
-              </button>
-            )}
-            {method.alternative && (
-              <p class="alternative">
-                <span>Or find the recipient with</span>
-                <strong>{method.alternative}</strong>
-              </p>
-            )}
-          </article>
-        ))}
-      </div>
-    ) : (
-      <section class="aside-panel" style="margin-top:24px">
-        <h2>Contact us about supporting MSA.</h2>
+  <div class="container page-content giving-page">
+    <figure class="charity-quote">
+      <span class="quote-star" aria-hidden="true">
+        ✦
+      </span>
+      <p class="eyebrow">The Prophet Muhammad ﷺ said</p>
+      <blockquote>“Charity does not decrease wealth.”</blockquote>
+      <figcaption>
+        Reported by Abu Hurayrah · <cite>Sahih Muslim 2588</cite> (excerpt)
+      </figcaption>
+    </figure>
+    <section class="giving-story" aria-labelledby="giving-story-title">
+      <div class="giving-story-copy">
+        <p class="eyebrow">For the moments that matter</p>
+        <h2 id="giving-story-title">
+          Be part of someone’s
+          <br />
+          <span>reason to belong.</span>
+        </h2>
         <p>
-          Online giving details are not currently available here. Email the MSA team about a gift or
-          sponsorship.
+          A meal shared after a long day. A new friend across the table. A gathering that brings us
+          closer. Help create more of these moments at UIC.
         </p>
-        <a class="button" href={`mailto:${site.email}?subject=MSA%20giving%20inquiry`}>
-          Contact the MSA team <Icon />
+        <a class="button" href="#ways-to-give">
+          Make a contribution <Icon />
         </a>
-      </section>
-    )}
+      </div>
+      <div class="giving-story-photo">
+        <Photo
+          name="hero-community"
+          alt="Students sharing a meal and conversation at an MSA gathering"
+          eager
+        />
+        <span class="giving-photo-note">Faith. Friendship. A seat at the table.</span>
+      </div>
+    </section>
+    <div class="giving-values" aria-label="Community moments">
+      <div>
+        <Icon name="heart" />
+        <span>Shared meals</span>
+        <p>Bringing people together, one table at a time.</p>
+      </div>
+      <div>
+        <Icon name="book" />
+        <span>Meaningful gatherings</span>
+        <p>Space to learn, reflect, and grow together.</p>
+      </div>
+      <div>
+        <Icon name="sun" />
+        <span>A stronger community</span>
+        <p>Helping students feel connected on campus.</p>
+      </div>
+    </div>
+    <section class="giving-options" id="ways-to-give" aria-labelledby="giving-options-title">
+      <p class="eyebrow">Every act of generosity matters</p>
+      <h2 id="giving-options-title">Choose your way to give.</h2>
+      <p>{donations.purpose}</p>
+      {givingActive ? (
+        <div class="method-grid">
+          {donations.methods.map((method) => (
+            <article class="method">
+              <h2>{method.name}</h2>
+              <p>{method.instruction}</p>
+              <strong class="recipient">{method.recipient}</strong>
+              {method.url ? (
+                <a class="button" href={method.url}>
+                  Give with PayPal <Icon />
+                </a>
+              ) : (
+                <button class="copy-button" data-copy={method.recipient} hidden>
+                  <Icon name="copy" />
+                  Copy {method.name === 'Zelle' ? 'email' : 'handle'}
+                </button>
+              )}
+              {method.alternative && (
+                <p class="alternative">
+                  <span>Or find the recipient with</span>
+                  <strong>{method.alternative}</strong>
+                </p>
+              )}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <section class="aside-panel" style="margin-top:24px">
+          <h2>Contact us about supporting MSA.</h2>
+          <p>
+            Online giving details are not currently available here. Email the MSA team about a gift
+            or sponsorship.
+          </p>
+          <a class="button" href={`mailto:${site.email}?subject=MSA%20giving%20inquiry`}>
+            Contact the MSA team <Icon />
+          </a>
+        </section>
+      )}
+    </section>
     <div class="content-grid" style="margin-top:48px">
       <div>
         <h2>Thank you for supporting MSA.</h2>

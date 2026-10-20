@@ -3,10 +3,10 @@ interface Props {
   hero?: boolean;
 }
 const { hero = false } = Astro.props;
-const stars = Array.from({ length: hero ? 30 : 24 }, (_, i) => ({
+const stars = Array.from({ length: hero ? 42 : 32 }, (_, i) => ({
   x: (i * 37 + 7) % 100,
   y: (i * 23 + 11) % 100,
-  size: i % 5 === 0 ? 23 : i % 3 === 0 ? 13 : 5,
+  size: i % 5 === 0 ? 30 : i % 3 === 0 ? 13 : 5,
   delay: -(i % 7),
 }));
 ---
@@ -16,6 +16,20 @@ const stars = Array.from({ length: hero ? 30 : 24 }, (_, i) => ({
   <div class="sky-glow sky-glow--gold"></div>
   <div class="sky-orbit sky-orbit--one"></div>
   <div class="sky-orbit sky-orbit--two"></div>
+  <svg class="sky-constellation" viewBox="0 0 260 300" fill="none">
+    <path d="M30 35 130 80 80 170 205 240 230 125 130 80" stroke="currentColor" stroke-width="1" />
+    {[
+      [30, 35],
+      [130, 80],
+      [80, 170],
+      [205, 240],
+      [230, 125],
+    ].map(([cx, cy]) => (
+      <circle cx={cx} cy={cy} r="3" fill="currentColor" />
+    ))}
+  </svg>
+  <span class="sky-comet sky-comet--one"></span>
+  <span class="sky-comet sky-comet--two"></span>
   {stars.map((star, i) => (
     <span
       class:list={['sky-star', { 'sky-star--gold': i % 4 === 0 }]}
