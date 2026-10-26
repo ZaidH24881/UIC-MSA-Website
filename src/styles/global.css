@@ -1346,16 +1346,6 @@ main:focus {
   height: auto;
   max-height: none;
 }
-.photo-hero-community img {
-  object-position: var(--focal-mobile);
-}
-@media (min-width: 768px) {
-  .hero-photo.photo-hero-community img {
-    aspect-ratio: 5/4;
-    min-height: 0;
-    object-position: var(--focal-desktop);
-  }
-}
 .event-photo {
   aspect-ratio: 3/2;
   object-fit: cover;

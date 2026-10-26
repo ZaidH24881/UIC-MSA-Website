@@ -1,0 +1,97 @@
+/* A continuous midnight-blue canvas for the homepage. */
+.home-page {
+  --paper: #0c2348;
+  --surface: #15365f;
+  --ink: #f4f7ff;
+  --muted: #c1d2e8;
+  --blue-soft: #1c416e;
+  --line: #41618a;
+  --gold: #edca87;
+  color: var(--ink);
+  background: #0c2348;
+  color-scheme: dark;
+}
+.home-page .site-header {
+  background: #0c2348ed;
+  border-color: #34547b;
+}
+.home-page :is(.brand, .desktop-nav a, .donate-nav, .icon-button, .mobile-utility a) {
+  color: #f4f7ff;
+}
+.home-page :is(.brand small, .menu-email) {
+  color: #c1d2e8;
+}
+.home-page :is(.mobile-utility, .no-js-nav, .menu-dialog) {
+  background: #102d52;
+  color: #f4f7ff;
+  border-color: #41618a;
+}
+.home-page .menu-dialog a:hover {
+  background: #1c416e;
+}
+.home-page :is(.button, .button.light) {
+  background: #edca87;
+  border-color: #edca87;
+  color: #14294a;
+}
+.home-page :is(.button, .button.light):hover {
+  background: #ffe0a4;
+}
+.home-page .button.secondary {
+  background: #16385c;
+  border-color: #7694bd;
+  color: #f4f7ff;
+}
+.home-page .cinema-hero.hero {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.home-page .celestial-sky--hero {
+  background: none;
+  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 72%);
+}
+.home-page main > .celestial-sky {
+  color: #79b4ff;
+  opacity: 0.65;
+}
+.home-page .sky-moon--gold {
+  color: #edca87;
+}
+.home-page .section-heading .eyebrow,
+.home-page .menu-admin h3 {
+  color: #edca87;
+}
+.home-page .resource-link {
+  background: linear-gradient(135deg, #193e6aee, #102d52f5);
+  border-color: #45658b;
+  box-shadow: 0 8px 28px #030e2926;
+  color: #f4f7ff;
+}
+.home-page .resource-link:hover {
+  border-color: #edca87;
+  background: linear-gradient(135deg, #214d7e, #16365e);
+}
+.home-page .resource-link .resource-icon {
+  background: #244b79;
+  border-color: #5276a3;
+  color: #edca87;
+}
+.home-page .aside-panel {
+  background: linear-gradient(145deg, #183b65, #102d52);
+  border-color: #45658b;
+}
+.home-page :is(.text-link, .event-agenda-date, .event-agenda-item a) {
+  color: #edca87;
+}
+.home-page .support-band {
+  color: #f4f7ff;
+}
+.home-page .site-footer {
+  background: #091c36;
+  color: #f4f7ff;
+}
+.home-page :focus-visible {
+  outline-color: #edca87;
+}

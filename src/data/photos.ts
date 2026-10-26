@@ -2,14 +2,6 @@ export const photos: Record<
   string,
   { width: number; height: number; desktop: string; mobile: string; alt: string; caption: string }
 > = {
-  'hero-community': {
-    width: 1800,
-    height: 1350,
-    desktop: '52% 48%',
-    mobile: '50% 50%',
-    alt: 'People seated together with plates of food at an MSA gathering, with conversations throughout the room',
-    caption: 'A shared meal from the MSA photo archive.',
-  },
   'campus-community': {
     width: 1800,
     height: 1094,

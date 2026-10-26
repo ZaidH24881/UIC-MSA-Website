@@ -7,6 +7,7 @@ import '../styles/design.css';
 import 'lenis/dist/lenis.css';
 import '../styles/motion.css';
 import '../styles/celestial.css';
+import '../styles/home.css';
 import '@fontsource-variable/dm-sans';
 import '@fontsource/libre-baskerville/400.css';
 interface Props {
@@ -33,7 +34,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
     <meta property="og:description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
   </head>
-  <body>
+  <body class:list={{ 'home-page': Astro.url.pathname === '/' }}>
     <Header />
     <main id="main" tabindex="-1">
       <CelestialSky />

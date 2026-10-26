@@ -3,7 +3,6 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 const assets = path.resolve('public/assets');
 const names = [
-	'hero-community',
 	'brothers-group',
 	'group-audience',
 	'sisters-group',
